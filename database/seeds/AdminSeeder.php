@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use jeremykenedy\LaravelRoles\Models\Permission;
+use jeremykenedy\LaravelRoles\Models\Role;
 use App\User;
 
 class AdminSeeder extends Seeder
@@ -21,7 +22,7 @@ class AdminSeeder extends Seeder
             return;
         }
 
-        DB::table('users')->insert([
+        $new_admin = User::create([
             'name' => getenv('SITE_USER_NAME'),
             'email' => getenv('SITE_USER_EMAIL'),
             'email_verified_at' => date($mysql_format, time()),
@@ -29,5 +30,18 @@ class AdminSeeder extends Seeder
             'created_at' => date($mysql_format, time()),
             'updated_at' => date($mysql_format, time()),
         ]);
+
+        $this->attachRole($new_admin);
+
+    }
+
+    protected function attachRole(User $new_admin) {
+        $adminRole = Role::where('name', '=', 'Admin')->first();
+        $permissions = Permission::all();
+
+        $new_admin->attachRole($adminRole);
+        foreach ($permissions as $permission) {
+            $new_admin->attachPermission($permission);
+        }
     }
 }
