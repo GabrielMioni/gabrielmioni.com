@@ -21,6 +21,7 @@ class CreateGabrielProjectsTable extends Migration
             $table->string('wordpress')->nullable()->default(null);
             $table->string('documentation')->nullable()->default(null);
             $table->string('image_main')->nullable()->default(null);
+            $table->string('image_main_ext')->nullable()->default(null);
             $table->timestamps();
         });
     }

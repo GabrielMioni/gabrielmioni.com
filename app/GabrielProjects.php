@@ -15,6 +15,7 @@ class GabrielProjects extends Model
         'wordpress',
         'documentation',
         'image_main',
+        'image_main_ext',
     ];
 
     protected $casts = [
@@ -24,5 +25,6 @@ class GabrielProjects extends Model
         'wordpress' => 'string',
         'documentation' => 'string',
         'image_main' => 'string',
+        'image_main_ext' => 'string'
     ];
 }
