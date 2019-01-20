@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    <img src="https://media.giphy.com/media/qUUyTJkYe0I1O/giphy.gif">
                 </div>
 
                 <div class="links">
