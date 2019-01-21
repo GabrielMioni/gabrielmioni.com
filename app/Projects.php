@@ -27,4 +27,8 @@ class Projects extends Model
         'image_main' => 'string',
         'image_main_ext' => 'string'
     ];
+
+    public function Tags() {
+        $this->hasMany(Tags::class);
+    }
 }
