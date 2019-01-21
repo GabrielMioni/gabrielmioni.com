@@ -18,5 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::group(['middleware' => 'role:admin'], function () {
+    Route::get('/admin', 'AdminController@index')->name('admin');
+    Route::get('/projects-json', 'AdminController@getProjects')->name('projects_json');
     Route::get('/home', 'HomeController@index')->name('home');
 });
