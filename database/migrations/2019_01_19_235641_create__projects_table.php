@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGabrielProjectsTable extends Migration
+class CreateProjectsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateGabrielProjectsTable extends Migration
      */
     public function up()
     {
-        Schema::create('gabriel_projects', function (Blueprint $table) {
+        Schema::create('projects', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title')->nullable()->default(null);
             $table->string('description')->nullable()->default(null);;
@@ -33,6 +33,6 @@ class CreateGabrielProjectsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gabriel_projects');
+        Schema::dropIfExists('projects');
     }
 }
