@@ -27,8 +27,8 @@ class AdminSeeder extends Seeder
             'email' => getenv('SITE_USER_EMAIL'),
             'email_verified_at' => date($mysql_format, time()),
             'password' => bcrypt(getenv('SITE_USER_PASSWORD')),
-            'created_at' => date($mysql_format, time()),
-            'updated_at' => date($mysql_format, time()),
+            'created_at' => sqlFormatDate(),
+            'updated_at' => sqlFormatDate(),
         ]);
 
         $this->attachRole($new_admin);
