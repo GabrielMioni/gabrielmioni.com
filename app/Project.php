@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Projects extends Model
+class Project extends Model
 {
     protected $table = 'projects';
 
@@ -28,7 +28,7 @@ class Projects extends Model
         'image_main_ext' => 'string'
     ];
 
-    public function Tags() {
-        $this->hasMany(Tags::class);
+    public function tags() {
+        return $this->belongsToMany( Tag::class);
     }
 }

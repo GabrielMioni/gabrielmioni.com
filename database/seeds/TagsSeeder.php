@@ -25,6 +25,6 @@ class TagsSeeder extends Seeder
             $data[] = ['tag'=> $tag, 'created_at' => sqlFormatDate(), 'updated_at' => sqlFormatDate(), ];
         }
 
-        App\Tags::insert($data);
+        App\Tag::insert($data);
     }
 }
