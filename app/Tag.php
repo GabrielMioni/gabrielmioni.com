@@ -16,6 +16,8 @@ class Tag extends Model
         'tag' => 'string',
     ];
 
+    protected $hidden = ['pivot'];
+
     public function projects() {
         return $this->belongsToMany( Project::class);
     }
