@@ -20,7 +20,7 @@ function get_faker_image(Faker $faker) {
     return false;
 }
 
-$factory->define(App\GabrielProjects::class, function (Faker $faker) {
+$factory->define(App\Projects::class, function (Faker $faker) {
     return [
         'title' => $faker->sentence,
         'description' => $faker->paragraph(),

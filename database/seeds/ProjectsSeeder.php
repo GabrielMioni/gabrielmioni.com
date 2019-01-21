@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class GabrielProjectsSeeder extends Seeder
+class ProjectsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,7 +11,6 @@ class GabrielProjectsSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\GabrielProjects::class, 6)->create();
+        factory(App\Projects::class, 6)->create();
     }
 }
-
