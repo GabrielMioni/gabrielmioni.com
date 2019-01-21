@@ -4,10 +4,6 @@ use Illuminate\Database\Seeder;
 
 class TagsSeeder extends Seeder
 {
-    /*protected function formatDate() {
-        return date('Y-m-d H:i:s', time());
-    }*/
-
     /**
      * Run the database seeds.
      *
@@ -30,6 +26,5 @@ class TagsSeeder extends Seeder
         }
 
         App\Tags::insert($data);
-
     }
 }
