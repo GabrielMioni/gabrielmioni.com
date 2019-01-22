@@ -10491,6 +10491,11 @@ a.text-dark:focus {
   }
 }
 
+.project-image {
+  height: 230px;
+  background-size: cover;
+}
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
