@@ -1,8 +1,22 @@
 .project {
-
+  .admin-edit textarea {
+    height: 130px;
+  }
+  @media(min-width: 576px) {
+    &.reverse {
+      .image-holder {
+        order: 2;
+      }
+      .text-holder {
+        order: 1
+      }
+    }
+  }
 }
 
 .project-image {
   height: 230px;
-  background-size: cover;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }

@@ -4,6 +4,7 @@
             <project-input
                     v-model="project[index]"
                     :key="project.id"
+                    :index="index"
                     :project="project">
             </project-input>
         </template>

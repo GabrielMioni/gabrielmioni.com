@@ -10491,9 +10491,25 @@ a.text-dark:focus {
   }
 }
 
+.project .admin-edit textarea {
+  height: 130px;
+}
+
+@media (min-width: 576px) {
+  .project.reverse .image-holder {
+    order: 2;
+  }
+
+  .project.reverse .text-holder {
+    order: 1;
+  }
+}
+
 .project-image {
   height: 230px;
-  background-size: cover;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .navbar-laravel {

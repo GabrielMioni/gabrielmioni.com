@@ -1776,6 +1776,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "admin-projects",
@@ -1840,17 +1841,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "project-input",
-  props: ['project'],
+  props: ['project', 'index'],
   methods: {
     setUrl: function setUrl(file, ext) {
       var filepath = file + '.' + ext;
       return '/images/' + filepath;
+    },
+    setInputName: function setInputName(name) {
+      return "".concat(name, "-").concat(this.project.id);
+    },
+    checkOddEven: function checkOddEven() {
+      console.log(this.index);
+      console.log(this.index % 2 === 0);
+      return this.index % 2 !== 0;
     }
   },
   created: function created() {},
-  mounted: function mounted() {}
+  mounted: function mounted() {},
+  filters: {}
 });
 
 /***/ }),
@@ -36709,7 +36724,7 @@ var render = function() {
         return [
           _c("project-input", {
             key: project.id,
-            attrs: { project: project },
+            attrs: { index: index, project: project },
             model: {
               value: project[index],
               callback: function($$v) {
@@ -36746,54 +36761,87 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-sm-12 project mb-2" }, [
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-sm-6" }, [
-        _c("div", {
-          staticClass: "project-image",
-          style: {
-            backgroundImage:
-              "url(" +
-              _vm.setUrl(
-                _vm.project["image_main"],
-                _vm.project["image_main_ext"]
-              ) +
-              ")"
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-6" }, [
-        _c("div", { staticClass: "admin-edit" }, [
-          _c("label", { attrs: { for: "title-" + _vm.project.id } }, [
-            _vm._v("Title")
-          ]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.project.title,
-                expression: "project.title"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { type: "text", name: "title-" + _vm.project.id },
-            domProps: { value: _vm.project.title },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.project, "title", $event.target.value)
-              }
+  return _c(
+    "div",
+    {
+      staticClass: "col-sm-12 project card p-3 mb-3",
+      class: { reverse: _vm.checkOddEven() }
+    },
+    [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-sm-6 image-holder" }, [
+          _c("div", {
+            staticClass: "project-image form-control",
+            style: {
+              backgroundImage:
+                "url(" +
+                _vm.setUrl(
+                  _vm.project["image_main"],
+                  _vm.project["image_main_ext"]
+                ) +
+                ")"
             }
           })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-6 text-holder" }, [
+          _c("div", { staticClass: "admin-edit" }, [
+            _c("label", { attrs: { for: _vm.setInputName("title") } }, [
+              _vm._v("Title")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.project.title,
+                  expression: "project.title"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", name: _vm.setInputName("title") },
+              domProps: { value: _vm.project.title },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.project, "title", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("label", { attrs: { for: _vm.setInputName("description") } }, [
+              _vm._v("Description")
+            ]),
+            _vm._v(" "),
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.project.description,
+                  expression: "project.description"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { name: _vm.setInputName("description") },
+              domProps: { value: _vm.project.description },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.project, "description", $event.target.value)
+                }
+              }
+            })
+          ])
         ])
       ])
-    ])
-  ])
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
