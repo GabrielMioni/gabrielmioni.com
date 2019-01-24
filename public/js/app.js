@@ -1774,6 +1774,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "admin-projects",
@@ -1819,6 +1821,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -36698,13 +36704,24 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "form",
-    _vm._l(_vm.projects, function(project) {
-      return _c("project-input", {
-        key: project.id,
-        attrs: { project: project }
+    [
+      _vm._l(_vm.projects, function(project, index) {
+        return [
+          _c("project-input", {
+            key: project.id,
+            attrs: { project: project },
+            model: {
+              value: project[index],
+              callback: function($$v) {
+                _vm.$set(project, index, $$v)
+              },
+              expression: "project[index]"
+            }
+          })
+        ]
       })
-    }),
-    1
+    ],
+    2
   )
 }
 var staticRenderFns = []
@@ -36746,20 +36763,39 @@ var render = function() {
         })
       ]),
       _vm._v(" "),
-      _vm._m(0)
+      _c("div", { staticClass: "col-sm-6" }, [
+        _c("div", { staticClass: "admin-edit" }, [
+          _c("label", { attrs: { for: "title-" + _vm.project.id } }, [
+            _vm._v("Title")
+          ]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.project.title,
+                expression: "project.title"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", name: "title-" + _vm.project.id },
+            domProps: { value: _vm.project.title },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.project, "title", $event.target.value)
+              }
+            }
+          })
+        ])
+      ])
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-sm-6" }, [
-      _c("div", { staticClass: "admin-edit" })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

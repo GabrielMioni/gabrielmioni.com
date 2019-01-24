@@ -6,7 +6,11 @@
             </div>
             <div class="col-sm-6">
                 <div class="admin-edit">
-
+                    <label :for="'title-'+project.id">Title</label>
+                    <input type="text" class="form-control"
+                           :name="'title-'+project.id"
+                           v-model="project.title"
+                    >
                 </div>
             </div>
         </div>

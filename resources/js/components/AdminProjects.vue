@@ -1,10 +1,12 @@
 <template>
     <form>
-        <project-input
-                v-for="project in projects"
-                :key="project.id"
-                :project="project">
-        </project-input>
+        <template v-for="(project, index) in projects">
+            <project-input
+                    v-model="project[index]"
+                    :key="project.id"
+                    :project="project">
+            </project-input>
+        </template>
     </form>
 </template>
 
