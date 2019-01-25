@@ -10524,6 +10524,13 @@ a.text-dark:focus {
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+  margin: 0 0 1rem 0;
+}
+
+@media (min-width: 576px) {
+  .project-image {
+    margin: 0;
+  }
 }
 
 .navbar-laravel {
