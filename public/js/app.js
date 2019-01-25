@@ -1813,10 +1813,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProjectInput.vue?vue&type=script&lang=js&":
-/*!***********************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ProjectInput.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FormTextInput.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FormTextInput.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1845,9 +1845,111 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "form-text-input",
+  props: {
+    inputTitle: {
+      type: String,
+      required: true
+    },
+    setInputName: {
+      type: Function,
+      required: true
+    },
+    value: {
+      type: String,
+      required: true
+    },
+    isTextArea: {
+      type: Boolean,
+      require: false,
+      default: false
+    },
+    isInline: {
+      type: Boolean,
+      require: false,
+      default: false
+    }
+  },
+  methods: {
+    updateInput: function updateInput(e) {
+      var text = e.target.value;
+      this.$emit('input', text);
+    }
+  },
+  filters: {
+    ucFirst: function ucFirst(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProjectInput.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ProjectInput.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _FormTextInput__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FormTextInput */ "./resources/js/components/FormTextInput.vue");
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "project-input",
+  components: {
+    FormTextInput: _FormTextInput__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   props: ['project', 'index'],
   methods: {
     setUrl: function setUrl(file, ext) {
@@ -36746,6 +36848,68 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FormTextInput.vue?vue&type=template&id=91084544&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FormTextInput.vue?vue&type=template&id=91084544& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "form-group",
+      class: { "form-inline inline-input no-gutters": _vm.isInline }
+    },
+    [
+      _vm.isInline
+        ? _c("div", { staticClass: "col-sm-2" }, [
+            _c(
+              "label",
+              {
+                staticClass: "justify-content-start",
+                attrs: { for: _vm.setInputName(_vm.inputTitle) }
+              },
+              [_vm._v(_vm._s(_vm._f("ucFirst")(_vm.inputTitle)))]
+            )
+          ])
+        : _c("label", { attrs: { for: _vm.setInputName(_vm.inputTitle) } }, [
+            _vm._v(_vm._s(_vm._f("ucFirst")(_vm.inputTitle)))
+          ]),
+      _vm._v(" "),
+      _vm.isTextArea === false
+        ? _c("input", {
+            staticClass: "form-control",
+            class: { "col-sm-10 pl-3": _vm.isInline },
+            attrs: { type: "text", name: _vm.setInputName(_vm.inputTitle) },
+            domProps: { value: _vm.value },
+            on: { input: _vm.updateInput }
+          })
+        : _c("textarea", {
+            staticClass: "form-control",
+            class: { "col-sm-10 pl-3": _vm.isInline },
+            attrs: { name: _vm.setInputName(_vm.inputTitle) },
+            domProps: { value: _vm.value },
+            on: { input: _vm.updateInput }
+          })
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProjectInput.vue?vue&type=template&id=0887d0c8&":
 /*!***************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ProjectInput.vue?vue&type=template&id=0887d0c8& ***!
@@ -36761,87 +36925,113 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      staticClass: "col-sm-12 project card p-3 mb-3",
-      class: { reverse: _vm.checkOddEven() }
-    },
-    [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-sm-6 image-holder" }, [
-          _c("div", {
-            staticClass: "project-image form-control",
-            style: {
-              backgroundImage:
-                "url(" +
-                _vm.setUrl(
-                  _vm.project["image_main"],
-                  _vm.project["image_main_ext"]
-                ) +
-                ")"
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sm-6 text-holder" }, [
-          _c("div", { staticClass: "admin-edit" }, [
-            _c("label", { attrs: { for: _vm.setInputName("title") } }, [
-              _vm._v("Title")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.project.title,
-                  expression: "project.title"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "text", name: _vm.setInputName("title") },
-              domProps: { value: _vm.project.title },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.project, "title", $event.target.value)
-                }
+  return _c("div", { staticClass: "col-sm-12 project card p-3 mb-3" }, [
+    _c("div", { staticClass: "form-row" }, [
+      _c("div", { staticClass: "col-sm-6 image-holder" }, [
+        _c("div", {
+          staticClass: "project-image form-control",
+          style: {
+            backgroundImage:
+              "url(" +
+              _vm.setUrl(
+                _vm.project["image_main"],
+                _vm.project["image_main_ext"]
+              ) +
+              ")"
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-6 text-holder" }, [
+        _c(
+          "div",
+          { staticClass: "admin-edit" },
+          [
+            _c("form-text-input", {
+              attrs: { inputTitle: "title", setInputName: _vm.setInputName },
+              model: {
+                value: _vm.project.title,
+                callback: function($$v) {
+                  _vm.$set(_vm.project, "title", $$v)
+                },
+                expression: "project.title"
               }
             }),
             _vm._v(" "),
-            _c("label", { attrs: { for: _vm.setInputName("description") } }, [
-              _vm._v("Description")
-            ]),
-            _vm._v(" "),
-            _c("textarea", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.project.description,
-                  expression: "project.description"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { name: _vm.setInputName("description") },
-              domProps: { value: _vm.project.description },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.project, "description", $event.target.value)
-                }
+            _c("form-text-input", {
+              attrs: {
+                inputTitle: "description",
+                setInputName: _vm.setInputName,
+                isTextArea: true
+              },
+              model: {
+                value: _vm.project.description,
+                callback: function($$v) {
+                  _vm.$set(_vm.project, "description", $$v)
+                },
+                expression: "project.description"
               }
             })
-          ])
-        ])
+          ],
+          1
+        )
       ])
-    ]
-  )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-row" }, [
+      _c(
+        "div",
+        { staticClass: "col-sm-12" },
+        [
+          _c("form-text-input", {
+            attrs: {
+              inputTitle: "github",
+              setInputName: _vm.setInputName,
+              isInline: true
+            },
+            model: {
+              value: _vm.project.github,
+              callback: function($$v) {
+                _vm.$set(_vm.project, "github", $$v)
+              },
+              expression: "project.github"
+            }
+          }),
+          _vm._v(" "),
+          _c("form-text-input", {
+            attrs: {
+              inputTitle: "docs",
+              setInputName: _vm.setInputName,
+              isInline: true
+            },
+            model: {
+              value: _vm.project.documentation,
+              callback: function($$v) {
+                _vm.$set(_vm.project, "documentation", $$v)
+              },
+              expression: "project.documentation"
+            }
+          }),
+          _vm._v(" "),
+          _c("form-text-input", {
+            attrs: {
+              inputTitle: "wordpress",
+              setInputName: _vm.setInputName,
+              isInline: true
+            },
+            model: {
+              value: _vm.project.wordpress,
+              callback: function($$v) {
+                _vm.$set(_vm.project, "wordpress", $$v)
+              },
+              expression: "project.wordpress"
+            }
+          })
+        ],
+        1
+      )
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -48266,6 +48456,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminProjects_vue_vue_type_template_id_438a400e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminProjects_vue_vue_type_template_id_438a400e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/FormTextInput.vue":
+/*!***************************************************!*\
+  !*** ./resources/js/components/FormTextInput.vue ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _FormTextInput_vue_vue_type_template_id_91084544___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FormTextInput.vue?vue&type=template&id=91084544& */ "./resources/js/components/FormTextInput.vue?vue&type=template&id=91084544&");
+/* harmony import */ var _FormTextInput_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FormTextInput.vue?vue&type=script&lang=js& */ "./resources/js/components/FormTextInput.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _FormTextInput_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FormTextInput_vue_vue_type_template_id_91084544___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _FormTextInput_vue_vue_type_template_id_91084544___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/FormTextInput.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/FormTextInput.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/FormTextInput.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FormTextInput_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./FormTextInput.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FormTextInput.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FormTextInput_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/FormTextInput.vue?vue&type=template&id=91084544&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/FormTextInput.vue?vue&type=template&id=91084544& ***!
+  \**********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FormTextInput_vue_vue_type_template_id_91084544___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./FormTextInput.vue?vue&type=template&id=91084544& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FormTextInput.vue?vue&type=template&id=91084544&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FormTextInput_vue_vue_type_template_id_91084544___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FormTextInput_vue_vue_type_template_id_91084544___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

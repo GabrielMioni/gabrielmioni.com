@@ -1,8 +1,8 @@
 .project {
   .admin-edit textarea {
-    height: 130px;
+    height: 115px;
   }
-  @media(min-width: 576px) {
+  @media(min-width: map_get($grid-breakpoints,'sm')) {
     &.reverse {
       .image-holder {
         order: 2;
@@ -11,6 +11,12 @@
         order: 1
       }
     }
+  }
+}
+
+.inline-input {
+  @media(min-width: map_get($grid-breakpoints, 'lg')) {
+    height: 40px;
   }
 }
 

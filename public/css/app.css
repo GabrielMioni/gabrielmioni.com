@@ -1,5 +1,13 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
 
+/*$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+) !default;*/
+
 /*!
  * Bootstrap v4.2.1 (https://getbootstrap.com/)
  * Copyright 2011-2018 The Bootstrap Authors
@@ -10492,7 +10500,7 @@ a.text-dark:focus {
 }
 
 .project .admin-edit textarea {
-  height: 130px;
+  height: 115px;
 }
 
 @media (min-width: 576px) {
@@ -10502,6 +10510,12 @@ a.text-dark:focus {
 
   .project.reverse .text-holder {
     order: 1;
+  }
+}
+
+@media (min-width: 992px) {
+  .inline-input {
+    height: 40px;
   }
 }
 
