@@ -27,12 +27,11 @@
             getProjects() {
                 const self = this;
                 axios.get(self.$options.projects_url)
-                    .then(function (data) {
+                    .then((data) => {
 
                         const data_obj = data.data;
-                        console.log(data_obj);
 
-                        setTimeout(function () {
+                        setTimeout(() => {
                             self.loading = false;
                             self.projects = data_obj;
                         }, 1000);
