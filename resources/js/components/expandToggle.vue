@@ -1,5 +1,5 @@
 <template>
-    <button type="button" class="btn btn-dark expand-toggle"
+    <div class="btn expand-toggle"
         v-bind:class="{ open : value === true }"
         @click="toggle">
         <template v-if="value === true">
@@ -8,7 +8,7 @@
         <template v-else>
             +
         </template>
-    </button>
+    </div>
 </template>
 
 <script>

@@ -10,6 +10,7 @@
                :name="setInputName(inputTitle)"
                :value="value"
                v-on:input="updateInput"
+               :tabindex="setTabIndex()"
         >
         <textarea v-else
                   class="form-control"
@@ -17,6 +18,7 @@
                   :name="setInputName(inputTitle)"
                   :value="value"
                   v-on:input="updateInput"
+                  :tabindex="setTabIndex()"
         ></textarea>
     </div>
 </template>
@@ -47,12 +49,22 @@
                 require: false,
                 default: false,
             },
+            expanded: {
+                type: Boolean,
+                default: true,
+            }
         },
         methods: {
             updateInput(e) {
                 let text = e.target.value;
                 this.$emit('input', text);
             },
+            setTabIndex() {
+                if (this.expanded === true) {
+                    return "0";
+                }
+                return "-1";
+            }
         },
         filters: {
             ucFirst(string) {

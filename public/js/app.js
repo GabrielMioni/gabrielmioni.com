@@ -1777,7 +1777,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "admin-projects",
@@ -1787,7 +1786,6 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       projects: [],
-      expanded: {},
       initialized: false,
       loading: true
     };
@@ -1800,14 +1798,7 @@ __webpack_require__.r(__webpack_exports__);
         setTimeout(function () {
           self.loading = false;
           self.projects = data_obj;
-          self.initExpanded(data_obj);
         }, 1000);
-      });
-    },
-    initExpanded: function initExpanded(projects) {
-      var self = this;
-      projects.forEach(function (project) {
-        self.expanded[project.id] = false;
       });
     }
   },
@@ -1830,6 +1821,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -1877,12 +1870,23 @@ __webpack_require__.r(__webpack_exports__);
       type: Boolean,
       require: false,
       default: false
+    },
+    expanded: {
+      type: Boolean,
+      default: true
     }
   },
   methods: {
     updateInput: function updateInput(e) {
       var text = e.target.value;
       this.$emit('input', text);
+    },
+    setTabIndex: function setTabIndex() {
+      if (this.expanded === true) {
+        return "0";
+      }
+
+      return "-1";
     }
   },
   filters: {
@@ -1905,6 +1909,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _FormTextInput__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FormTextInput */ "./resources/js/components/FormTextInput.vue");
 /* harmony import */ var _expandToggle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./expandToggle */ "./resources/js/components/expandToggle.vue");
+//
+//
+//
 //
 //
 //
@@ -36879,11 +36886,7 @@ var render = function() {
         return [
           _c("project-input", {
             key: project.id,
-            attrs: {
-              index: index,
-              project: project,
-              expanded: _vm.expanded[project.id]
-            },
+            attrs: { index: index, project: project },
             model: {
               value: project[index],
               callback: function($$v) {
@@ -36946,14 +36949,21 @@ var render = function() {
         ? _c("input", {
             staticClass: "form-control",
             class: { "col-sm-10 pl-3": _vm.isInline },
-            attrs: { type: "text", name: _vm.setInputName(_vm.inputTitle) },
+            attrs: {
+              type: "text",
+              name: _vm.setInputName(_vm.inputTitle),
+              tabindex: _vm.setTabIndex()
+            },
             domProps: { value: _vm.value },
             on: { input: _vm.updateInput }
           })
         : _c("textarea", {
             staticClass: "form-control",
             class: { "col-sm-10 pl-3": _vm.isInline },
-            attrs: { name: _vm.setInputName(_vm.inputTitle) },
+            attrs: {
+              name: _vm.setInputName(_vm.inputTitle),
+              tabindex: _vm.setTabIndex()
+            },
             domProps: { value: _vm.value },
             on: { input: _vm.updateInput }
           })
@@ -36983,6 +36993,23 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "col-sm-12 project card p-3 mb-3" }, [
+    _c(
+      "div",
+      { staticClass: "form-row justify-content-end mr-0" },
+      [
+        _c("expand-toggle", {
+          model: {
+            value: _vm.expanded,
+            callback: function($$v) {
+              _vm.expanded = $$v
+            },
+            expression: "expanded"
+          }
+        })
+      ],
+      1
+    ),
+    _vm._v(" "),
     _c("div", { staticClass: "form-row" }, [
       _c("div", { staticClass: "col-sm-6 image-holder" }, [
         _c("div", {
@@ -37037,23 +37064,6 @@ var render = function() {
     _vm._v(" "),
     _c(
       "div",
-      { staticClass: "form-row justify-content-end mr-0" },
-      [
-        _c("expand-toggle", {
-          model: {
-            value: _vm.expanded,
-            callback: function($$v) {
-              _vm.expanded = $$v
-            },
-            expression: "expanded"
-          }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
       { staticClass: "form-row links", class: { open: _vm.expanded } },
       [
         _c(
@@ -37064,7 +37074,8 @@ var render = function() {
               attrs: {
                 inputTitle: "github",
                 setInputName: _vm.setInputName,
-                isInline: true
+                isInline: true,
+                expanded: _vm.expanded
               },
               model: {
                 value: _vm.project.github,
@@ -37079,7 +37090,8 @@ var render = function() {
               attrs: {
                 inputTitle: "docs",
                 setInputName: _vm.setInputName,
-                isInline: true
+                isInline: true,
+                expanded: _vm.expanded
               },
               model: {
                 value: _vm.project.documentation,
@@ -37094,7 +37106,8 @@ var render = function() {
               attrs: {
                 inputTitle: "wordpress",
                 setInputName: _vm.setInputName,
-                isInline: true
+                isInline: true,
+                expanded: _vm.expanded
               },
               model: {
                 value: _vm.project.wordpress,
@@ -37134,11 +37147,10 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "button",
+    "div",
     {
-      staticClass: "btn btn-dark expand-toggle",
+      staticClass: "btn expand-toggle",
       class: { open: _vm.value === true },
-      attrs: { type: "button" },
       on: { click: _vm.toggle }
     },
     [

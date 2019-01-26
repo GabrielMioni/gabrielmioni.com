@@ -1,6 +1,9 @@
 <template>
     <!--<div class="col-sm-12 project card p-3 mb-3" v-bind:class="{reverse : checkOddEven() }">-->
     <div class="col-sm-12 project card p-3 mb-3">
+        <div class="form-row justify-content-end mr-0">
+            <expand-toggle v-model="expanded"></expand-toggle>
+        </div>
         <div class="form-row">
             <div class="col-sm-6 image-holder">
                 <div class="project-image form-control" v-bind:style="{ backgroundImage: 'url(' + setUrl(project['image_main'], project['image_main_ext']) + ')' }"></div>
@@ -21,9 +24,6 @@
                 </div>
             </div>
         </div>
-        <div class="form-row justify-content-end mr-0">
-            <expand-toggle v-model="expanded"></expand-toggle>
-        </div>
         <div class="form-row links" v-bind:class="{ open : expanded }">
             <div class="col-sm-12">
                 <form-text-input
@@ -31,18 +31,21 @@
                         v-model="project.github"
                         :setInputName="setInputName"
                         :isInline="true"
+                        :expanded="expanded"
                 ></form-text-input>
                 <form-text-input
                         :inputTitle="'docs'"
                         v-model="project.documentation"
                         :setInputName="setInputName"
                         :isInline="true"
+                        :expanded="expanded"
                 ></form-text-input>
                 <form-text-input
                         :inputTitle="'wordpress'"
                         v-model="project.wordpress"
                         :setInputName="setInputName"
                         :isInline="true"
+                        :expanded="expanded"
                 ></form-text-input>
             </div>
         </div>
