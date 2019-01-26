@@ -1777,6 +1777,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "admin-projects",
@@ -1786,6 +1787,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       projects: [],
+      expanded: {},
       initialized: false,
       loading: true
     };
@@ -1795,11 +1797,17 @@ __webpack_require__.r(__webpack_exports__);
       var self = this;
       axios.get(self.$options.projects_url).then(function (data) {
         var data_obj = data.data;
-        console.log(data_obj);
         setTimeout(function () {
           self.loading = false;
           self.projects = data_obj;
+          self.initExpanded(data_obj);
         }, 1000);
+      });
+    },
+    initExpanded: function initExpanded(projects) {
+      var self = this;
+      projects.forEach(function (project) {
+        self.expanded[project.id] = false;
       });
     }
   },
@@ -1896,6 +1904,10 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _FormTextInput__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FormTextInput */ "./resources/js/components/FormTextInput.vue");
+/* harmony import */ var _expandToggle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./expandToggle */ "./resources/js/components/expandToggle.vue");
+//
+//
+//
 //
 //
 //
@@ -1945,12 +1957,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "project-input",
   components: {
+    ExpandToggle: _expandToggle__WEBPACK_IMPORTED_MODULE_1__["default"],
     FormTextInput: _FormTextInput__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   props: ['project', 'index'],
+  data: function data() {
+    return {
+      expanded: false
+    };
+  },
   methods: {
     setUrl: function setUrl(file, ext) {
       var filepath = file + '.' + ext;
@@ -1968,6 +1987,40 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {},
   mounted: function mounted() {},
   filters: {}
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/expandToggle.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/expandToggle.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "expand-toggle",
+  props: ['value'],
+  methods: {
+    toggle: function toggle() {
+      this.$emit('input', !this.value);
+    }
+  }
 });
 
 /***/ }),
@@ -36826,7 +36879,11 @@ var render = function() {
         return [
           _c("project-input", {
             key: project.id,
-            attrs: { index: index, project: project },
+            attrs: {
+              index: index,
+              project: project,
+              expanded: _vm.expanded[project.id]
+            },
             model: {
               value: project[index],
               callback: function($$v) {
@@ -36978,60 +37035,119 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "form-row" }, [
-      _c(
-        "div",
-        { staticClass: "col-sm-12" },
-        [
-          _c("form-text-input", {
-            attrs: {
-              inputTitle: "github",
-              setInputName: _vm.setInputName,
-              isInline: true
+    _c(
+      "div",
+      { staticClass: "form-row justify-content-end mr-0" },
+      [
+        _c("expand-toggle", {
+          model: {
+            value: _vm.expanded,
+            callback: function($$v) {
+              _vm.expanded = $$v
             },
-            model: {
-              value: _vm.project.github,
-              callback: function($$v) {
-                _vm.$set(_vm.project, "github", $$v)
+            expression: "expanded"
+          }
+        })
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "form-row links", class: { open: _vm.expanded } },
+      [
+        _c(
+          "div",
+          { staticClass: "col-sm-12" },
+          [
+            _c("form-text-input", {
+              attrs: {
+                inputTitle: "github",
+                setInputName: _vm.setInputName,
+                isInline: true
               },
-              expression: "project.github"
-            }
-          }),
-          _vm._v(" "),
-          _c("form-text-input", {
-            attrs: {
-              inputTitle: "docs",
-              setInputName: _vm.setInputName,
-              isInline: true
-            },
-            model: {
-              value: _vm.project.documentation,
-              callback: function($$v) {
-                _vm.$set(_vm.project, "documentation", $$v)
+              model: {
+                value: _vm.project.github,
+                callback: function($$v) {
+                  _vm.$set(_vm.project, "github", $$v)
+                },
+                expression: "project.github"
+              }
+            }),
+            _vm._v(" "),
+            _c("form-text-input", {
+              attrs: {
+                inputTitle: "docs",
+                setInputName: _vm.setInputName,
+                isInline: true
               },
-              expression: "project.documentation"
-            }
-          }),
-          _vm._v(" "),
-          _c("form-text-input", {
-            attrs: {
-              inputTitle: "wordpress",
-              setInputName: _vm.setInputName,
-              isInline: true
-            },
-            model: {
-              value: _vm.project.wordpress,
-              callback: function($$v) {
-                _vm.$set(_vm.project, "wordpress", $$v)
+              model: {
+                value: _vm.project.documentation,
+                callback: function($$v) {
+                  _vm.$set(_vm.project, "documentation", $$v)
+                },
+                expression: "project.documentation"
+              }
+            }),
+            _vm._v(" "),
+            _c("form-text-input", {
+              attrs: {
+                inputTitle: "wordpress",
+                setInputName: _vm.setInputName,
+                isInline: true
               },
-              expression: "project.wordpress"
-            }
-          })
-        ],
-        1
-      )
-    ])
+              model: {
+                value: _vm.project.wordpress,
+                callback: function($$v) {
+                  _vm.$set(_vm.project, "wordpress", $$v)
+                },
+                expression: "project.wordpress"
+              }
+            })
+          ],
+          1
+        )
+      ]
+    )
   ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/expandToggle.vue?vue&type=template&id=b26e394e&":
+/*!***************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/expandToggle.vue?vue&type=template&id=b26e394e& ***!
+  \***************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "button",
+    {
+      staticClass: "btn btn-dark expand-toggle",
+      class: { open: _vm.value === true },
+      attrs: { type: "button" },
+      on: { click: _vm.toggle }
+    },
+    [
+      _vm.value === true
+        ? [_vm._v("\n        -\n    ")]
+        : [_vm._v("\n        +\n    ")]
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -48594,6 +48710,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProjectInput_vue_vue_type_template_id_0887d0c8___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProjectInput_vue_vue_type_template_id_0887d0c8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/expandToggle.vue":
+/*!**************************************************!*\
+  !*** ./resources/js/components/expandToggle.vue ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _expandToggle_vue_vue_type_template_id_b26e394e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./expandToggle.vue?vue&type=template&id=b26e394e& */ "./resources/js/components/expandToggle.vue?vue&type=template&id=b26e394e&");
+/* harmony import */ var _expandToggle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./expandToggle.vue?vue&type=script&lang=js& */ "./resources/js/components/expandToggle.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _expandToggle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _expandToggle_vue_vue_type_template_id_b26e394e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _expandToggle_vue_vue_type_template_id_b26e394e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/expandToggle.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/expandToggle.vue?vue&type=script&lang=js&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/expandToggle.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_expandToggle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./expandToggle.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/expandToggle.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_expandToggle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/expandToggle.vue?vue&type=template&id=b26e394e&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/expandToggle.vue?vue&type=template&id=b26e394e& ***!
+  \*********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_expandToggle_vue_vue_type_template_id_b26e394e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./expandToggle.vue?vue&type=template&id=b26e394e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/expandToggle.vue?vue&type=template&id=b26e394e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_expandToggle_vue_vue_type_template_id_b26e394e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_expandToggle_vue_vue_type_template_id_b26e394e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

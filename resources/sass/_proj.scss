@@ -20,6 +20,18 @@
   }
 }
 
+.links {
+  max-height: 0;
+  height: auto;
+  overflow: hidden;
+  transition:max-height 0.3s ease-out;
+  padding: 20px 0 0;
+
+  &.open {
+    max-height: 500px;
+  }
+}
+
 .project-image {
   height: 230px;
   background-size: contain;

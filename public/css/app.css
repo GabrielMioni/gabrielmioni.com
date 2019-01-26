@@ -10519,6 +10519,18 @@ a.text-dark:focus {
   }
 }
 
+.links {
+  max-height: 0;
+  height: auto;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  padding: 20px 0 0;
+}
+
+.links.open {
+  max-height: 500px;
+}
+
 .project-image {
   height: 230px;
   background-size: contain;
@@ -10531,6 +10543,13 @@ a.text-dark:focus {
   .project-image {
     margin: 0;
   }
+}
+
+.expand-toggle {
+  height: 25px;
+  width: 25px;
+  margin: 0;
+  padding: 0;
 }
 
 .navbar-laravel {

@@ -21,7 +21,10 @@
                 </div>
             </div>
         </div>
-        <div class="form-row">
+        <div class="form-row justify-content-end mr-0">
+            <expand-toggle v-model="expanded"></expand-toggle>
+        </div>
+        <div class="form-row links" v-bind:class="{ open : expanded }">
             <div class="col-sm-12">
                 <form-text-input
                         :inputTitle="'github'"
@@ -48,10 +51,16 @@
 
 <script>
     import FormTextInput from "./FormTextInput";
+    import ExpandToggle from "./expandToggle";
     export default {
         name: "project-input",
-        components: {FormTextInput},
+        components: {ExpandToggle, FormTextInput},
         props: ['project', 'index'],
+        data() {
+            return {
+                expanded : false,
+            };
+        },
         methods: {
             setUrl(file, ext) {
                 const filepath = file + '.' + ext;
