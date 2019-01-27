@@ -15,6 +15,7 @@ class CreateProjectsTable extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('order_column');
             $table->string('title')->nullable()->default(null);
             $table->string('description')->nullable()->default(null);;
             $table->string('github')->nullable()->default(null);
@@ -33,6 +34,8 @@ class CreateProjectsTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('projects');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }
