@@ -1,21 +1,27 @@
 <template>
     <form>
-        <template v-for="(project, index) in projects">
-            <project-input
-                    v-model="project[index]"
-                    :key="project.id"
-                    :index="index"
-                    :project="project">
-            </project-input>
-        </template>
+        <sortable-list v-model="projects">
+            <div class="project-list" slot-scope="{ items: projects }" tabindex="-1">
+                <sortable-item v-for="(project, index) in projects" :key="project.id">
+                    <project-input
+                            v-model="project[index]"
+                            :key="project.id"
+                            :index="index"
+                            :project="project">
+                    </project-input>
+                </sortable-item>
+            </div>
+        </sortable-list>
     </form>
 </template>
 
 <script>
     import ProjectInput from "./ProjectInput";
+    import SortableList from "./SortableList";
+    import SortableItem from "./SortableItem";
     export default {
         name: "admin-projects",
-        components: {ProjectInput},
+        components: {SortableItem, SortableList, ProjectInput},
         data() {
             return {
                 projects : [],

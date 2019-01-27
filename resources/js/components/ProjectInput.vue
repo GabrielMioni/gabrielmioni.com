@@ -3,6 +3,14 @@
     <div class="col-sm-12 project card p-3 mb-3">
         <div class="form-row justify-content-end mr-0">
             <expand-toggle v-model="expanded"></expand-toggle>
+            <div class="col-sm-1">
+                <sortable-handle>
+                    <div class="project-handle">
+                        ????
+                        <!--<i class="fas fa-grip-vertical"></i>-->
+                    </div>
+                </sortable-handle>
+            </div>
         </div>
         <div class="form-row">
             <div class="col-sm-6 image-holder">
@@ -55,9 +63,10 @@
 <script>
     import FormTextInput from "./FormTextInput";
     import ExpandToggle from "./expandToggle";
+    import SortableHandle from "./SortableHandle";
     export default {
         name: "project-input",
-        components: {ExpandToggle, FormTextInput},
+        components: {ExpandToggle, FormTextInput, SortableHandle},
         props: ['project', 'index'],
         data() {
             return {
