@@ -17,7 +17,7 @@ class CreateProjectsTable extends Migration
             $table->increments('id');
             $table->integer('order_column');
             $table->string('title')->nullable()->default(null);
-            $table->string('description')->nullable()->default(null);;
+            $table->text('description')->nullable()->default(null);
             $table->string('github')->nullable()->default(null);
             $table->string('wordpress')->nullable()->default(null);
             $table->string('documentation')->nullable()->default(null);
