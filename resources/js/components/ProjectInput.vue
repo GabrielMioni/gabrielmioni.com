@@ -34,6 +34,7 @@
         </div>
         <div class="form-row links" v-bind:class="{ open : expanded }">
             <div class="col-sm-12">
+                <tags-input v-model="project.tags"></tags-input>
                 <form-text-input
                         :inputTitle="'github'"
                         v-model="project.github"
@@ -68,7 +69,7 @@
     export default {
         name: "project-input",
         components: {TagsInput, ExpandToggle, FormTextInput, SortableHandle},
-        props: ['project', 'index'],
+        props: ['project', 'index', 'allTags'],
         data() {
             return {
                 expanded : false,

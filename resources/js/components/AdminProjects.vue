@@ -7,7 +7,8 @@
                             v-model="project[index]"
                             :key="project.id"
                             :index="index"
-                            :project="project">
+                            :project="project"
+                            :allTags="allTags">
                     </project-input>
                 </sortable-item>
             </div>
@@ -30,6 +31,11 @@
                 loading: true,
             };
         },
+        provide() {
+            return {
+                allTags: this.allTags,
+            }
+        },
         methods: {
             callAxios(url, callback) {
                 axios.get(url)
@@ -50,7 +56,6 @@
             getTags() {
                 const self = this;
                 this.callAxios(self.$options.tags_url, (data_obj)=>{
-                    console.log(data_obj);
                     self.allTags = data_obj;
                 });
             },

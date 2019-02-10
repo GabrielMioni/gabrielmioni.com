@@ -8807,6 +8807,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -8823,6 +8824,11 @@ __webpack_require__.r(__webpack_exports__);
       allTags: [],
       initialized: false,
       loading: true
+    };
+  },
+  provide: function provide() {
+    return {
+      allTags: this.allTags
     };
   },
   methods: {
@@ -8844,7 +8850,6 @@ __webpack_require__.r(__webpack_exports__);
     getTags: function getTags() {
       var self = this;
       this.callAxios(self.$options.tags_url, function (data_obj) {
-        console.log(data_obj);
         self.allTags = data_obj;
       });
     }
@@ -9022,6 +9027,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -9034,7 +9040,7 @@ __webpack_require__.r(__webpack_exports__);
     FormTextInput: _FormTextInput__WEBPACK_IMPORTED_MODULE_0__["default"],
     SortableHandle: _SortableHandle__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
-  props: ['project', 'index'],
+  props: ['project', 'index', 'allTags'],
   data: function data() {
     return {
       expanded: false
@@ -9199,16 +9205,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  inject: ["allTags"],
   model: {
     prop: "tags",
     event: "addTag"
   },
   name: "tags-input",
-  props: ['tags', 'availableTags'],
+  props: ['tags'],
   data: function data() {
     return {
       tagInput: ''
     };
+  },
+  mounted: function mounted() {
+    console.log(this.allTags);
   },
   methods: {
     toggle: function toggle() {
@@ -44120,7 +44130,11 @@ var render = function() {
                     [
                       _c("project-input", {
                         key: project.id,
-                        attrs: { index: index, project: project },
+                        attrs: {
+                          index: index,
+                          project: project,
+                          allTags: _vm.allTags
+                        },
                         model: {
                           value: project[index],
                           callback: function($$v) {
@@ -44332,6 +44346,16 @@ var render = function() {
           "div",
           { staticClass: "col-sm-12" },
           [
+            _c("tags-input", {
+              model: {
+                value: _vm.project.tags,
+                callback: function($$v) {
+                  _vm.$set(_vm.project, "tags", $$v)
+                },
+                expression: "project.tags"
+              }
+            }),
+            _vm._v(" "),
             _c("form-text-input", {
               attrs: {
                 inputTitle: "github",
@@ -44410,10 +44434,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    {
-      staticClass: "form-group",
-      class: { "form-inline inline-input no-gutters": _vm.isInline }
-    },
+    { staticClass: "form-group form-inline inline-input no-gutters" },
     [
       _c("label", { staticClass: "justify-content-start" }, [_vm._v("Tags")]),
       _vm._v(" "),

@@ -1,5 +1,5 @@
 <template>
-    <div class="form-group" v-bind:class="{ 'form-inline inline-input no-gutters' : isInline }">
+    <div class="form-group form-inline inline-input no-gutters">
         <label class="justify-content-start">Tags</label>
         <div class="tag-area">
             <div class="tag" v-for="tag in tags">{{tag}}</div>
@@ -13,12 +13,13 @@
 
 <script>
     export default {
+        inject: ["allTags"],
         model: {
             prop: "tags",
             event: "addTag",
         },
         name: "tags-input",
-        props: ['tags', 'availableTags'],
+        props: ['tags'],
         data() {
             return {
                 tagInput : '',
