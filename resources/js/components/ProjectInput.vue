@@ -64,9 +64,10 @@
     import FormTextInput from "./FormTextInput";
     import ExpandToggle from "./expandToggle";
     import SortableHandle from "./SortableHandle";
+    import TagsInput from "./TagsInput";
     export default {
         name: "project-input",
-        components: {ExpandToggle, FormTextInput, SortableHandle},
+        components: {TagsInput, ExpandToggle, FormTextInput, SortableHandle},
         props: ['project', 'index'],
         data() {
             return {

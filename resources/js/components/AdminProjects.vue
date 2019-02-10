@@ -25,30 +25,43 @@
         data() {
             return {
                 projects : [],
+                allTags: [],
                 initialized: false,
                 loading: true,
             };
         },
         methods: {
+            callAxios(url, callback) {
+                axios.get(url)
+                    .then((data) => {
+                        const data_obj = data.data;
+                        callback(data_obj);
+                    })
+            },
             getProjects() {
                 const self = this;
-                axios.get(self.$options.projects_url)
-                    .then((data) => {
-
-                        const data_obj = data.data;
-
-                        setTimeout(() => {
-                            self.loading = false;
-                            self.projects = data_obj;
-                        }, 1000);
-                    })
-            }
+                this.callAxios(self.$options.projects_url, (data_obj)=>{
+                    setTimeout(() => {
+                        self.loading = false;
+                        self.projects = data_obj;
+                    }, 1000);
+                });
+            },
+            getTags() {
+                const self = this;
+                this.callAxios(self.$options.tags_url, (data_obj)=>{
+                    console.log(data_obj);
+                    self.allTags = data_obj;
+                });
+            },
         },
         created() {
             this.$options.projects_url = '/projects-json';
+            this.$options.tags_url = '/all-tags';
         },
         mounted() {
             this.getProjects();
+            this.getTags();
         }
     }
 </script>

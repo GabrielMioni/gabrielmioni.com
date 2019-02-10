@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Project;
+use App\Tag;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -16,5 +17,17 @@ class AdminController extends Controller
             ->with(array('tags' => function($q) { $q->select('tag'); }))->get();
 
         return $projects;
+    }
+
+    public function allTags() {
+        $tags = Tag::select('tag')->get();
+
+        $out = [];
+
+        foreach ($tags as $tag) {
+            $out[] = $tag['tag'];
+        }
+
+        return $out;
     }
 }
