@@ -60,22 +60,28 @@
                     self.allTags = data_obj;
                 });
             },
-            tagUpdate(data) {
-                const id = data.id;
-                const tag = data.tag;
-
+            updateProjectData(id, type, data) {
                 const BreakException = {};
+
+                let dataObj = {};
+                dataObj[type] = data;
 
                 try {
                     this.projects.forEach((project)=>{
                         if (project.id === id) {
-                            project.tags.push({'tag': tag});
+                            project[type].push(data);
                             throw BreakException;
                         }
                     });
                 } catch (e) {
                     if (e !== BreakException) throw e;
                 }
+            },
+            tagUpdate(data) {
+                const id = data.id;
+                const tag = {'tag' : data.tag};
+
+                this.updateProjectData(id, 'tags', tag);
             }
         },
         created() {
