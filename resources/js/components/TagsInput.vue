@@ -14,7 +14,10 @@
         </div>
         <div class="tag-wrap">
             <template v-if="search.length > 0">
-                <div class="project-tag" v-for="tag in filteredAllTags">{{tag}}</div>
+                <div class="project-tag"
+                     v-for="tag in filteredAllTags"
+                     @click="console.log('click')"
+                >{{tag}}</div>
             </template>
         </div>
     </div>
@@ -59,6 +62,9 @@
                     this.search = '';
                     this.$emit('tagUpdate', {'id': this.id, 'tag': newTag[0]});
                 }
+            },
+            removeTag() {
+                console.log('clicky');
             }
             /*searchTags() {
                 console.log('I am sure looking for tags right now I hope you believe me');
