@@ -32,11 +32,6 @@
                 loading: true,
             };
         },
-        /*provide() {
-            return {
-                allTags: this.allTags,
-            }
-        },*/
         methods: {
             callAxios(url, callback) {
                 axios.get(url)
