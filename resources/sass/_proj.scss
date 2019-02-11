@@ -42,3 +42,34 @@
     margin: 0;
   }
 }
+
+.project-tag {
+    display: inline-block;
+    background-color: $blue;
+    padding: 0 10px;
+    color: $white;
+    border-radius: 20px;
+    margin: 0 5px 0 0;
+}
+
+.available-tags {
+
+}
+
+.tag-area {
+    height: 50px;
+    position: relative;
+    .tag-wrap {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        .project-tag,
+        input[type="text"] {
+            display: inline-block;
+        }
+        input[type="text"] {
+            border: none;
+            outline: none;
+        }
+    }
+}

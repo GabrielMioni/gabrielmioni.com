@@ -5,6 +5,7 @@
                 <sortable-item v-for="(project, index) in projects" :key="project.id">
                     <project-input
                             v-model="project[index]"
+                            v-on:tagUpdate="tagUpdate"
                             :key="project.id"
                             :index="index"
                             :project="project"
@@ -31,11 +32,11 @@
                 loading: true,
             };
         },
-        provide() {
+        /*provide() {
             return {
                 allTags: this.allTags,
             }
-        },
+        },*/
         methods: {
             callAxios(url, callback) {
                 axios.get(url)
@@ -59,6 +60,23 @@
                     self.allTags = data_obj;
                 });
             },
+            tagUpdate(data) {
+                const id = data.id;
+                const tag = data.tag;
+
+                const BreakException = {};
+
+                try {
+                    this.projects.forEach((project)=>{
+                        if (project.id === id) {
+                            project.tags.push({'tag': tag});
+                            throw BreakException;
+                        }
+                    });
+                } catch (e) {
+                    if (e !== BreakException) throw e;
+                }
+            }
         },
         created() {
             this.$options.projects_url = '/projects-json';

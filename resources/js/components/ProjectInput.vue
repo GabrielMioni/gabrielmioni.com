@@ -34,7 +34,11 @@
         </div>
         <div class="form-row links" v-bind:class="{ open : expanded }">
             <div class="col-sm-12">
-                <tags-input v-model="project.tags"></tags-input>
+                <tags-input
+                    v-model="project.tags" :id="project.id"
+                    :allTags="allTags"
+                    v-on:tagUpdate="tagUpdate"
+                ></tags-input>
                 <form-text-input
                         :inputTitle="'github'"
                         v-model="project.github"
@@ -75,6 +79,7 @@
                 expanded : false,
             };
         },
+        // inject: ["allTags"],
         methods: {
             setUrl(file, ext) {
                 const filepath = file + '.' + ext;
@@ -87,6 +92,10 @@
                 console.log(this.index);
                 console.log(this.index %2 === 0);
                 return this.index %2 !== 0;
+            },
+            tagUpdate(data) {
+                this.$emit('tagUpdate', {'id': data.id, 'tag':data.tag});
+                //console.log(data);
             }
         },
         created() {

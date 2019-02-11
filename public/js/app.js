@@ -8808,6 +8808,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -8826,11 +8827,12 @@ __webpack_require__.r(__webpack_exports__);
       loading: true
     };
   },
-  provide: function provide() {
-    return {
-      allTags: this.allTags
-    };
-  },
+
+  /*provide() {
+      return {
+          allTags: this.allTags,
+      }
+  },*/
   methods: {
     callAxios: function callAxios(url, callback) {
       axios.get(url).then(function (data) {
@@ -8852,6 +8854,35 @@ __webpack_require__.r(__webpack_exports__);
       this.callAxios(self.$options.tags_url, function (data_obj) {
         self.allTags = data_obj;
       });
+    },
+    tagUpdate: function tagUpdate(data) {
+      var id = data.id;
+      var tag = data.tag;
+      var BreakException = {};
+
+      try {
+        this.projects.forEach(function (project) {
+          if (project.id === id) {
+            project.tags.push({
+              'tag': tag
+            });
+            throw BreakException;
+          }
+        });
+      } catch (e) {
+        if (e !== BreakException) throw e;
+      }
+      /*this.projects.forEach((project)=>{
+          let found = false;
+          if (project.id === id) {
+              project.tags.push({'tag': tag});
+              found = true;
+          }
+          if (found === true) {
+              return;
+          }
+      });*/
+
     }
   },
   created: function created() {
@@ -9028,6 +9059,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -9046,6 +9081,7 @@ __webpack_require__.r(__webpack_exports__);
       expanded: false
     };
   },
+  // inject: ["allTags"],
   methods: {
     setUrl: function setUrl(file, ext) {
       var filepath = file + '.' + ext;
@@ -9058,6 +9094,12 @@ __webpack_require__.r(__webpack_exports__);
       console.log(this.index);
       console.log(this.index % 2 === 0);
       return this.index % 2 !== 0;
+    },
+    tagUpdate: function tagUpdate(data) {
+      this.$emit('tagUpdate', {
+        'id': data.id,
+        'tag': data.tag
+      }); //console.log(data);
     }
   },
   created: function created() {},
@@ -9204,27 +9246,63 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  inject: ["allTags"],
   model: {
+    addTag: '',
     prop: "tags",
     event: "addTag"
   },
   name: "tags-input",
-  props: ['tags'],
+  props: ['tags', 'id', 'allTags'],
   data: function data() {
     return {
-      tagInput: ''
+      tagInput: '',
+      search: ""
     };
   },
-  mounted: function mounted() {
-    console.log(this.allTags);
+  computed: {
+    filteredAllTags: function filteredAllTags() {
+      var _this = this;
+
+      return this.allTags.filter(function (allTags) {
+        return allTags.toLowerCase().startsWith(_this.search.toLowerCase());
+      });
+    }
   },
   methods: {
+    focusTagInput: function focusTagInput() {
+      var inputRef = 'tags-' + this.id;
+      var ref_obj = this.$refs[inputRef];
+      ref_obj.focus();
+    },
     toggle: function toggle() {
       //this.$emit("addTag", !this.toggled)
       this.$emit("addTag", false);
+    },
+    addTag: function addTag() {
+      if (this.search.length > 0) {
+        var newTag = this.filteredAllTags; //this.tags.push({'tag': newTag[0]});
+
+        this.search = '';
+        this.$emit('tagUpdate', {
+          'id': this.id,
+          'tag': newTag[0]
+        });
+      }
     }
+    /*searchTags() {
+        console.log('I am sure looking for tags right now I hope you believe me');
+    }*/
+
   }
 });
 
@@ -44135,6 +44213,7 @@ var render = function() {
                           project: project,
                           allTags: _vm.allTags
                         },
+                        on: { tagUpdate: _vm.tagUpdate },
                         model: {
                           value: project[index],
                           callback: function($$v) {
@@ -44347,6 +44426,8 @@ var render = function() {
           { staticClass: "col-sm-12" },
           [
             _c("tags-input", {
+              attrs: { id: _vm.project.id, allTags: _vm.allTags },
+              on: { tagUpdate: _vm.tagUpdate },
               model: {
                 value: _vm.project.tags,
                 callback: function($$v) {
@@ -44432,51 +44513,84 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "form-group form-inline inline-input no-gutters" },
-    [
-      _c("label", { staticClass: "justify-content-start" }, [_vm._v("Tags")]),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "tag-area" },
-        _vm._l(_vm.tags, function(tag) {
-          return _c("div", { staticClass: "tag" }, [_vm._v(_vm._s(tag))])
-        }),
-        0
-      ),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.tagInput,
-            expression: "tagInput"
-          }
-        ],
-        domProps: { value: _vm.tagInput },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.tagInput = $event.target.value
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "tag-suggestions" },
-        _vm._l(_vm.tags, function(tag) {
-          return _c("div", { staticClass: "tag" }, [_vm._v(_vm._s(tag))])
-        }),
-        0
-      )
-    ]
-  )
+  return _c("div", { staticClass: "form-group tags" }, [
+    _c(
+      "label",
+      {
+        staticClass: "justify-content-start",
+        attrs: { for: "tags-" + _vm.id }
+      },
+      [_vm._v("Tags")]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "tag-area form-control",
+        on: { click: _vm.focusTagInput }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "tag-wrap" },
+          [
+            _vm._l(_vm.tags, function(tag) {
+              return _c("div", { staticClass: "project-tag" }, [
+                _vm._v(_vm._s(tag.tag))
+              ])
+            }),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.search,
+                  expression: "search"
+                }
+              ],
+              ref: "tags-" + _vm.id,
+              attrs: { type: "text", name: "tags-" + _vm.id },
+              domProps: { value: _vm.search },
+              on: {
+                keydown: function($event) {
+                  if (
+                    !("button" in $event) &&
+                    _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                  ) {
+                    return null
+                  }
+                  return _vm.addTag($event)
+                },
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.search = $event.target.value
+                }
+              }
+            })
+          ],
+          2
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "tag-wrap" },
+      [
+        _vm.search.length > 0
+          ? _vm._l(_vm.filteredAllTags, function(tag) {
+              return _c("div", { staticClass: "project-tag" }, [
+                _vm._v(_vm._s(tag))
+              ])
+            })
+          : _vm._e()
+      ],
+      2
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
