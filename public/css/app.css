@@ -10552,10 +10552,17 @@ a.text-dark:focus {
   color: #FFFFFF;
   border-radius: 20px;
   margin: 0 5px 0 0;
+  /*&.possible-tag {
+      opacity: .5;
+  }*/
 }
 
 .project-tag i {
   padding: 0 0 0 10px;
+}
+
+.project-tag.possible-tag {
+  opacity: 0.5;
 }
 
 .tag-area {

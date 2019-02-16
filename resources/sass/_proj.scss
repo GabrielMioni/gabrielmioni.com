@@ -50,13 +50,15 @@
     color: $white;
     border-radius: 20px;
     margin: 0 5px 0 0;
+    /*&.possible-tag {
+        opacity: .5;
+    }*/
     i {
         padding: 0 0 0 10px;
     }
-}
-
-.available-tags {
-
+    &.possible-tag {
+        opacity: .5;
+    }
 }
 
 .tag-area {

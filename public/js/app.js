@@ -9243,6 +9243,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   model: {
     addTag: '',
@@ -9285,7 +9289,6 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     removeTag: function removeTag(tag) {
-      console.log('remove from TagsInput');
       this.$emit('tagRemove', {
         'tag': tag
       });
@@ -44538,6 +44541,14 @@ var render = function() {
               ])
             }),
             _vm._v(" "),
+            _vm._l(_vm.filteredAllTags, function(tag) {
+              return _vm.search.length > 0
+                ? _c("div", { staticClass: "project-tag possible-tag" }, [
+                    _vm._v(_vm._s(tag))
+                  ])
+                : _vm._e()
+            }),
+            _vm._v(" "),
             _c("input", {
               directives: [
                 {
@@ -44572,21 +44583,6 @@ var render = function() {
           2
         )
       ]
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "tag-wrap" },
-      [
-        _vm.search.length > 0
-          ? _vm._l(_vm.filteredAllTags, function(tag) {
-              return _c("div", { staticClass: "project-tag" }, [
-                _vm._v(_vm._s(tag))
-              ])
-            })
-          : _vm._e()
-      ],
-      2
     )
   ])
 }

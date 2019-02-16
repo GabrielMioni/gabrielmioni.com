@@ -8,6 +8,10 @@
                     <i class="fas fa-times"
                     v-on:click="removeTag(tag)"></i>
                 </div>
+                <div class="project-tag possible-tag"
+                     v-if="search.length > 0"
+                     v-for="tag in filteredAllTags"
+                >{{tag}}</div>
                 <input type="text"
                        v-model="search"
                        :ref="'tags-' + id"
@@ -16,13 +20,13 @@
                 >
             </div>
         </div>
-        <div class="tag-wrap">
+        <!--<div class="tag-wrap">
             <template v-if="search.length > 0">
                 <div class="project-tag"
                      v-for="tag in filteredAllTags"
                 >{{tag}}</div>
             </template>
-        </div>
+        </div>-->
     </div>
 </template>
 
@@ -65,7 +69,6 @@
                 }
             },
             removeTag(tag) {
-                console.log('remove from TagsInput');
                 this.$emit('tagRemove', {'tag': tag});
             }
         },
