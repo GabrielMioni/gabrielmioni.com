@@ -13,10 +13,27 @@ class AdminController extends Controller
     }
 
     public function getProjects() {
-        $projects = Project::select('id','title','description','github','wordpress','documentation','image_main','image_main_ext')
-            ->with(array('tags' => function($q) { $q->select('tag'); }))->get();
 
-        return $projects;
+        $projects = $projects = Project::select('id','title','description','github','wordpress','documentation','image_main','image_main_ext')
+                                       ->with(array('tags' => function($q) { $q->select('tag'); }))->get();
+
+        $projectData = [];
+
+        foreach ($projects as $project) {
+            $projectArray = $project->toArray();
+
+            $tags = [];
+
+            foreach ($projectArray['tags'] as $tag) {
+                $tags[] = $tag['tag'];
+            }
+
+            $projectArray['tags'] = $tags;
+
+            $projectData[] = $projectArray;
+        }
+
+        return $projectData;
     }
 
     public function allTags() {
