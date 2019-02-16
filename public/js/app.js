@@ -8851,52 +8851,15 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     tagUpdate: function tagUpdate(data) {
-      this.projects[data.id].tags.push(data.tag);
+      this.projects[data.index].tags.push(data.tag);
     },
     tagRemove: function tagRemove(data) {
-      var index = this.projects[data.id].tags.indexOf(data.tag);
+      var index = this.projects[data.index].tags.indexOf(data.tag);
 
       if (index > -1) {
-        this.projects[data.id].tags.splice(index, 1);
+        this.projects[data.index].tags.splice(index, 1);
       }
     }
-    /*updateProjectData(id, type, data, remove = false) {
-        console.log(id, type, data);
-        const BreakException = {};
-         try {
-            this.projects.forEach((project)=>{
-                if (project.id === id) {
-                    console.log(remove);
-                     if (remove === false) {
-                        project[type].push(data);
-                    }
-                    if (remove === true) {
-                        console.log('removing');
-                        const index = project[type].indexOf(data);
-                        console.log('index', index);
-                        if (index > -1) {
-                            project[type].splice(index, 1);
-                        }
-                     }
-                    throw BreakException;
-                }
-            });
-        } catch (e) {
-            if (e !== BreakException) throw e;
-        }
-    },
-    tagUpdate(data) {
-        const id = data.id;
-        const tag = data.tag;
-         this.updateProjectData(id, 'tags', tag);
-    },
-    tagRemove(data) {
-        console.log('RemoveTag', data);
-        const id = data.id;
-        const tag = {'tag' : data.tag};
-         this.updateProjectData(id, 'tags', tag, true);
-    }*/
-
   },
   created: function created() {
     this.$options.projects_url = '/projects-json';
@@ -9105,20 +9068,18 @@ __webpack_require__.r(__webpack_exports__);
       return "".concat(name, "-").concat(this.project.id);
     },
     checkOddEven: function checkOddEven() {
-      console.log(this.index);
-      console.log(this.index % 2 === 0);
       return this.index % 2 !== 0;
     },
     tagUpdate: function tagUpdate(data) {
       this.$emit('tagUpdate', {
-        'id': this.index,
+        'index': this.index,
         'tag': data.tag
       });
     },
     tagRemove: function tagRemove(data) {
-      console.log('projectInput', data);
+      console.log(data);
       this.$emit('tagRemove', {
-        'id': this.index,
+        'index': this.index,
         'tag': data.tag
       });
     }
@@ -9280,6 +9241,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   model: {
     addTag: '',
@@ -9310,32 +9273,23 @@ __webpack_require__.r(__webpack_exports__);
       ref_obj.focus();
     },
     toggle: function toggle() {
-      //this.$emit("addTag", !this.toggled)
       this.$emit("addTag", false);
     },
     addTag: function addTag() {
       if (this.search.length > 0) {
         var newTag = this.filteredAllTags;
-        console.log('newTag', newTag[0]);
-        this.search = ''; //this.$emit('tagUpdate', {'id': this.id, 'tag': newTag[0]});
-
+        this.search = '';
         this.$emit('tagUpdate', {
           'tag': newTag[0]
         });
       }
     },
     removeTag: function removeTag(tag) {
-      console.log(this.id);
-      console.log(tag); //this.$emit('tagRemove', {'id': this.id, 'tag': tag});
-
+      console.log('remove from TagsInput');
       this.$emit('tagRemove', {
         'tag': tag
       });
     }
-    /*searchTags() {
-        console.log('I am sure looking for tags right now I hope you believe me');
-    }*/
-
   }
 });
 
@@ -44571,18 +44525,17 @@ var render = function() {
           { staticClass: "tag-wrap" },
           [
             _vm._l(_vm.tags, function(tag) {
-              return _c(
-                "div",
-                {
-                  staticClass: "project-tag",
+              return _c("div", { staticClass: "project-tag" }, [
+                _vm._v(_vm._s(tag) + "\n                "),
+                _c("i", {
+                  staticClass: "fas fa-times",
                   on: {
                     click: function($event) {
                       _vm.removeTag(tag)
                     }
                   }
-                },
-                [_vm._v(_vm._s(tag))]
-              )
+                })
+              ])
             }),
             _vm._v(" "),
             _c("input", {

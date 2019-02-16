@@ -60,7 +60,7 @@
                 this.projects[data.index].tags.push(data.tag);
             },
             tagRemove(data) {
-                const index = this.projects[data.id].tags.indexOf(data.tag);
+                const index = this.projects[data.index].tags.indexOf(data.tag);
                 if (index > -1) {
                     this.projects[data.index].tags.splice(index, 1);
                 }

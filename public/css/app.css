@@ -10554,6 +10554,10 @@ a.text-dark:focus {
   margin: 0 5px 0 0;
 }
 
+.project-tag i {
+  padding: 0 0 0 10px;
+}
+
 .tag-area {
   height: 50px;
   position: relative;

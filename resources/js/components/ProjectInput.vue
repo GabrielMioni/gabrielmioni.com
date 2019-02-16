@@ -96,6 +96,7 @@
                 this.$emit('tagUpdate', {'index': this.index, 'tag':data.tag});
             },
             tagRemove(data) {
+                console.log(data);
                 this.$emit('tagRemove', {'index': this.index, 'tag':data.tag});
             }
         },

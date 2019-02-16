@@ -4,8 +4,10 @@
         <div class="tag-area form-control" @click="focusTagInput">
             <div class="tag-wrap">
                 <div class="project-tag"
-                     v-on:click="removeTag(tag)"
-                     v-for="tag in tags">{{tag}}</div>
+                     v-for="tag in tags">{{tag}}
+                    <i class="fas fa-times"
+                    v-on:click="removeTag(tag)"></i>
+                </div>
                 <input type="text"
                        v-model="search"
                        :ref="'tags-' + id"
@@ -63,6 +65,7 @@
                 }
             },
             removeTag(tag) {
+                console.log('remove from TagsInput');
                 this.$emit('tagRemove', {'tag': tag});
             }
         },
