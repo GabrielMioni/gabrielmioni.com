@@ -53,25 +53,18 @@
                 ref_obj.focus();
             },
             toggle() {
-                //this.$emit("addTag", !this.toggled)
                 this.$emit("addTag", false)
             },
             addTag() {
                 if (this.search.length > 0) {
                     const newTag = this.filteredAllTags;
-                    console.log('newTag', newTag[0]);
                     this.search = '';
-                    this.$emit('tagUpdate', {'id': this.id, 'tag': newTag[0]});
+                    this.$emit('tagUpdate', {'tag': newTag[0]});
                 }
             },
             removeTag(tag) {
-                console.log(this.id);
-                console.log(tag);
-                this.$emit('tagRemove', {'id': this.id, 'tag': tag});
+                this.$emit('tagRemove', {'tag': tag});
             }
-            /*searchTags() {
-                console.log('I am sure looking for tags right now I hope you believe me');
-            }*/
         },
     }
 </script>

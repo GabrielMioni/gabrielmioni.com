@@ -56,46 +56,15 @@
                     self.allTags = data_obj;
                 });
             },
-            updateProjectData(id, type, data, remove = false) {
-                console.log(id, type, data);
-                const BreakException = {};
-
-                try {
-                    this.projects.forEach((project)=>{
-                        if (project.id === id) {
-                            console.log(remove);
-
-                            if (remove === false) {
-                                project[type].push(data);
-                            }
-                            if (remove === true) {
-                                console.log('removing');
-                                const index = project[type].indexOf(data);
-                                console.log('index', index);
-                                if (index > -1) {
-                                    project[type].splice(index, 1);
-                                }
-
-                            }
-                            throw BreakException;
-                        }
-                    });
-                } catch (e) {
-                    if (e !== BreakException) throw e;
-                }
-            },
             tagUpdate(data) {
-                const id = data.id;
-                const tag = data.tag;
-
-                this.updateProjectData(id, 'tags', tag);
+                this.projects[data.index].tags.push(data.tag);
             },
             tagRemove(data) {
-                console.log('RemoveTag', data);
-                const id = data.id;
-                const tag = {'tag' : data.tag};
+                const index = this.projects[data.id].tags.indexOf(data.tag);
+                if (index > -1) {
+                    this.projects[data.index].tags.splice(index, 1);
+                }
 
-                this.updateProjectData(id, 'tags', tag, true);
             }
         },
         created() {

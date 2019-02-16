@@ -90,16 +90,13 @@
                 return `${name}-${this.project.id}`;
             },
             checkOddEven() {
-                console.log(this.index);
-                console.log(this.index %2 === 0);
                 return this.index %2 !== 0;
             },
             tagUpdate(data) {
-                this.$emit('tagUpdate', {'id': data.id, 'tag':data.tag});
+                this.$emit('tagUpdate', {'index': this.index, 'tag':data.tag});
             },
             tagRemove(data) {
-                console.log('projectInput', data);
-                this.$emit('tagRemove', {'id': data.id, 'tag':data.tag});
+                this.$emit('tagRemove', {'index': this.index, 'tag':data.tag});
             }
         },
         created() {

@@ -8850,49 +8850,53 @@ __webpack_require__.r(__webpack_exports__);
         self.allTags = data_obj;
       });
     },
-    updateProjectData: function updateProjectData(id, type, data) {
-      var remove = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
-      console.log(id, type, data);
-      var BreakException = {};
-
-      try {
-        this.projects.forEach(function (project) {
-          if (project.id === id) {
-            console.log(remove);
-
-            if (remove === false) {
-              project[type].push(data);
-            }
-
-            if (remove === true) {
-              console.log('removing');
-              var index = project[type].indexOf(data);
-              console.log('index', index);
-
-              if (index > -1) {
-                project[type].splice(index, 1);
-              }
-            }
-
-            throw BreakException;
-          }
-        });
-      } catch (e) {
-        if (e !== BreakException) throw e;
-      }
-    },
     tagUpdate: function tagUpdate(data) {
-      var id = data.id;
-      var tag = data.tag;
-      this.updateProjectData(id, 'tags', tag);
+      this.projects[data.id].tags.push(data.tag);
     },
     tagRemove: function tagRemove(data) {
-      var id = data.id;
-      var tag = {
-        'tag': data.tag
-      };
-      this.updateProjectData(id, 'tags', tag, true);
+      var index = this.projects[data.id].tags.indexOf(data.tag);
+
+      if (index > -1) {
+        this.projects[data.id].tags.splice(index, 1);
+      }
     }
+    /*updateProjectData(id, type, data, remove = false) {
+        console.log(id, type, data);
+        const BreakException = {};
+         try {
+            this.projects.forEach((project)=>{
+                if (project.id === id) {
+                    console.log(remove);
+                     if (remove === false) {
+                        project[type].push(data);
+                    }
+                    if (remove === true) {
+                        console.log('removing');
+                        const index = project[type].indexOf(data);
+                        console.log('index', index);
+                        if (index > -1) {
+                            project[type].splice(index, 1);
+                        }
+                     }
+                    throw BreakException;
+                }
+            });
+        } catch (e) {
+            if (e !== BreakException) throw e;
+        }
+    },
+    tagUpdate(data) {
+        const id = data.id;
+        const tag = data.tag;
+         this.updateProjectData(id, 'tags', tag);
+    },
+    tagRemove(data) {
+        console.log('RemoveTag', data);
+        const id = data.id;
+        const tag = {'tag' : data.tag};
+         this.updateProjectData(id, 'tags', tag, true);
+    }*/
+
   },
   created: function created() {
     this.$options.projects_url = '/projects-json';
@@ -9107,14 +9111,14 @@ __webpack_require__.r(__webpack_exports__);
     },
     tagUpdate: function tagUpdate(data) {
       this.$emit('tagUpdate', {
-        'id': data.id,
+        'id': this.index,
         'tag': data.tag
       });
     },
     tagRemove: function tagRemove(data) {
       console.log('projectInput', data);
       this.$emit('tagRemove', {
-        'id': data.id,
+        'id': this.index,
         'tag': data.tag
       });
     }
@@ -9313,18 +9317,18 @@ __webpack_require__.r(__webpack_exports__);
       if (this.search.length > 0) {
         var newTag = this.filteredAllTags;
         console.log('newTag', newTag[0]);
-        this.search = '';
+        this.search = ''; //this.$emit('tagUpdate', {'id': this.id, 'tag': newTag[0]});
+
         this.$emit('tagUpdate', {
-          'id': this.id,
           'tag': newTag[0]
         });
       }
     },
     removeTag: function removeTag(tag) {
       console.log(this.id);
-      console.log(tag);
+      console.log(tag); //this.$emit('tagRemove', {'id': this.id, 'tag': tag});
+
       this.$emit('tagRemove', {
-        'id': this.id,
         'tag': tag
       });
     }
