@@ -8809,6 +8809,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -8850,14 +8851,29 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     updateProjectData: function updateProjectData(id, type, data) {
+      var remove = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+      console.log(id, type, data);
       var BreakException = {};
-      var dataObj = {};
-      dataObj[type] = data;
 
       try {
         this.projects.forEach(function (project) {
           if (project.id === id) {
-            project[type].push(data);
+            console.log(remove);
+
+            if (remove === false) {
+              project[type].push(data);
+            }
+
+            if (remove === true) {
+              console.log('removing');
+              var index = project[type].indexOf(data);
+              console.log('index', index);
+
+              if (index > -1) {
+                project[type].splice(index, 1);
+              }
+            }
+
             throw BreakException;
           }
         });
@@ -8867,10 +8883,15 @@ __webpack_require__.r(__webpack_exports__);
     },
     tagUpdate: function tagUpdate(data) {
       var id = data.id;
+      var tag = data.tag;
+      this.updateProjectData(id, 'tags', tag);
+    },
+    tagRemove: function tagRemove(data) {
+      var id = data.id;
       var tag = {
         'tag': data.tag
       };
-      this.updateProjectData(id, 'tags', tag);
+      this.updateProjectData(id, 'tags', tag, true);
     }
   },
   created: function created() {
@@ -9051,6 +9072,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -9087,7 +9109,14 @@ __webpack_require__.r(__webpack_exports__);
       this.$emit('tagUpdate', {
         'id': data.id,
         'tag': data.tag
-      }); //console.log(data);
+      });
+    },
+    tagRemove: function tagRemove(data) {
+      console.log('projectInput', data);
+      this.$emit('tagRemove', {
+        'id': data.id,
+        'tag': data.tag
+      });
     }
   },
   created: function created() {},
@@ -9246,6 +9275,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   model: {
     addTag: '',
@@ -9281,8 +9311,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     addTag: function addTag() {
       if (this.search.length > 0) {
-        var newTag = this.filteredAllTags; //this.tags.push({'tag': newTag[0]});
-
+        var newTag = this.filteredAllTags;
+        console.log('newTag', newTag[0]);
         this.search = '';
         this.$emit('tagUpdate', {
           'id': this.id,
@@ -9290,8 +9320,13 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
     },
-    removeTag: function removeTag() {
-      console.log('clicky');
+    removeTag: function removeTag(tag) {
+      console.log(this.id);
+      console.log(tag);
+      this.$emit('tagRemove', {
+        'id': this.id,
+        'tag': tag
+      });
     }
     /*searchTags() {
         console.log('I am sure looking for tags right now I hope you believe me');
@@ -44207,7 +44242,10 @@ var render = function() {
                           project: project,
                           allTags: _vm.allTags
                         },
-                        on: { tagUpdate: _vm.tagUpdate },
+                        on: {
+                          tagUpdate: _vm.tagUpdate,
+                          tagRemove: _vm.tagRemove
+                        },
                         model: {
                           value: project[index],
                           callback: function($$v) {
@@ -44421,7 +44459,7 @@ var render = function() {
           [
             _c("tags-input", {
               attrs: { id: _vm.project.id, allTags: _vm.allTags },
-              on: { tagUpdate: _vm.tagUpdate },
+              on: { tagUpdate: _vm.tagUpdate, tagRemove: _vm.tagRemove },
               model: {
                 value: _vm.project.tags,
                 callback: function($$v) {
@@ -44529,9 +44567,18 @@ var render = function() {
           { staticClass: "tag-wrap" },
           [
             _vm._l(_vm.tags, function(tag) {
-              return _c("div", { staticClass: "project-tag" }, [
-                _vm._v(_vm._s(tag.tag))
-              ])
+              return _c(
+                "div",
+                {
+                  staticClass: "project-tag",
+                  on: {
+                    click: function($event) {
+                      _vm.removeTag(tag)
+                    }
+                  }
+                },
+                [_vm._v(_vm._s(tag))]
+              )
             }),
             _vm._v(" "),
             _c("input", {
@@ -44576,18 +44623,9 @@ var render = function() {
       [
         _vm.search.length > 0
           ? _vm._l(_vm.filteredAllTags, function(tag) {
-              return _c(
-                "div",
-                {
-                  staticClass: "project-tag",
-                  on: {
-                    click: function($event) {
-                      _vm.console.log("click")
-                    }
-                  }
-                },
-                [_vm._v(_vm._s(tag))]
-              )
+              return _c("div", { staticClass: "project-tag" }, [
+                _vm._v(_vm._s(tag))
+              ])
             })
           : _vm._e()
       ],

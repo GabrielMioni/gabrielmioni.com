@@ -6,6 +6,7 @@
                     <project-input
                             v-model="project[index]"
                             v-on:tagUpdate="tagUpdate"
+                            v-on:tagRemove="tagRemove"
                             :key="project.id"
                             :index="index"
                             :project="project"
@@ -55,16 +56,27 @@
                     self.allTags = data_obj;
                 });
             },
-            updateProjectData(id, type, data) {
+            updateProjectData(id, type, data, remove = false) {
+                console.log(id, type, data);
                 const BreakException = {};
-
-                let dataObj = {};
-                dataObj[type] = data;
 
                 try {
                     this.projects.forEach((project)=>{
                         if (project.id === id) {
-                            project[type].push(data);
+                            console.log(remove);
+
+                            if (remove === false) {
+                                project[type].push(data);
+                            }
+                            if (remove === true) {
+                                console.log('removing');
+                                const index = project[type].indexOf(data);
+                                console.log('index', index);
+                                if (index > -1) {
+                                    project[type].splice(index, 1);
+                                }
+
+                            }
                             throw BreakException;
                         }
                     });
@@ -74,9 +86,16 @@
             },
             tagUpdate(data) {
                 const id = data.id;
-                const tag = {'tag' : data.tag};
+                const tag = data.tag;
 
                 this.updateProjectData(id, 'tags', tag);
+            },
+            tagRemove(data) {
+                console.log('RemoveTag', data);
+                const id = data.id;
+                const tag = {'tag' : data.tag};
+
+                this.updateProjectData(id, 'tags', tag, true);
             }
         },
         created() {

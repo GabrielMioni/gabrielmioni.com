@@ -38,6 +38,7 @@
                     v-model="project.tags" :id="project.id"
                     :allTags="allTags"
                     v-on:tagUpdate="tagUpdate"
+                    v-on:tagRemove="tagRemove"
                 ></tags-input>
                 <form-text-input
                         :inputTitle="'github'"
@@ -95,7 +96,10 @@
             },
             tagUpdate(data) {
                 this.$emit('tagUpdate', {'id': data.id, 'tag':data.tag});
-                //console.log(data);
+            },
+            tagRemove(data) {
+                console.log('projectInput', data);
+                this.$emit('tagRemove', {'id': data.id, 'tag':data.tag});
             }
         },
         created() {

@@ -3,7 +3,9 @@
         <label class="justify-content-start" :for="'tags-' + id">Tags</label>
         <div class="tag-area form-control" @click="focusTagInput">
             <div class="tag-wrap">
-                <div class="project-tag" v-for="tag in tags">{{tag.tag}}</div>
+                <div class="project-tag"
+                     v-on:click="removeTag(tag)"
+                     v-for="tag in tags">{{tag}}</div>
                 <input type="text"
                        v-model="search"
                        :ref="'tags-' + id"
@@ -16,7 +18,6 @@
             <template v-if="search.length > 0">
                 <div class="project-tag"
                      v-for="tag in filteredAllTags"
-                     @click="console.log('click')"
                 >{{tag}}</div>
             </template>
         </div>
@@ -58,13 +59,15 @@
             addTag() {
                 if (this.search.length > 0) {
                     const newTag = this.filteredAllTags;
-                    //this.tags.push({'tag': newTag[0]});
+                    console.log('newTag', newTag[0]);
                     this.search = '';
                     this.$emit('tagUpdate', {'id': this.id, 'tag': newTag[0]});
                 }
             },
-            removeTag() {
-                console.log('clicky');
+            removeTag(tag) {
+                console.log(this.id);
+                console.log(tag);
+                this.$emit('tagRemove', {'id': this.id, 'tag': tag});
             }
             /*searchTags() {
                 console.log('I am sure looking for tags right now I hope you believe me');
