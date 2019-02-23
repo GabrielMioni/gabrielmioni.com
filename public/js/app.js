@@ -9039,7 +9039,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -44348,7 +44347,7 @@ var render = function() {
           [
             _c("sortable-handle", [
               _c("div", { staticClass: "project-handle" }, [
-                _vm._v("\n                    ????\n                    ")
+                _c("i", { staticClass: "fas fa-grip-vertical" })
               ])
             ])
           ],

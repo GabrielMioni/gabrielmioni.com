@@ -8,9 +8,11 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+// Components
 @import "proj";
-
 @import "expand-toggle";
+@import "sortable-hanlde";
+
 
 .navbar-laravel {
   background-color: #fff;

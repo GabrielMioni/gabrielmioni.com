@@ -6,8 +6,7 @@
             <div class="col-sm-1">
                 <sortable-handle>
                     <div class="project-handle">
-                        ????
-                        <!--<i class="fas fa-grip-vertical"></i>-->
+                        <i class="fas fa-grip-vertical"></i>
                     </div>
                 </sortable-handle>
             </div>
