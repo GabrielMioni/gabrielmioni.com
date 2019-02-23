@@ -8810,6 +8810,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -8859,6 +8860,12 @@ __webpack_require__.r(__webpack_exports__);
       if (index > -1) {
         this.projects[data.index].tags.splice(index, 1);
       }
+    },
+    updateFile: function updateFile(data) {
+      var img_data = {};
+      img_data.fileObj = data.fileObj;
+      img_data.fileUrl = data.fileUrl;
+      this.projects[data.index].image_main = img_data;
     }
   },
   created: function created() {
@@ -8972,6 +8979,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _expandToggle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./expandToggle */ "./resources/js/components/expandToggle.vue");
 /* harmony import */ var _SortableHandle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SortableHandle */ "./resources/js/components/SortableHandle.vue");
 /* harmony import */ var _TagsInput__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TagsInput */ "./resources/js/components/TagsInput.vue");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -9067,9 +9084,22 @@ __webpack_require__.r(__webpack_exports__);
   },
   // inject: ["allTags"],
   methods: {
-    setUrl: function setUrl(file, ext) {
-      var filepath = file + '.' + ext;
-      return '/images/' + filepath;
+    setUrl: function setUrl() {
+      var imgData = this.project['image_main'];
+
+      if (_typeof(imgData) === 'object') {
+        return imgData['fileUrl'];
+      }
+
+      if (typeof imgData === 'string') {
+        return '/images/' + imgData + '.' + this.project['image_main_ext'];
+      }
+      /*if (typeof file === 'object') {
+          return file.file_url;
+      }
+      const filepath = file + '.' + ext;
+      return '/images/' + filepath;*/
+
     },
     setInputName: function setInputName(name) {
       return "".concat(name, "-").concat(this.project.id);
@@ -9088,6 +9118,29 @@ __webpack_require__.r(__webpack_exports__);
       this.$emit('tagRemove', {
         'index': this.index,
         'tag': data.tag
+      });
+    },
+    clickFile: function clickFile() {
+      this.$refs.file.click();
+    },
+    updateFile: function updateFile(e) {
+      var drop = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+      var file = drop === false ? e.target.files[0] : e;
+      var file_url;
+
+      if (typeof file === 'undefined') {
+        file = '';
+        file_url = '';
+      } else {
+        file_url = URL.createObjectURL(file);
+      }
+
+      console.log('file', file);
+      console.log('url', file_url);
+      this.$emit('updateFile', {
+        'index': this.index,
+        'fileUrl': file_url,
+        'fileObj': file
       });
     }
   },
@@ -44212,7 +44265,8 @@ var render = function() {
                         },
                         on: {
                           tagUpdate: _vm.tagUpdate,
-                          tagRemove: _vm.tagRemove
+                          tagRemove: _vm.tagRemove,
+                          updateFile: _vm.updateFile
                         },
                         model: {
                           value: project[index],
@@ -44351,20 +44405,28 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "form-row" }, [
-      _c("div", { staticClass: "col-sm-6 image-holder" }, [
-        _c("div", {
-          staticClass: "project-image form-control",
-          style: {
-            backgroundImage:
-              "url(" +
-              _vm.setUrl(
-                _vm.project["image_main"],
-                _vm.project["image_main_ext"]
-              ) +
-              ")"
-          }
-        })
-      ]),
+      _c(
+        "div",
+        { staticClass: "col-sm-6 image-holder", on: { click: _vm.clickFile } },
+        [
+          _c("div", {
+            staticClass: "project-image form-control",
+            style: { backgroundImage: "url(" + _vm.setUrl() + ")" }
+          }),
+          _vm._v(" "),
+          _c("input", {
+            ref: "file",
+            class: ["hidden-file-" + _vm.index],
+            staticStyle: { display: "none" },
+            attrs: {
+              type: "file",
+              accept: "image/x-png,image/jpg,image/jpeg",
+              name: "file-" + _vm.index
+            },
+            on: { input: _vm.updateFile }
+          })
+        ]
+      ),
       _vm._v(" "),
       _c("div", { staticClass: "col-sm-6 text-holder" }, [
         _c(

@@ -7,6 +7,7 @@
                             v-model="project[index]"
                             v-on:tagUpdate="tagUpdate"
                             v-on:tagRemove="tagRemove"
+                            v-on:updateFile="updateFile"
                             :key="project.id"
                             :index="index"
                             :project="project"
@@ -65,6 +66,12 @@
                     this.projects[data.index].tags.splice(index, 1);
                 }
 
+            },
+            updateFile(data) {
+                let img_data = {};
+                img_data.fileObj = data.fileObj;
+                img_data.fileUrl = data.fileUrl;
+                this.projects[data.index].image_main = img_data;
             }
         },
         created() {

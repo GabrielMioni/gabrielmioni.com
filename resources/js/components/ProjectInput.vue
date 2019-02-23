@@ -11,8 +11,16 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="col-sm-6 image-holder">
-                <div class="project-image form-control" v-bind:style="{ backgroundImage: 'url(' + setUrl(project['image_main'], project['image_main_ext']) + ')' }"></div>
+            <div
+                @click="clickFile"
+                class="col-sm-6 image-holder">
+                <div class="project-image form-control" v-bind:style="{ backgroundImage: 'url(' + setUrl() + ')' }"></div>
+                <input type="file"
+                       accept="image/x-png,image/jpg,image/jpeg"
+                       v-on:input="updateFile"
+                       :class="['hidden-file-' + index]"
+                       :name="'file-' + index"
+                       ref="file" style="display: none">
             </div>
             <div class="col-sm-6 text-holder">
                 <div class="admin-edit">
@@ -89,9 +97,14 @@
         },
         // inject: ["allTags"],
         methods: {
-            setUrl(file, ext) {
-                const filepath = file + '.' + ext;
-                return '/images/' + filepath;
+            setUrl() {
+                const imgData = this.project['image_main'];
+                if (typeof imgData === 'object') {
+                    return imgData['fileUrl'];
+                }
+                if (typeof imgData === 'string') {
+                    return '/images/' + imgData + '.' + this.project['image_main_ext'];
+                }
             },
             setInputName(name) {
                 return `${name}-${this.project.id}`;
@@ -105,7 +118,23 @@
             tagRemove(data) {
                 console.log(data);
                 this.$emit('tagRemove', {'index': this.index, 'tag':data.tag});
-            }
+            },
+            clickFile() {
+                this.$refs.file.click();
+            },
+            updateFile(e, drop = false) {
+                let file = drop === false ? e.target.files[0] : e;
+                let file_url;
+                if (typeof file === 'undefined') {
+                    file = '';
+                    file_url = '';
+                } else {
+                    file_url = URL.createObjectURL(file);
+                }
+                console.log('file', file);
+                console.log('url', file_url);
+                this.$emit('updateFile', {'index': this.index, 'fileUrl': file_url, 'fileObj': file});
+            },
         },
         created() {
 
