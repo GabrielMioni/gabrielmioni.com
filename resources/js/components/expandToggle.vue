@@ -3,10 +3,10 @@
         v-bind:class="{ open : value === true }"
         @click="toggle">
         <template v-if="value === true">
-            -
+            <i class="fas fa-minus"></i>
         </template>
         <template v-else>
-            +
+            <i class="fas fa-plus"></i>
         </template>
     </div>
 </template>

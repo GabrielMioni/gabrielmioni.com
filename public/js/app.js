@@ -44616,8 +44616,8 @@ var render = function() {
     },
     [
       _vm.value === true
-        ? [_vm._v("\n        -\n    ")]
-        : [_vm._v("\n        +\n    ")]
+        ? [_c("i", { staticClass: "fas fa-minus" })]
+        : [_c("i", { staticClass: "fas fa-plus" })]
     ],
     2
   )
