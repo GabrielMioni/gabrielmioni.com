@@ -2,7 +2,6 @@
     <!--<div class="col-sm-12 project card p-3 mb-3" v-bind:class="{reverse : checkOddEven() }">-->
     <div class="col-sm-12 project card p-3 mb-3">
         <div class="form-row justify-content-end mr-0">
-            <expand-toggle v-model="expanded"></expand-toggle>
             <div class="col-sm-1">
                 <sortable-handle>
                     <div class="project-handle">
@@ -28,6 +27,15 @@
                             :setInputName="setInputName"
                             :isTextArea="true"
                     ></form-text-input>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-sm-12">
+                <div class="details-control">
+                    <span v-if="expanded === true">Hide Details</span>
+                    <span v-else-if="expanded === false">Show Details</span>
+                    <expand-toggle v-model="expanded"></expand-toggle>
                 </div>
             </div>
         </div>
@@ -76,7 +84,7 @@
         props: ['project', 'index', 'allTags'],
         data() {
             return {
-                expanded : false,
+                expanded : true,
             };
         },
         // inject: ["allTags"],

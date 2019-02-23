@@ -25,11 +25,17 @@
   height: auto;
   overflow: hidden;
   transition:max-height 0.3s ease-out;
-  padding: 20px 0 0;
 
   &.open {
     max-height: 500px;
   }
+}
+
+.details-control {
+    float: right;
+    span {
+        font-style: italic;
+    }
 }
 
 .project-image {

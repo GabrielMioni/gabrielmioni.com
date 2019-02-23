@@ -10524,11 +10524,18 @@ a.text-dark:focus {
   height: auto;
   overflow: hidden;
   transition: max-height 0.3s ease-out;
-  padding: 20px 0 0;
 }
 
 .links.open {
   max-height: 500px;
+}
+
+.details-control {
+  float: right;
+}
+
+.details-control span {
+  font-style: italic;
 }
 
 .project-image {

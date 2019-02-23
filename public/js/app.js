@@ -9039,6 +9039,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -9054,7 +9062,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['project', 'index', 'allTags'],
   data: function data() {
     return {
-      expanded: false
+      expanded: true
     };
   },
   // inject: ["allTags"],
@@ -44327,35 +44335,20 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "col-sm-12 project card p-3 mb-3" }, [
-    _c(
-      "div",
-      { staticClass: "form-row justify-content-end mr-0" },
-      [
-        _c("expand-toggle", {
-          model: {
-            value: _vm.expanded,
-            callback: function($$v) {
-              _vm.expanded = $$v
-            },
-            expression: "expanded"
-          }
-        }),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "col-sm-1" },
-          [
-            _c("sortable-handle", [
-              _c("div", { staticClass: "project-handle" }, [
-                _c("i", { staticClass: "fas fa-grip-vertical" })
-              ])
+    _c("div", { staticClass: "form-row justify-content-end mr-0" }, [
+      _c(
+        "div",
+        { staticClass: "col-sm-1" },
+        [
+          _c("sortable-handle", [
+            _c("div", { staticClass: "project-handle" }, [
+              _c("i", { staticClass: "fas fa-grip-vertical" })
             ])
-          ],
-          1
-        )
-      ],
-      1
-    ),
+          ])
+        ],
+        1
+      )
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "form-row" }, [
       _c("div", { staticClass: "col-sm-6 image-holder" }, [
@@ -44401,6 +44394,33 @@ var render = function() {
                   _vm.$set(_vm.project, "description", $$v)
                 },
                 expression: "project.description"
+              }
+            })
+          ],
+          1
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-row" }, [
+      _c("div", { staticClass: "col-sm-12" }, [
+        _c(
+          "div",
+          { staticClass: "details-control" },
+          [
+            _vm.expanded === true
+              ? _c("span", [_vm._v("Hide Details")])
+              : _vm.expanded === false
+                ? _c("span", [_vm._v("Show Details")])
+                : _vm._e(),
+            _vm._v(" "),
+            _c("expand-toggle", {
+              model: {
+                value: _vm.expanded,
+                callback: function($$v) {
+                  _vm.expanded = $$v
+                },
+                expression: "expanded"
               }
             })
           ],
