@@ -10565,6 +10565,7 @@ a.text-dark:focus {
 }
 
 .project-tag i {
+  cursor: pointer;
   padding: 0 0 0 10px;
 }
 
