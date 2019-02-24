@@ -9137,6 +9137,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -44851,7 +44856,13 @@ var render = function() {
                 },
                 [_c("i", { staticClass: "fas fa-trash-alt" })]
               )
-            : _vm._e()
+            : _c("div", { staticClass: "drop-arrow" }, [
+                _c("i", { staticClass: "fas fa-arrow-up" }),
+                _vm._v(" "),
+                _c("div", [
+                  _vm._v("Drag your image here, or click to upload it")
+                ])
+              ])
         ]
       ),
       _vm._v(" "),

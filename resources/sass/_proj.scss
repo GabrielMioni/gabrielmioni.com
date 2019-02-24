@@ -40,6 +40,14 @@
 
 .image-holder {
     cursor: pointer;
+
+    &:hover {
+        .drop-arrow {
+            i {
+                animation-play-state: running;
+            }
+        }
+    }
 }
 
 .project-image {
@@ -112,5 +120,34 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+    }
+}
+
+.drop-arrow {
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    i {
+        animation: bounce 2s linear infinite;
+        animation-play-state: paused;
+        font-size: 3rem;
+    }
+}
+
+@keyframes bounce {
+    10%, 90% {
+        transform: translatey(5px);
+    }
+    20%, 80% {
+        transform: translatey(-5px);
+    }
+    30%, 50%, 70% {
+        transform: translatey(5px);
+    }
+    40%, 60% {
+        transform: translatey(0px);
     }
 }

@@ -10542,6 +10542,11 @@ a.text-dark:focus {
   cursor: pointer;
 }
 
+.image-holder:hover .drop-arrow i {
+  -webkit-animation-play-state: running;
+          animation-play-state: running;
+}
+
 .project-image {
   height: 230px;
   background-size: contain;
@@ -10624,6 +10629,67 @@ a.text-dark:focus {
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
+}
+
+.drop-arrow {
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.drop-arrow i {
+  -webkit-animation: bounce 2s linear infinite;
+          animation: bounce 2s linear infinite;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
+  font-size: 3rem;
+}
+
+@-webkit-keyframes bounce {
+  10%, 90% {
+    -webkit-transform: translatey(5px);
+            transform: translatey(5px);
+  }
+
+  20%, 80% {
+    -webkit-transform: translatey(-5px);
+            transform: translatey(-5px);
+  }
+
+  30%, 50%, 70% {
+    -webkit-transform: translatey(5px);
+            transform: translatey(5px);
+  }
+
+  40%, 60% {
+    -webkit-transform: translatey(0px);
+            transform: translatey(0px);
+  }
+}
+
+@keyframes bounce {
+  10%, 90% {
+    -webkit-transform: translatey(5px);
+            transform: translatey(5px);
+  }
+
+  20%, 80% {
+    -webkit-transform: translatey(-5px);
+            transform: translatey(-5px);
+  }
+
+  30%, 50%, 70% {
+    -webkit-transform: translatey(5px);
+            transform: translatey(5px);
+  }
+
+  40%, 60% {
+    -webkit-transform: translatey(0px);
+            transform: translatey(0px);
+  }
 }
 
 .expand-toggle {

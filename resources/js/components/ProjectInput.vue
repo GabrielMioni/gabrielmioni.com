@@ -25,6 +25,11 @@
                     v-if="project['image_main'] !== ''"
                     @click.stop="deleteImage"
                     type="button" tabindex="-1" class="btn-control delete-image btn btn-dark"><i class="fas fa-trash-alt"></i></button>
+                <div
+                    v-else class="drop-arrow">
+                    <i class="fas fa-arrow-up"></i>
+                    <div>Drag your image here, or click to upload it</div>
+                </div>
             </div>
             <div class="col-sm-6 text-holder">
                 <div class="admin-edit row">
