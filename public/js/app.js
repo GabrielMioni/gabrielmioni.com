@@ -8813,6 +8813,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -8887,6 +8888,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     projectRemove: function projectRemove(data) {
       console.log(data);
+    },
+    deleteImage: function deleteImage(data) {
+      var project = this.projects[data.index];
+      project.image_main = '';
+      project.image_main_ext = '';
     }
   },
   created: function created() {
@@ -9098,6 +9104,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 //
 //
 //
+//
+//
+//
 
 
 
@@ -9158,6 +9167,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     },
     projectRemove: function projectRemove() {
       this.$emit('projectRemove', {
+        'index': this.index
+      });
+    },
+    deleteImage: function deleteImage() {
+      this.$emit('deleteImage', {
         'index': this.index
       });
     },
@@ -44309,7 +44323,8 @@ var render = function() {
                           tagRemove: _vm.tagRemove,
                           updateFile: _vm.updateFile,
                           projectAdd: _vm.projectAdd,
-                          projectRemove: _vm.projectRemove
+                          projectRemove: _vm.projectRemove,
+                          deleteImage: _vm.deleteImage
                         },
                         model: {
                           value: project[index],
@@ -44469,7 +44484,24 @@ var render = function() {
               name: "file-" + _vm.index
             },
             on: { input: _vm.updateFile }
-          })
+          }),
+          _vm._v(" "),
+          _vm.project["image_main"] !== ""
+            ? _c(
+                "button",
+                {
+                  staticClass: "btn-control delete-image btn btn-dark",
+                  attrs: { type: "button", tabindex: "-1" },
+                  on: {
+                    click: function($event) {
+                      $event.stopPropagation()
+                      return _vm.deleteImage($event)
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fas fa-trash-alt" })]
+              )
+            : _vm._e()
         ]
       ),
       _vm._v(" "),
@@ -44513,7 +44545,7 @@ var render = function() {
               _c(
                 "button",
                 {
-                  staticClass: "btn btn-primary mb-3",
+                  staticClass: "btn-control btn btn-primary mb-3",
                   attrs: { type: "button", tabindex: "-1" },
                   on: { click: _vm.projectAdd }
                 },
@@ -44523,7 +44555,7 @@ var render = function() {
               _c(
                 "button",
                 {
-                  staticClass: "btn btn-dark",
+                  staticClass: "btn-control btn btn-dark",
                   attrs: { type: "button", tabindex: "-1" },
                   on: { click: _vm.projectRemove }
                 },

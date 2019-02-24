@@ -10,6 +10,7 @@
                             v-on:updateFile="updateFile"
                             v-on:projectAdd="projectAdd"
                             v-on:projectRemove="projectRemove"
+                            v-on:deleteImage="deleteImage"
                             :key="project.id"
                             :index="index"
                             :project="project"
@@ -95,6 +96,11 @@
             },
             projectRemove(data) {
                 console.log(data);
+            },
+            deleteImage(data) {
+                let project = this.projects[data.index];
+                project.image_main = '';
+                project.image_main_ext = '';
             }
         },
         created() {

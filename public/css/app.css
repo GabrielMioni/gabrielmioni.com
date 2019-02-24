@@ -10538,6 +10538,10 @@ a.text-dark:focus {
   font-style: italic;
 }
 
+.image-holder {
+  cursor: pointer;
+}
+
 .project-image {
   height: 230px;
   background-size: contain;
@@ -10595,6 +10599,21 @@ a.text-dark:focus {
   outline: none;
 }
 
+.delete-image {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.btn-control {
+  border-radius: 50%;
+  font-size: 10px;
+  padding: 0;
+  margin: 0;
+  height: 25px;
+  width: 25px;
+}
+
 .add-remove-holder {
   position: relative;
 }
@@ -10605,13 +10624,6 @@ a.text-dark:focus {
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
-}
-
-.add-remove-holder .add-remove-controls .btn {
-  height: 25px;
-  width: 25px;
-  padding: 0;
-  border-radius: 50%;
 }
 
 .expand-toggle {
