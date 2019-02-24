@@ -9142,6 +9142,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 //
 //
 //
+//
 
 
 
@@ -44840,11 +44841,32 @@ var render = function() {
         },
         [
           _vm.checkIfImageIsPresent() === true
-            ? _c("div", {
-                staticClass: "project-image form-control",
-                style: { backgroundImage: "url(" + _vm.setUrl() + ")" }
-              })
-            : _c("div", { staticClass: "project-image form-control" }),
+            ? _c(
+                "div",
+                {
+                  staticClass: "project-image form-control",
+                  style: { backgroundImage: "url(" + _vm.setUrl() + ")" }
+                },
+                [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn-control delete-image btn btn-dark",
+                      attrs: { type: "button", tabindex: "-1" },
+                      on: {
+                        click: function($event) {
+                          $event.stopPropagation()
+                          return _vm.deleteImage($event)
+                        }
+                      }
+                    },
+                    [_c("i", { staticClass: "fas fa-trash-alt" })]
+                  )
+                ]
+              )
+            : _c("div", { staticClass: "project-image form-control" }, [
+                _vm._m(0)
+              ]),
           _vm._v(" "),
           _c("input", {
             ref: "file",
@@ -44856,30 +44878,7 @@ var render = function() {
               name: "file-" + _vm.index
             },
             on: { input: _vm.updateFile }
-          }),
-          _vm._v(" "),
-          _vm.checkIfImageIsPresent() === true
-            ? _c(
-                "button",
-                {
-                  staticClass: "btn-control delete-image btn btn-dark",
-                  attrs: { type: "button", tabindex: "-1" },
-                  on: {
-                    click: function($event) {
-                      $event.stopPropagation()
-                      return _vm.deleteImage($event)
-                    }
-                  }
-                },
-                [_c("i", { staticClass: "fas fa-trash-alt" })]
-              )
-            : _c("div", { staticClass: "drop-arrow" }, [
-                _c("i", { staticClass: "fas fa-arrow-up" }),
-                _vm._v(" "),
-                _c("div", [
-                  _vm._v("Drag your image here, or click to upload it")
-                ])
-              ])
+          })
         ]
       ),
       _vm._v(" "),
@@ -45046,7 +45045,18 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "drop-arrow" }, [
+      _c("i", { staticClass: "fas fa-arrow-up" }),
+      _vm._v(" "),
+      _c("div", [_vm._v("Drag your image here, or click to upload it")])
+    ])
+  }
+]
 render._withStripped = true
 
 

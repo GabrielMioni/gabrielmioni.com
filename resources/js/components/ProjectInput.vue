@@ -14,22 +14,23 @@
                 @click="clickFile"
                 :ref="'dropFile'"
                 class="col-sm-6 image-holder">
-                <div v-if="checkIfImageIsPresent() === true" class="project-image form-control" v-bind:style="{ backgroundImage: 'url(' + setUrl() + ')' }"></div>
-                <div v-else class="project-image form-control"></div>
+                <div v-if="checkIfImageIsPresent() === true" class="project-image form-control" v-bind:style="{ backgroundImage: 'url(' + setUrl() + ')' }">
+                    <button
+                        @click.stop="deleteImage"
+                        type="button" tabindex="-1" class="btn-control delete-image btn btn-dark"><i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+                <div v-else class="project-image form-control">
+                    <div class="drop-arrow">
+                        <i class="fas fa-arrow-up"></i>
+                        <div>Drag your image here, or click to upload it</div>
+                    </div>
+                </div>
                 <input type="file" accept="image/x-png,image/jpg,image/jpeg"
                        v-on:input="updateFile"
                        :class="['hidden-file-' + index]"
                        :name="'file-' + index"
                        ref="file" style="display: none">
-                <button
-                    v-if="checkIfImageIsPresent() === true"
-                    @click.stop="deleteImage"
-                    type="button" tabindex="-1" class="btn-control delete-image btn btn-dark"><i class="fas fa-trash-alt"></i></button>
-                <div
-                    v-else class="drop-arrow">
-                    <i class="fas fa-arrow-up"></i>
-                    <div>Drag your image here, or click to upload it</div>
-                </div>
             </div>
             <div class="col-sm-6 text-holder">
                 <div class="admin-edit row">
