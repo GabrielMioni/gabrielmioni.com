@@ -8871,7 +8871,6 @@ __webpack_require__.r(__webpack_exports__);
       this.projects[data.index].image_main = img_data;
     },
     projectAdd: function projectAdd(data) {
-      console.log(data);
       var newProject = {
         'id': '',
         'title': '',
@@ -8887,12 +8886,42 @@ __webpack_require__.r(__webpack_exports__);
       this.projects.splice(index, 0, newProject);
     },
     projectRemove: function projectRemove(data) {
-      console.log(data);
+      var project = this.getProjectAtIndex(data.index);
+      var hasData = this.checkProjectData(project);
+
+      if (hasData === true) {
+        if (!confirm('You\'re about to delete this entire project. Are you sure you want to do that')) {
+          return;
+        }
+      }
+
+      this.projects.splice(data.index, 1);
+    },
+    checkProjectData: function checkProjectData(project) {
+      var hasData = false;
+
+      for (var property in project) {
+        if (hasData === true) return true;
+
+        if (!project.hasOwnProperty(property)) {
+          return;
+        }
+
+        if (project[property].length > 0) {
+          hasData = true;
+        }
+      }
+
+      console.log('has data', hasData);
+      return hasData;
     },
     deleteImage: function deleteImage(data) {
-      var project = this.projects[data.index];
+      var project = this.getProjectAtIndex(data.index);
       project.image_main = '';
       project.image_main_ext = '';
+    },
+    getProjectAtIndex: function getProjectAtIndex(index) {
+      return this.projects[index];
     }
   },
   created: function created() {

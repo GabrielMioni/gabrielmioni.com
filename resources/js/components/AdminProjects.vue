@@ -77,7 +77,6 @@
                 this.projects[data.index].image_main = img_data;
             },
             projectAdd(data) {
-                console.log(data);
                 let newProject = {
                     'id' : '',
                     'title' : '',
@@ -95,12 +94,38 @@
                 this.projects.splice(index, 0, newProject);
             },
             projectRemove(data) {
-                console.log(data);
+                let project = this.getProjectAtIndex(data.index);
+                const hasData = this.checkProjectData(project);
+
+                if (hasData === true) {
+                    if (!confirm('You\'re about to delete this entire project. Are you sure you want to do that?')) {
+                        return;
+                    }
+                }
+                this.projects.splice(data.index, 1);
+            },
+            checkProjectData(project) {
+                let hasData = false;
+
+                for (const property in project) {
+                    if (hasData === true) return true;
+                    if (!project.hasOwnProperty(property)) {
+                        return;
+                    }
+                    if (project[property].length > 0) {
+                        hasData = true;
+                    }
+                }
+
+                return hasData;
             },
             deleteImage(data) {
-                let project = this.projects[data.index];
+                let project = this.getProjectAtIndex(data.index);
                 project.image_main = '';
                 project.image_main_ext = '';
+            },
+            getProjectAtIndex(index) {
+                return this.projects[index];
             }
         },
         created() {
