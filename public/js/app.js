@@ -9178,6 +9178,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return '/images/' + imgData + '.' + this.project['image_main_ext'];
       }
     },
+    checkIfImageIsPresent: function checkIfImageIsPresent() {
+      var imgData = this.project['image_main'];
+
+      if (imgData === '') {
+        return false;
+      }
+
+      if (_typeof(imgData) === 'object') {
+        var fileUrl = imgData['fileUrl'];
+
+        if (fileUrl === '') {
+          return false;
+        }
+      }
+
+      return true;
+    },
     setInputName: function setInputName(name) {
       return "".concat(name, "-").concat(this.project.id);
     },
@@ -44822,7 +44839,7 @@ var render = function() {
           on: { click: _vm.clickFile }
         },
         [
-          _vm.project["image_main"] !== ""
+          _vm.checkIfImageIsPresent() === true
             ? _c("div", {
                 staticClass: "project-image form-control",
                 style: { backgroundImage: "url(" + _vm.setUrl() + ")" }
@@ -44841,7 +44858,7 @@ var render = function() {
             on: { input: _vm.updateFile }
           }),
           _vm._v(" "),
-          _vm.project["image_main"] !== ""
+          _vm.checkIfImageIsPresent() === true
             ? _c(
                 "button",
                 {

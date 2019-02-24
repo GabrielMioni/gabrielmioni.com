@@ -14,15 +14,15 @@
                 @click="clickFile"
                 :ref="'dropFile'"
                 class="col-sm-6 image-holder">
-                <div v-if="project['image_main'] !== ''" class="project-image form-control" v-bind:style="{ backgroundImage: 'url(' + setUrl() + ')' }"></div>
-                <div v-else class="project-image form-control" v-bind:style=""></div>
+                <div v-if="checkIfImageIsPresent() === true" class="project-image form-control" v-bind:style="{ backgroundImage: 'url(' + setUrl() + ')' }"></div>
+                <div v-else class="project-image form-control"></div>
                 <input type="file" accept="image/x-png,image/jpg,image/jpeg"
                        v-on:input="updateFile"
                        :class="['hidden-file-' + index]"
                        :name="'file-' + index"
                        ref="file" style="display: none">
                 <button
-                    v-if="project['image_main'] !== ''"
+                    v-if="checkIfImageIsPresent() === true"
                     @click.stop="deleteImage"
                     type="button" tabindex="-1" class="btn-control delete-image btn btn-dark"><i class="fas fa-trash-alt"></i></button>
                 <div
@@ -131,6 +131,21 @@
                 if (typeof imgData === 'string') {
                     return '/images/' + imgData + '.' + this.project['image_main_ext'];
                 }
+            },
+            checkIfImageIsPresent() {
+                const imgData = this.project['image_main'];
+
+                if (imgData === '') {
+                    return false;
+                }
+                if (typeof imgData === 'object') {
+                    const fileUrl = imgData['fileUrl'];
+                    if (fileUrl === '') {
+                        return false;
+                    }
+                }
+
+                return true;
             },
             setInputName(name) {
                 return `${name}-${this.project.id}`;
