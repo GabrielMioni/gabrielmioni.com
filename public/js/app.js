@@ -9097,6 +9097,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 //
 //
 //
+//
 
 
 
@@ -9119,6 +9120,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   methods: {
     setUrl: function setUrl() {
       var imgData = this.project['image_main'];
+
+      if (imgData === '') {
+        return;
+      }
 
       if (_typeof(imgData) === 'object') {
         return imgData['fileUrl'];
@@ -44447,10 +44452,12 @@ var render = function() {
         "div",
         { staticClass: "col-sm-6 image-holder", on: { click: _vm.clickFile } },
         [
-          _c("div", {
-            staticClass: "project-image form-control",
-            style: { backgroundImage: "url(" + _vm.setUrl() + ")" }
-          }),
+          _vm.project["image_main"] !== ""
+            ? _c("div", {
+                staticClass: "project-image form-control",
+                style: { backgroundImage: "url(" + _vm.setUrl() + ")" }
+              })
+            : _c("div", { staticClass: "project-image form-control" }),
           _vm._v(" "),
           _c("input", {
             ref: "file",

@@ -14,7 +14,8 @@
             <div
                 @click="clickFile"
                 class="col-sm-6 image-holder">
-                <div class="project-image form-control" v-bind:style="{ backgroundImage: 'url(' + setUrl() + ')' }"></div>
+                <div v-if="project['image_main'] !== ''" class="project-image form-control" v-bind:style="{ backgroundImage: 'url(' + setUrl() + ')' }"></div>
+                <div v-else class="project-image form-control" v-bind:style=""></div>
                 <input type="file"
                        accept="image/x-png,image/jpg,image/jpeg"
                        v-on:input="updateFile"
@@ -111,6 +112,9 @@
         methods: {
             setUrl() {
                 const imgData = this.project['image_main'];
+                if (imgData === '') {
+                    return;
+                }
                 if (typeof imgData === 'object') {
                     return imgData['fileUrl'];
                 }
