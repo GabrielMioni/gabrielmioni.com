@@ -8811,6 +8811,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -8866,6 +8868,25 @@ __webpack_require__.r(__webpack_exports__);
       img_data.fileObj = data.fileObj;
       img_data.fileUrl = data.fileUrl;
       this.projects[data.index].image_main = img_data;
+    },
+    projectAdd: function projectAdd(data) {
+      console.log(data);
+      var newProject = {
+        'id': '',
+        'title': '',
+        'description': '',
+        'github': '',
+        'wordpress': '',
+        'documentation': '',
+        'image_main': '',
+        'image_main_ext': '',
+        'tags': []
+      };
+      var index = data.index;
+      this.projects.splice(index, 0, newProject);
+    },
+    projectRemove: function projectRemove(data) {
+      console.log(data);
     }
   },
   created: function created() {
@@ -9064,6 +9085,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -9094,12 +9127,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (typeof imgData === 'string') {
         return '/images/' + imgData + '.' + this.project['image_main_ext'];
       }
-      /*if (typeof file === 'object') {
-          return file.file_url;
-      }
-      const filepath = file + '.' + ext;
-      return '/images/' + filepath;*/
-
     },
     setInputName: function setInputName(name) {
       return "".concat(name, "-").concat(this.project.id);
@@ -9114,10 +9141,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
     },
     tagRemove: function tagRemove(data) {
-      console.log(data);
       this.$emit('tagRemove', {
         'index': this.index,
         'tag': data.tag
+      });
+    },
+    projectAdd: function projectAdd() {
+      this.$emit('projectAdd', {
+        'index': this.index + 1
+      });
+    },
+    projectRemove: function projectRemove() {
+      this.$emit('projectRemove', {
+        'index': this.index
       });
     },
     clickFile: function clickFile() {
@@ -44266,7 +44302,9 @@ var render = function() {
                         on: {
                           tagUpdate: _vm.tagUpdate,
                           tagRemove: _vm.tagRemove,
-                          updateFile: _vm.updateFile
+                          updateFile: _vm.updateFile,
+                          projectAdd: _vm.projectAdd,
+                          projectRemove: _vm.projectRemove
                         },
                         model: {
                           value: project[index],
@@ -44429,38 +44467,64 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("div", { staticClass: "col-sm-6 text-holder" }, [
-        _c(
-          "div",
-          { staticClass: "admin-edit" },
-          [
-            _c("form-text-input", {
-              attrs: { inputTitle: "title", setInputName: _vm.setInputName },
-              model: {
-                value: _vm.project.title,
-                callback: function($$v) {
-                  _vm.$set(_vm.project, "title", $$v)
+        _c("div", { staticClass: "admin-edit row" }, [
+          _c(
+            "div",
+            { staticClass: "col-sm-11" },
+            [
+              _c("form-text-input", {
+                attrs: { inputTitle: "title", setInputName: _vm.setInputName },
+                model: {
+                  value: _vm.project.title,
+                  callback: function($$v) {
+                    _vm.$set(_vm.project, "title", $$v)
+                  },
+                  expression: "project.title"
+                }
+              }),
+              _vm._v(" "),
+              _c("form-text-input", {
+                attrs: {
+                  inputTitle: "description",
+                  setInputName: _vm.setInputName,
+                  isTextArea: true
                 },
-                expression: "project.title"
-              }
-            }),
-            _vm._v(" "),
-            _c("form-text-input", {
-              attrs: {
-                inputTitle: "description",
-                setInputName: _vm.setInputName,
-                isTextArea: true
-              },
-              model: {
-                value: _vm.project.description,
-                callback: function($$v) {
-                  _vm.$set(_vm.project, "description", $$v)
+                model: {
+                  value: _vm.project.description,
+                  callback: function($$v) {
+                    _vm.$set(_vm.project, "description", $$v)
+                  },
+                  expression: "project.description"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-sm-1 add-remove-holder" }, [
+            _c("div", { staticClass: "add-remove-controls" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary mb-3",
+                  attrs: { type: "button", tabindex: "-1" },
+                  on: { click: _vm.projectAdd }
                 },
-                expression: "project.description"
-              }
-            })
-          ],
-          1
-        )
+                [_c("i", { staticClass: "fas fa-plus" })]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-dark",
+                  attrs: { type: "button", tabindex: "-1" },
+                  on: { click: _vm.projectRemove }
+                },
+                [_c("i", { staticClass: "fas fa-times" })]
+              )
+            ])
+          ])
+        ])
       ])
     ]),
     _vm._v(" "),

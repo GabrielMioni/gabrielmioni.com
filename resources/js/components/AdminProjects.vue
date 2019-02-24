@@ -8,6 +8,8 @@
                             v-on:tagUpdate="tagUpdate"
                             v-on:tagRemove="tagRemove"
                             v-on:updateFile="updateFile"
+                            v-on:projectAdd="projectAdd"
+                            v-on:projectRemove="projectRemove"
                             :key="project.id"
                             :index="index"
                             :project="project"
@@ -72,6 +74,27 @@
                 img_data.fileObj = data.fileObj;
                 img_data.fileUrl = data.fileUrl;
                 this.projects[data.index].image_main = img_data;
+            },
+            projectAdd(data) {
+                console.log(data);
+                let newProject = {
+                    'id' : '',
+                    'title' : '',
+                    'description' : '',
+                    'github' : '',
+                    'wordpress' : '',
+                    'documentation' : '',
+                    'image_main' : '',
+                    'image_main_ext' : '',
+                    'tags' : []
+                };
+
+                const index = data.index;
+
+                this.projects.splice(index, 0, newProject);
+            },
+            projectRemove(data) {
+                console.log(data);
             }
         },
         created() {

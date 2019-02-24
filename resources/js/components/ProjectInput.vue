@@ -23,18 +23,30 @@
                        ref="file" style="display: none">
             </div>
             <div class="col-sm-6 text-holder">
-                <div class="admin-edit">
-                    <form-text-input
+                <div class="admin-edit row">
+                    <div class="col-sm-11">
+                        <form-text-input
                             :inputTitle="'title'"
                             v-model="project.title"
                             :setInputName="setInputName"
-                    ></form-text-input>
-                    <form-text-input
+                        ></form-text-input>
+                        <form-text-input
                             :inputTitle="'description'"
                             v-model="project.description"
                             :setInputName="setInputName"
                             :isTextArea="true"
-                    ></form-text-input>
+                        ></form-text-input>
+                    </div>
+                    <div class="col-sm-1 add-remove-holder">
+                        <div class="add-remove-controls">
+                            <button
+                                @click="projectAdd"
+                                type="button" tabindex="-1" class="btn btn-primary mb-3"><i class="fas fa-plus"></i></button>
+                            <button
+                                @click="projectRemove"
+                                type="button" tabindex="-1" class="btn btn-dark"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -116,8 +128,13 @@
                 this.$emit('tagUpdate', {'index': this.index, 'tag':data.tag});
             },
             tagRemove(data) {
-                console.log(data);
                 this.$emit('tagRemove', {'index': this.index, 'tag':data.tag});
+            },
+            projectAdd() {
+                this.$emit('projectAdd', {'index': this.index+1});
+            },
+            projectRemove() {
+                this.$emit('projectRemove', {'index': this.index});
             },
             clickFile() {
                 this.$refs.file.click();

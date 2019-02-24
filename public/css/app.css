@@ -10595,6 +10595,25 @@ a.text-dark:focus {
   outline: none;
 }
 
+.add-remove-holder {
+  position: relative;
+}
+
+.add-remove-holder .add-remove-controls {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.add-remove-holder .add-remove-controls .btn {
+  height: 25px;
+  width: 25px;
+  padding: 0;
+  border-radius: 50%;
+}
+
 .expand-toggle {
   height: 25px;
   width: 25px;

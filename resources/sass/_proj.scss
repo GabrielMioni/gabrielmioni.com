@@ -85,3 +85,20 @@
         }
     }
 }
+
+.add-remove-holder {
+    position: relative;
+    .add-remove-controls {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        .btn {
+            height: 25px;
+            width: 25px;
+            padding: 0;
+            border-radius: 50%;
+        }
+    }
+}
