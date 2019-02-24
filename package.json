@@ -22,5 +22,9 @@
         "sass-loader": "^7.1.0",
         "vue": "^2.5.17",
         "vue-template-compiler": "^2.5.22"
+    },
+    "dependencies": {
+        "@shopify/draggable": "^1.0.0-beta.8",
+        "drag-drop": "^4.2.0"
     }
 }

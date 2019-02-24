@@ -13,6 +13,7 @@
         <div class="form-row">
             <div
                 @click="clickFile"
+                :ref="'dropFile'"
                 class="col-sm-6 image-holder">
                 <div v-if="project['image_main'] !== ''" class="project-image form-control" v-bind:style="{ backgroundImage: 'url(' + setUrl() + ')' }"></div>
                 <div v-else class="project-image form-control" v-bind:style=""></div>
@@ -102,6 +103,8 @@
     import ExpandToggle from "./expandToggle";
     import SortableHandle from "./SortableHandle";
     import TagsInput from "./TagsInput";
+    import dragDrop from "drag-drop";
+
     export default {
         name: "project-input",
         components: {TagsInput, ExpandToggle, FormTextInput, SortableHandle},
@@ -167,6 +170,12 @@
 
         },
         mounted() {
+            const dropArea = this.$refs.dropFile;
+
+            dragDrop(dropArea, (files) => {
+                console.log(files);
+                //self.updateFile(files[0], true);
+            })
 
         },
         filters: {

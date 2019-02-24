@@ -8890,7 +8890,7 @@ __webpack_require__.r(__webpack_exports__);
       var hasData = this.checkProjectData(project);
 
       if (hasData === true) {
-        if (!confirm('You\'re about to delete this entire project. Are you sure you want to do that')) {
+        if (!confirm('You\'re about to delete this entire project. Are you sure you want to do that?')) {
           return;
         }
       }
@@ -8912,7 +8912,6 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
 
-      console.log('has data', hasData);
       return hasData;
     },
     deleteImage: function deleteImage(data) {
@@ -9035,6 +9034,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _expandToggle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./expandToggle */ "./resources/js/components/expandToggle.vue");
 /* harmony import */ var _SortableHandle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SortableHandle */ "./resources/js/components/SortableHandle.vue");
 /* harmony import */ var _TagsInput__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TagsInput */ "./resources/js/components/TagsInput.vue");
+/* harmony import */ var drag_drop__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! drag-drop */ "./node_modules/drag-drop/index.js");
+/* harmony import */ var drag_drop__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(drag_drop__WEBPACK_IMPORTED_MODULE_4__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 //
@@ -9136,6 +9137,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 //
 //
 //
+//
+
 
 
 
@@ -9229,7 +9232,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
   },
   created: function created() {},
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    var dropArea = this.$refs.dropFile;
+    drag_drop__WEBPACK_IMPORTED_MODULE_4___default()(dropArea, function (files) {
+      console.log(files); //self.updateFile(files[0], true);
+    });
+  },
   filters: {}
 });
 
@@ -13731,6 +13739,257 @@ __webpack_require__.r(__webpack_exports__);
 
 })));
 //# sourceMappingURL=bootstrap.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/drag-drop/index.js":
+/*!*****************************************!*\
+  !*** ./node_modules/drag-drop/index.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = dragDrop
+
+var flatten = __webpack_require__(/*! flatten */ "./node_modules/flatten/index.js")
+var parallel = __webpack_require__(/*! run-parallel */ "./node_modules/run-parallel/index.js")
+
+function dragDrop (elem, listeners) {
+  if (typeof elem === 'string') {
+    var selector = elem
+    elem = window.document.querySelector(elem)
+    if (!elem) {
+      throw new Error('"' + selector + '" does not match any HTML elements')
+    }
+  }
+
+  if (!elem) {
+    throw new Error('"' + elem + '" is not a valid HTML element')
+  }
+
+  if (typeof listeners === 'function') {
+    listeners = { onDrop: listeners }
+  }
+
+  var timeout
+
+  elem.addEventListener('dragenter', onDragEnter, false)
+  elem.addEventListener('dragover', onDragOver, false)
+  elem.addEventListener('dragleave', onDragLeave, false)
+  elem.addEventListener('drop', onDrop, false)
+
+  // Function to remove drag-drop listeners
+  return function remove () {
+    removeDragClass()
+    elem.removeEventListener('dragenter', onDragEnter, false)
+    elem.removeEventListener('dragover', onDragOver, false)
+    elem.removeEventListener('dragleave', onDragLeave, false)
+    elem.removeEventListener('drop', onDrop, false)
+  }
+
+  function onDragEnter (e) {
+    if (listeners.onDragEnter) {
+      listeners.onDragEnter(e)
+    }
+
+    // Prevent event
+    e.stopPropagation()
+    e.preventDefault()
+    return false
+  }
+
+  function onDragOver (e) {
+    e.stopPropagation()
+    e.preventDefault()
+
+    if (listeners.onDragOver) {
+      listeners.onDragOver(e)
+    }
+
+    if (e.dataTransfer.items) {
+      // Only add "drag" class when `items` contains items that are able to be
+      // handled by the registered listeners (files vs. text)
+      var items = Array.from(e.dataTransfer.items)
+      var fileItems = items.filter(function (item) { return item.kind === 'file' })
+      var textItems = items.filter(function (item) { return item.kind === 'string' })
+
+      if (fileItems.length === 0 && !listeners.onDropText) return
+      if (textItems.length === 0 && !listeners.onDrop) return
+      if (fileItems.length === 0 && textItems.length === 0) return
+    }
+
+    elem.classList.add('drag')
+    clearTimeout(timeout)
+
+    e.dataTransfer.dropEffect = 'copy'
+
+    return false
+  }
+
+  function onDragLeave (e) {
+    e.stopPropagation()
+    e.preventDefault()
+
+    if (listeners.onDragLeave) {
+      listeners.onDragLeave(e)
+    }
+
+    clearTimeout(timeout)
+    timeout = setTimeout(removeDragClass, 50)
+
+    return false
+  }
+
+  function onDrop (e) {
+    e.stopPropagation()
+    e.preventDefault()
+
+    if (listeners.onDragLeave) {
+      listeners.onDragLeave(e)
+    }
+
+    clearTimeout(timeout)
+    removeDragClass()
+
+    var pos = {
+      x: e.clientX,
+      y: e.clientY
+    }
+
+    // text drop support
+    var text = e.dataTransfer.getData('text')
+    if (text && listeners.onDropText) {
+      listeners.onDropText(text, pos)
+    }
+
+    // File drop support. The `dataTransfer.items` API supports directories, so we
+    // use it instead of `dataTransfer.files`, even though it's much more
+    // complicated to use.
+    // See: https://github.com/feross/drag-drop/issues/39
+    if (listeners.onDrop && e.dataTransfer.items) {
+      var fileList = e.dataTransfer.files
+
+      // Handle directories in Chrome using the proprietary FileSystem API
+      var items = Array.from(e.dataTransfer.items).filter(function (item) {
+        return item.kind === 'file'
+      })
+
+      if (items.length === 0) return
+
+      parallel(items.map(function (item) {
+        return function (cb) {
+          processEntry(item.webkitGetAsEntry(), cb)
+        }
+      }), function (err, results) {
+        // This catches permission errors with file:// in Chrome. This should never
+        // throw in production code, so the user does not need to use try-catch.
+        if (err) throw err
+
+        var entries = flatten(results)
+
+        var files = entries.filter(function (item) {
+          return item.isFile
+        })
+
+        var directories = entries.filter(function (item) {
+          return item.isDirectory
+        })
+
+        listeners.onDrop(files, pos, fileList, directories)
+      })
+    }
+
+    return false
+  }
+
+  function removeDragClass () {
+    elem.classList.remove('drag')
+  }
+}
+
+function processEntry (entry, cb) {
+  var entries = []
+
+  if (entry.isFile) {
+    entry.file(function (file) {
+      file.fullPath = entry.fullPath // preserve pathing for consumer
+      file.isFile = true
+      file.isDirectory = false
+      cb(null, file)
+    }, function (err) {
+      cb(err)
+    })
+  } else if (entry.isDirectory) {
+    var reader = entry.createReader()
+    readEntries()
+  }
+
+  function readEntries () {
+    reader.readEntries(function (entries_) {
+      if (entries_.length > 0) {
+        entries = entries.concat(Array.from(entries_))
+        readEntries() // continue reading entries until `readEntries` returns no more
+      } else {
+        doneEntries()
+      }
+    })
+  }
+
+  function doneEntries () {
+    parallel(entries.map(function (entry) {
+      return function (cb) {
+        processEntry(entry, cb)
+      }
+    }), function (err, results) {
+      if (err) {
+        cb(err)
+      } else {
+        results.push({
+          fullPath: entry.fullPath,
+          name: entry.name,
+          isFile: false,
+          isDirectory: true
+        })
+        cb(null, results)
+      }
+    })
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/flatten/index.js":
+/*!***************************************!*\
+  !*** ./node_modules/flatten/index.js ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function flatten(list, depth) {
+  depth = (typeof depth == 'number') ? depth : Infinity;
+
+  if (!depth) {
+    if (Array.isArray(list)) {
+      return list.map(function(i) { return i; });
+    }
+    return list;
+  }
+
+  return _flatten(list, 1);
+
+  function _flatten(list, d) {
+    return list.reduce(function (acc, item) {
+      if (Array.isArray(item) && d < depth) {
+        return acc.concat(_flatten(item, d + 1));
+      }
+      else {
+        return acc.concat(item);
+      }
+    }, []);
+  }
+};
 
 
 /***/ }),
@@ -44035,6 +44294,66 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
+/***/ "./node_modules/run-parallel/index.js":
+/*!********************************************!*\
+  !*** ./node_modules/run-parallel/index.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(process) {module.exports = runParallel
+
+function runParallel (tasks, cb) {
+  var results, pending, keys
+  var isSync = true
+
+  if (Array.isArray(tasks)) {
+    results = []
+    pending = tasks.length
+  } else {
+    keys = Object.keys(tasks)
+    results = {}
+    pending = keys.length
+  }
+
+  function done (err) {
+    function end () {
+      if (cb) cb(err, results)
+      cb = null
+    }
+    if (isSync) process.nextTick(end)
+    else end()
+  }
+
+  function each (i, err, result) {
+    results[i] = result
+    if (--pending === 0 || err) {
+      done(err)
+    }
+  }
+
+  if (!pending) {
+    // empty
+    done(null)
+  } else if (keys) {
+    // object
+    keys.forEach(function (key) {
+      tasks[key](function (err, result) { each(key, err, result) })
+    })
+  } else {
+    // array
+    tasks.forEach(function (task, i) {
+      task(function (err, result) { each(i, err, result) })
+    })
+  }
+
+  isSync = false
+}
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../process/browser.js */ "./node_modules/process/browser.js")))
+
+/***/ }),
+
 /***/ "./node_modules/setimmediate/setImmediate.js":
 /*!***************************************************!*\
   !*** ./node_modules/setimmediate/setImmediate.js ***!
@@ -44494,7 +44813,11 @@ var render = function() {
     _c("div", { staticClass: "form-row" }, [
       _c(
         "div",
-        { staticClass: "col-sm-6 image-holder", on: { click: _vm.clickFile } },
+        {
+          ref: "dropFile",
+          staticClass: "col-sm-6 image-holder",
+          on: { click: _vm.clickFile }
+        },
         [
           _vm.project["image_main"] !== ""
             ? _c("div", {
