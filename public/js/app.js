@@ -9137,7 +9137,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 //
 //
 //
-//
 
 
 
@@ -9222,8 +9221,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         file_url = URL.createObjectURL(file);
       }
 
-      console.log('file', file);
-      console.log('url', file_url);
       this.$emit('updateFile', {
         'index': this.index,
         'fileUrl': file_url,
@@ -9234,8 +9231,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   created: function created() {},
   mounted: function mounted() {
     var dropArea = this.$refs.dropFile;
+    var self = this;
     drag_drop__WEBPACK_IMPORTED_MODULE_4___default()(dropArea, function (files) {
-      console.log(files); //self.updateFile(files[0], true);
+      self.updateFile(files[0], true);
     });
   },
   filters: {}
