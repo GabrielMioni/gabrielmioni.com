@@ -1,6 +1,6 @@
 <template>
     <div class="col-sm-12 project card p-3 mb-3">
-        <div class="form-row justify-content-end mr-0">
+        <div class="form-row justify-content-start mr-0">
             <div class="col-sm-1">
                 <sortable-handle>
                     <div class="project-handle">

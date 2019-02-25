@@ -44816,7 +44816,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "col-sm-12 project card p-3 mb-3" }, [
-    _c("div", { staticClass: "form-row justify-content-end mr-0" }, [
+    _c("div", { staticClass: "form-row justify-content-start mr-0" }, [
       _c(
         "div",
         { staticClass: "col-sm-1" },

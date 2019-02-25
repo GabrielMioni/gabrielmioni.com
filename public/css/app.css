@@ -10706,9 +10706,9 @@ a.text-dark:focus {
 }
 
 .project-handle.sortable-list-handle {
-  text-align: right;
+  text-align: left;
   display: inline-block;
-  float: right;
+  float: left;
   cursor: pointer;
 }
 
