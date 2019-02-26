@@ -191,7 +191,7 @@
             },
             projectIsUpdated() {
                 if (this.initialized === false) {
-                    return false;
+                    return;
                 }
                 const isUpdated = JSON.stringify(this.project) !== this.state;
                 this.$emit('projectIsUpdated', {'index': this.index, 'updated' : isUpdated});
