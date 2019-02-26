@@ -1,5 +1,5 @@
 <template>
-    <div class="col-sm-12 project card p-3 mb-3">
+    <div class="col-sm-12 project card p-3 mb-3" v-bind:class="{ 'is-updated' : projectIsUpdated() }">
         <div class="form-row justify-content-start mr-0">
             <div class="col-sm-1">
                 <sortable-handle>
@@ -117,9 +117,10 @@
         data() {
             return {
                 expanded : true,
+                state : '',
+                initialized: false,
             };
         },
-        // inject: ["allTags"],
         methods: {
             setUrl() {
                 const imgData = this.project['image_main'];
@@ -183,6 +184,15 @@
                 }
                 this.$emit('updateFile', {'index': this.index, 'fileUrl': file_url, 'fileObj': file});
             },
+            setState() {
+                this.state = JSON.stringify(this.project);
+            },
+            projectIsUpdated() {
+                if (this.initialized === false) {
+                    return false;
+                }
+                return JSON.stringify(this.project) !== this.state;
+            }
         },
         created() {
 
@@ -190,6 +200,9 @@
         mounted() {
             const dropArea = this.$refs.dropFile;
             const self = this;
+
+            this.setState();
+            this.initialized = true;
 
             dragDrop(dropArea, (files) => {
                 self.updateFile(files[0], true);

@@ -9159,10 +9159,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   props: ['project', 'index', 'allTags'],
   data: function data() {
     return {
-      expanded: true
+      expanded: true,
+      state: '',
+      initialized: false
     };
   },
-  // inject: ["allTags"],
   methods: {
     setUrl: function setUrl() {
       var imgData = this.project['image_main'];
@@ -9249,12 +9250,24 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         'fileUrl': file_url,
         'fileObj': file
       });
+    },
+    setState: function setState() {
+      this.state = JSON.stringify(this.project);
+    },
+    projectIsUpdated: function projectIsUpdated() {
+      if (this.initialized === false) {
+        return false;
+      }
+
+      return JSON.stringify(this.project) !== this.state;
     }
   },
   created: function created() {},
   mounted: function mounted() {
     var dropArea = this.$refs.dropFile;
     var self = this;
+    this.setState();
+    this.initialized = true;
     drag_drop__WEBPACK_IMPORTED_MODULE_4___default()(dropArea, function (files) {
       self.updateFile(files[0], true);
     });
@@ -44815,235 +44828,245 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-sm-12 project card p-3 mb-3" }, [
-    _c("div", { staticClass: "form-row justify-content-start mr-0" }, [
-      _c(
-        "div",
-        { staticClass: "col-sm-1" },
-        [
-          _c("sortable-handle", [
-            _c("div", { staticClass: "project-handle" }, [
-              _c("i", { staticClass: "fas fa-grip-vertical" })
+  return _c(
+    "div",
+    {
+      staticClass: "col-sm-12 project card p-3 mb-3",
+      class: { "is-updated": _vm.projectIsUpdated() }
+    },
+    [
+      _c("div", { staticClass: "form-row justify-content-start mr-0" }, [
+        _c(
+          "div",
+          { staticClass: "col-sm-1" },
+          [
+            _c("sortable-handle", [
+              _c("div", { staticClass: "project-handle" }, [
+                _c("i", { staticClass: "fas fa-grip-vertical" })
+              ])
+            ])
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-row" }, [
+        _c(
+          "div",
+          {
+            ref: "dropFile",
+            staticClass: "col-sm-6 image-holder",
+            on: { click: _vm.clickFile }
+          },
+          [
+            _vm.checkIfImageIsPresent() === true
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "project-image form-control",
+                    style: { backgroundImage: "url(" + _vm.setUrl() + ")" }
+                  },
+                  [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn-control delete-image btn btn-dark",
+                        attrs: { type: "button", tabindex: "-1" },
+                        on: {
+                          click: function($event) {
+                            $event.stopPropagation()
+                            return _vm.deleteImage($event)
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "fas fa-trash-alt" })]
+                    )
+                  ]
+                )
+              : _c("div", { staticClass: "project-image form-control" }, [
+                  _vm._m(0)
+                ]),
+            _vm._v(" "),
+            _c("input", {
+              ref: "file",
+              class: ["hidden-file-" + _vm.index],
+              staticStyle: { display: "none" },
+              attrs: {
+                type: "file",
+                accept: "image/x-png,image/jpg,image/jpeg",
+                name: "file-" + _vm.index
+              },
+              on: { input: _vm.updateFile }
+            })
+          ]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-6 text-holder" }, [
+          _c("div", { staticClass: "admin-edit row" }, [
+            _c(
+              "div",
+              { staticClass: "col-sm-11" },
+              [
+                _c("form-text-input", {
+                  attrs: {
+                    inputTitle: "title",
+                    setInputName: _vm.setInputName
+                  },
+                  model: {
+                    value: _vm.project.title,
+                    callback: function($$v) {
+                      _vm.$set(_vm.project, "title", $$v)
+                    },
+                    expression: "project.title"
+                  }
+                }),
+                _vm._v(" "),
+                _c("form-text-input", {
+                  attrs: {
+                    inputTitle: "description",
+                    setInputName: _vm.setInputName,
+                    isTextArea: true
+                  },
+                  model: {
+                    value: _vm.project.description,
+                    callback: function($$v) {
+                      _vm.$set(_vm.project, "description", $$v)
+                    },
+                    expression: "project.description"
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-sm-1 add-remove-holder" }, [
+              _c("div", { staticClass: "add-remove-controls" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn-control btn btn-primary mb-3",
+                    attrs: { type: "button", tabindex: "-1" },
+                    on: { click: _vm.projectAdd }
+                  },
+                  [_c("i", { staticClass: "fas fa-plus" })]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn-control btn btn-dark",
+                    attrs: { type: "button", tabindex: "-1" },
+                    on: { click: _vm.projectRemove }
+                  },
+                  [_c("i", { staticClass: "fas fa-times" })]
+                )
+              ])
             ])
           ])
-        ],
-        1
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-row" }, [
-      _c(
-        "div",
-        {
-          ref: "dropFile",
-          staticClass: "col-sm-6 image-holder",
-          on: { click: _vm.clickFile }
-        },
-        [
-          _vm.checkIfImageIsPresent() === true
-            ? _c(
-                "div",
-                {
-                  staticClass: "project-image form-control",
-                  style: { backgroundImage: "url(" + _vm.setUrl() + ")" }
-                },
-                [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn-control delete-image btn btn-dark",
-                      attrs: { type: "button", tabindex: "-1" },
-                      on: {
-                        click: function($event) {
-                          $event.stopPropagation()
-                          return _vm.deleteImage($event)
-                        }
-                      }
-                    },
-                    [_c("i", { staticClass: "fas fa-trash-alt" })]
-                  )
-                ]
-              )
-            : _c("div", { staticClass: "project-image form-control" }, [
-                _vm._m(0)
-              ]),
-          _vm._v(" "),
-          _c("input", {
-            ref: "file",
-            class: ["hidden-file-" + _vm.index],
-            staticStyle: { display: "none" },
-            attrs: {
-              type: "file",
-              accept: "image/x-png,image/jpg,image/jpeg",
-              name: "file-" + _vm.index
-            },
-            on: { input: _vm.updateFile }
-          })
-        ]
-      ),
+        ])
+      ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-sm-6 text-holder" }, [
-        _c("div", { staticClass: "admin-edit row" }, [
+      _c("div", { staticClass: "form-row" }, [
+        _c("div", { staticClass: "col-sm-12" }, [
           _c(
             "div",
-            { staticClass: "col-sm-11" },
+            { staticClass: "details-control" },
             [
-              _c("form-text-input", {
-                attrs: { inputTitle: "title", setInputName: _vm.setInputName },
+              _vm.expanded === true
+                ? _c("span", [_vm._v("Hide Details")])
+                : _vm.expanded === false
+                  ? _c("span", [_vm._v("Show Details")])
+                  : _vm._e(),
+              _vm._v(" "),
+              _c("expand-toggle", {
                 model: {
-                  value: _vm.project.title,
+                  value: _vm.expanded,
                   callback: function($$v) {
-                    _vm.$set(_vm.project, "title", $$v)
+                    _vm.expanded = $$v
                   },
-                  expression: "project.title"
+                  expression: "expanded"
+                }
+              })
+            ],
+            1
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "form-row links", class: { open: _vm.expanded } },
+        [
+          _c(
+            "div",
+            { staticClass: "col-sm-12" },
+            [
+              _c("tags-input", {
+                attrs: { id: _vm.project.id, allTags: _vm.allTags },
+                on: { tagUpdate: _vm.tagUpdate, tagRemove: _vm.tagRemove },
+                model: {
+                  value: _vm.project.tags,
+                  callback: function($$v) {
+                    _vm.$set(_vm.project, "tags", $$v)
+                  },
+                  expression: "project.tags"
                 }
               }),
               _vm._v(" "),
               _c("form-text-input", {
                 attrs: {
-                  inputTitle: "description",
+                  inputTitle: "github",
                   setInputName: _vm.setInputName,
-                  isTextArea: true
+                  isInline: true,
+                  expanded: _vm.expanded
                 },
                 model: {
-                  value: _vm.project.description,
+                  value: _vm.project.github,
                   callback: function($$v) {
-                    _vm.$set(_vm.project, "description", $$v)
+                    _vm.$set(_vm.project, "github", $$v)
                   },
-                  expression: "project.description"
+                  expression: "project.github"
+                }
+              }),
+              _vm._v(" "),
+              _c("form-text-input", {
+                attrs: {
+                  inputTitle: "docs",
+                  setInputName: _vm.setInputName,
+                  isInline: true,
+                  expanded: _vm.expanded
+                },
+                model: {
+                  value: _vm.project.documentation,
+                  callback: function($$v) {
+                    _vm.$set(_vm.project, "documentation", $$v)
+                  },
+                  expression: "project.documentation"
+                }
+              }),
+              _vm._v(" "),
+              _c("form-text-input", {
+                attrs: {
+                  inputTitle: "wordpress",
+                  setInputName: _vm.setInputName,
+                  isInline: true,
+                  expanded: _vm.expanded
+                },
+                model: {
+                  value: _vm.project.wordpress,
+                  callback: function($$v) {
+                    _vm.$set(_vm.project, "wordpress", $$v)
+                  },
+                  expression: "project.wordpress"
                 }
               })
             ],
             1
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-sm-1 add-remove-holder" }, [
-            _c("div", { staticClass: "add-remove-controls" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn-control btn btn-primary mb-3",
-                  attrs: { type: "button", tabindex: "-1" },
-                  on: { click: _vm.projectAdd }
-                },
-                [_c("i", { staticClass: "fas fa-plus" })]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn-control btn btn-dark",
-                  attrs: { type: "button", tabindex: "-1" },
-                  on: { click: _vm.projectRemove }
-                },
-                [_c("i", { staticClass: "fas fa-times" })]
-              )
-            ])
-          ])
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-row" }, [
-      _c("div", { staticClass: "col-sm-12" }, [
-        _c(
-          "div",
-          { staticClass: "details-control" },
-          [
-            _vm.expanded === true
-              ? _c("span", [_vm._v("Hide Details")])
-              : _vm.expanded === false
-                ? _c("span", [_vm._v("Show Details")])
-                : _vm._e(),
-            _vm._v(" "),
-            _c("expand-toggle", {
-              model: {
-                value: _vm.expanded,
-                callback: function($$v) {
-                  _vm.expanded = $$v
-                },
-                expression: "expanded"
-              }
-            })
-          ],
-          1
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "form-row links", class: { open: _vm.expanded } },
-      [
-        _c(
-          "div",
-          { staticClass: "col-sm-12" },
-          [
-            _c("tags-input", {
-              attrs: { id: _vm.project.id, allTags: _vm.allTags },
-              on: { tagUpdate: _vm.tagUpdate, tagRemove: _vm.tagRemove },
-              model: {
-                value: _vm.project.tags,
-                callback: function($$v) {
-                  _vm.$set(_vm.project, "tags", $$v)
-                },
-                expression: "project.tags"
-              }
-            }),
-            _vm._v(" "),
-            _c("form-text-input", {
-              attrs: {
-                inputTitle: "github",
-                setInputName: _vm.setInputName,
-                isInline: true,
-                expanded: _vm.expanded
-              },
-              model: {
-                value: _vm.project.github,
-                callback: function($$v) {
-                  _vm.$set(_vm.project, "github", $$v)
-                },
-                expression: "project.github"
-              }
-            }),
-            _vm._v(" "),
-            _c("form-text-input", {
-              attrs: {
-                inputTitle: "docs",
-                setInputName: _vm.setInputName,
-                isInline: true,
-                expanded: _vm.expanded
-              },
-              model: {
-                value: _vm.project.documentation,
-                callback: function($$v) {
-                  _vm.$set(_vm.project, "documentation", $$v)
-                },
-                expression: "project.documentation"
-              }
-            }),
-            _vm._v(" "),
-            _c("form-text-input", {
-              attrs: {
-                inputTitle: "wordpress",
-                setInputName: _vm.setInputName,
-                isInline: true,
-                expanded: _vm.expanded
-              },
-              model: {
-                value: _vm.project.wordpress,
-                callback: function($$v) {
-                  _vm.$set(_vm.project, "wordpress", $$v)
-                },
-                expression: "project.wordpress"
-              }
-            })
-          ],
-          1
-        )
-      ]
-    )
-  ])
+          )
+        ]
+      )
+    ]
+  )
 }
 var staticRenderFns = [
   function() {

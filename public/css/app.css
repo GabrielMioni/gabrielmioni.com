@@ -10503,6 +10503,10 @@ a.text-dark:focus {
   height: 115px;
 }
 
+.project.is-updated {
+  box-shadow: 0 0 0 2px #3490dc;
+}
+
 @media (min-width: 576px) {
   .project.reverse .image-holder {
     order: 2;
