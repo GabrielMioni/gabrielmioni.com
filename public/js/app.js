@@ -8814,6 +8814,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -8880,7 +8881,8 @@ __webpack_require__.r(__webpack_exports__);
         'documentation': '',
         'image_main': '',
         'image_main_ext': '',
-        'tags': []
+        'tags': [],
+        'updatedProjects': []
       };
       var index = data.index;
       this.projects.splice(index, 0, newProject);
@@ -8921,6 +8923,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     getProjectAtIndex: function getProjectAtIndex(index) {
       return this.projects[index];
+    },
+    projectIsUpdated: function projectIsUpdated(data) {
+      console.log(data);
     }
   },
   created: function created() {
@@ -9259,7 +9264,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return false;
       }
 
-      return JSON.stringify(this.project) !== this.state;
+      var isUpdated = JSON.stringify(this.project) !== this.state;
+      this.$emit('projectIsUpdated', {
+        'index': this.index,
+        'updated': isUpdated
+      });
+      return isUpdated; //return JSON.stringify(this.project) !== this.state;
     }
   },
   created: function created() {},
@@ -44706,7 +44716,8 @@ var render = function() {
                           updateFile: _vm.updateFile,
                           projectAdd: _vm.projectAdd,
                           projectRemove: _vm.projectRemove,
-                          deleteImage: _vm.deleteImage
+                          deleteImage: _vm.deleteImage,
+                          projectIsUpdated: _vm.projectIsUpdated
                         },
                         model: {
                           value: project[index],

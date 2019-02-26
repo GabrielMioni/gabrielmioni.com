@@ -11,6 +11,7 @@
                             v-on:projectAdd="projectAdd"
                             v-on:projectRemove="projectRemove"
                             v-on:deleteImage="deleteImage"
+                            v-on:projectIsUpdated="projectIsUpdated"
                             :key="project.id"
                             :index="index"
                             :project="project"
@@ -86,7 +87,8 @@
                     'documentation' : '',
                     'image_main' : '',
                     'image_main_ext' : '',
-                    'tags' : []
+                    'tags' : [],
+                    'updatedProjects' : []
                 };
 
                 const index = data.index;
@@ -126,6 +128,9 @@
             },
             getProjectAtIndex(index) {
                 return this.projects[index];
+            },
+            projectIsUpdated(data) {
+                console.log(data);
             }
         },
         created() {

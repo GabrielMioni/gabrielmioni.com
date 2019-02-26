@@ -191,7 +191,10 @@
                 if (this.initialized === false) {
                     return false;
                 }
-                return JSON.stringify(this.project) !== this.state;
+                const isUpdated = JSON.stringify(this.project) !== this.state;
+                this.$emit('projectIsUpdated', {'index': this.index, 'updated' : isUpdated});
+                return isUpdated;
+                //return JSON.stringify(this.project) !== this.state;
             }
         },
         created() {
