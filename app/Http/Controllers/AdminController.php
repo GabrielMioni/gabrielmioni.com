@@ -14,7 +14,7 @@ class AdminController extends Controller
 
     public function getProjects() {
 
-        $projects = $projects = Project::select('id','title','description','github','wordpress','documentation','image_main','image_main_ext')
+        $projects = Project::select('id','title','description','github','wordpress','documentation','image_main','image_main_ext', 'order_column')
                                        ->with(array('tags' => function($q) { $q->select('tag'); }))->get();
 
         $projectData = [];
