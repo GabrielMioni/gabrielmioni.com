@@ -8829,6 +8829,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       projects: [],
       allTags: [],
+      updated: [],
       initialized: false,
       loading: true
     };
@@ -8926,6 +8927,17 @@ __webpack_require__.r(__webpack_exports__);
     },
     projectIsUpdated: function projectIsUpdated(data) {
       console.log(data);
+      var id = data.id;
+      var updated = data.updated;
+
+      if (updated === true && !this.updated.includes(id)) {
+        this.updated.push(id);
+      }
+
+      if (updated === false && this.updated.includes(id)) {
+        var index = this.updated.indexOf(id);
+        this.updated.splice(index, 1);
+      }
     }
   },
   created: function created() {
@@ -9043,6 +9055,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var drag_drop__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(drag_drop__WEBPACK_IMPORTED_MODULE_4__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -9268,7 +9288,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       var isUpdated = JSON.stringify(this.project) !== this.state;
       this.$emit('projectIsUpdated', {
-        'index': this.index,
+        'id': this.project.id,
         'updated': isUpdated
       });
       return isUpdated; //return JSON.stringify(this.project) !== this.state;
@@ -45078,7 +45098,33 @@ var render = function() {
               1
             )
           ]
-        )
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-row justify-content-end" }, [
+          _c("div", { staticClass: "col-sm-3" }, [
+            _c("div", { staticClass: "update-controls float-right" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-dark",
+                  class: { disabled: !_vm.projectIsUpdated() },
+                  attrs: { type: "button", tabindex: "-1" }
+                },
+                [_vm._v("Undo")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary ml-1",
+                  class: { disabled: !_vm.projectIsUpdated() },
+                  attrs: { type: "button", tabindex: "-1" }
+                },
+                [_vm._v("Update")]
+              )
+            ])
+          ])
+        ])
       ]
     )
   ])

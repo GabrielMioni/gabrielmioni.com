@@ -34,6 +34,7 @@
             return {
                 projects : [],
                 allTags: [],
+                updated: [],
                 initialized: false,
                 loading: true,
             };
@@ -131,6 +132,16 @@
             },
             projectIsUpdated(data) {
                 console.log(data);
+                const id = data.id;
+                const updated = data.updated;
+
+                if (updated === true && !this.updated.includes(id)) {
+                    this.updated.push(id);
+                }
+                if (updated === false && this.updated.includes(id)) {
+                    const index = this.updated.indexOf(id);
+                    this.updated.splice(index, 1);
+                }
             }
         },
         created() {
