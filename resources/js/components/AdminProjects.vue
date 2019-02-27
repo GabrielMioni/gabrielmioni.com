@@ -130,7 +130,7 @@
                     if (!project.hasOwnProperty(property)) {
                         return;
                     }
-                    if (project[property].length > 0) {
+                    if (project[property].length > 0 && property !== 'id') {
                         hasData = true;
                     }
                 }

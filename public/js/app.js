@@ -8920,13 +8920,14 @@ __webpack_require__.r(__webpack_exports__);
       var hasData = false;
 
       for (var property in project) {
+        console.log(property);
         if (hasData === true) return true;
 
         if (!project.hasOwnProperty(property)) {
           return;
         }
 
-        if (project[property].length > 0) {
+        if (project[property].length > 0 && property !== 'id') {
           hasData = true;
         }
       }
