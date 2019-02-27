@@ -84,6 +84,7 @@
 
                 while (random === 0 && !this.tempIds.includes(random)) {
                     random = Math.floor(Math.random() * 300);
+                    random = random + '-temp';
 
                     if (!this.tempIds.includes(random)) {
                         this.tempIds.push(random);
