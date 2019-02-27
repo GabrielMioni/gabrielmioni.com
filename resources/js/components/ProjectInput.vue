@@ -101,6 +101,14 @@
                     ></form-text-input>
                 </div>
             </div>
+            <div class="form-row justify-content-end">
+                <div class="col-sm-3">
+                    <div class="update-controls float-right">
+                        <button type="button" tabindex="-1" class="btn btn-dark" v-bind:class="{ 'disabled' : !projectIsUpdated() }">Undo</button>
+                        <button type="button" tabindex="-1" class="btn btn-primary ml-1" v-bind:class="{ 'disabled' : !projectIsUpdated() }">Update</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -194,7 +202,7 @@
                     return;
                 }
                 const isUpdated = JSON.stringify(this.project) !== this.state;
-                this.$emit('projectIsUpdated', {'index': this.index, 'updated' : isUpdated});
+                this.$emit('projectIsUpdated', {'id': this.project.id, 'updated' : isUpdated});
                 return isUpdated;
                 //return JSON.stringify(this.project) !== this.state;
             }
