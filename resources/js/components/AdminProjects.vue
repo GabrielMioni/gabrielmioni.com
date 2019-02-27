@@ -35,6 +35,7 @@
                 projects : [],
                 allTags: [],
                 updated: [],
+                tempIds: [],
                 initialized: false,
                 loading: true,
             };
@@ -78,9 +79,22 @@
                 img_data.fileUrl = data.fileUrl;
                 this.projects[data.index].image_main = img_data;
             },
+            makeTempId() {
+                let random = 0;
+
+                while (random === 0 && !this.tempIds.includes(random)) {
+                    random = Math.floor(Math.random() * 300);
+
+                    if (!this.tempIds.includes(random)) {
+                        this.tempIds.push(random);
+                        return random;
+                    }
+                }
+                return random;
+            },
             projectAdd(data) {
                 let newProject = {
-                    'id' : '',
+                    'id' : this.makeTempId(),
                     'title' : '',
                     'description' : '',
                     'github' : '',

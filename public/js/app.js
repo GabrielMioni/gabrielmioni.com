@@ -8830,6 +8830,7 @@ __webpack_require__.r(__webpack_exports__);
       projects: [],
       allTags: [],
       updated: [],
+      tempIds: [],
       initialized: false,
       loading: true
     };
@@ -8872,9 +8873,23 @@ __webpack_require__.r(__webpack_exports__);
       img_data.fileUrl = data.fileUrl;
       this.projects[data.index].image_main = img_data;
     },
+    makeTempId: function makeTempId() {
+      var random = 0;
+
+      while (random === 0 && !this.tempIds.includes(random)) {
+        random = Math.floor(Math.random() * 300);
+
+        if (!this.tempIds.includes(random)) {
+          this.tempIds.push(random);
+          return random;
+        }
+      }
+
+      return random;
+    },
     projectAdd: function projectAdd(data) {
       var newProject = {
-        'id': '',
+        'id': this.makeTempId(),
         'title': '',
         'description': '',
         'github': '',
