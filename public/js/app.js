@@ -8790,6 +8790,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ProjectInput__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProjectInput */ "./resources/js/components/ProjectInput.vue");
 /* harmony import */ var _SortableList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SortableList */ "./resources/js/components/SortableList.vue");
 /* harmony import */ var _SortableItem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SortableItem */ "./resources/js/components/SortableItem.vue");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 //
 //
 //
@@ -8907,6 +8909,7 @@ __webpack_require__.r(__webpack_exports__);
     projectRemove: function projectRemove(data) {
       var project = this.getProjectAtIndex(data.index);
       var hasData = this.checkProjectData(project);
+      console.log('hasData', hasData);
 
       if (hasData === true) {
         if (!confirm('You\'re about to delete this entire project. Are you sure you want to do that?')) {
@@ -8917,14 +8920,18 @@ __webpack_require__.r(__webpack_exports__);
       this.projects.splice(data.index, 1);
     },
     checkProjectData: function checkProjectData(project) {
+      console.log(project);
       var hasData = false;
 
       for (var property in project) {
-        console.log(property);
         if (hasData === true) return true;
 
         if (!project.hasOwnProperty(property)) {
           return;
+        }
+
+        if (property === 'image_main' && _typeof(project[property]) === 'object') {
+          hasData = true;
         }
 
         if (project[property].length > 0 && property !== 'id') {

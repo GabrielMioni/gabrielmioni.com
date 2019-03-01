@@ -123,19 +123,19 @@
                 this.projects.splice(data.index, 1);
             },
             checkProjectData(project) {
-                let hasData = false;
-
                 for (const property in project) {
-                    if (hasData === true) return true;
                     if (!project.hasOwnProperty(property)) {
                         return;
                     }
-                    if (project[property].length > 0 && property !== 'id') {
-                        hasData = true;
+                    if (property === 'image_main' && typeof project[property] === 'object') {
+                        return true;
+                    }
+                    if (property !== 'id' && project[property].length > 0) {
+                        return true;
                     }
                 }
 
-                return hasData;
+                return false;
             },
             deleteImage(data) {
                 let project = this.getProjectAtIndex(data.index);
