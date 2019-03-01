@@ -146,7 +146,6 @@
                 return this.projects[index];
             },
             projectIsUpdated(data) {
-                console.log(data);
                 const id = data.id;
                 const updated = data.updated;
 

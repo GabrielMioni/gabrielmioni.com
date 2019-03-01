@@ -8909,7 +8909,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     projectRemove: function projectRemove(data) {
       var project = this.getProjectAtIndex(data.index);
       var hasData = this.checkProjectData(project);
-      console.log('hasData', hasData);
 
       if (hasData === true) {
         if (!confirm('You\'re about to delete this entire project. Are you sure you want to do that?')) {
@@ -8920,26 +8919,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       this.projects.splice(data.index, 1);
     },
     checkProjectData: function checkProjectData(project) {
-      console.log(project);
-      var hasData = false;
-
       for (var property in project) {
-        if (hasData === true) return true;
-
         if (!project.hasOwnProperty(property)) {
           return;
         }
 
         if (property === 'image_main' && _typeof(project[property]) === 'object') {
-          hasData = true;
+          return true;
         }
 
-        if (project[property].length > 0 && property !== 'id') {
-          hasData = true;
+        if (property !== 'id' && project[property].length > 0) {
+          return true;
         }
       }
 
-      return hasData;
+      return false;
     },
     deleteImage: function deleteImage(data) {
       var project = this.getProjectAtIndex(data.index);
@@ -8950,7 +8944,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       return this.projects[index];
     },
     projectIsUpdated: function projectIsUpdated(data) {
-      console.log(data);
       var id = data.id;
       var updated = data.updated;
 
