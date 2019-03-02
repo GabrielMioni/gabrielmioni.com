@@ -62,11 +62,9 @@
                 this.$emit("addTag", false)
             },
             addTag() {
-                if (this.search.length > 0) {
-                    const newTag = this.filteredAllTags;
-                    this.search = '';
-                    this.$emit('tagUpdate', {'tag': newTag[0]});
-                }
+                const newTag = this.filteredAllTags.length > 0 ? this.filteredAllTags[0] : this.search;
+                this.$emit('tagUpdate', {'tag': newTag});
+                this.search = '';
             },
             removeTag(tag) {
                 this.$emit('tagRemove', {'tag': tag});

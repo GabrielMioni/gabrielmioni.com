@@ -9514,14 +9514,26 @@ __webpack_require__.r(__webpack_exports__);
     toggle: function toggle() {
       this.$emit("addTag", false);
     },
-    addTag: function addTag() {
-      if (this.search.length > 0) {
-        var newTag = this.filteredAllTags;
+
+    /*addTag() {
+        console.log(this.search.length);
+        if (this.search.length > 0) {
+            const newTag = this.filteredAllTags;
+            console.log('newTag', newTag);
+            this.$emit('tagUpdate', {'tag': newTag[0]});
+        }
+        if (this.search.length <= 0) {
+            console.log('bringo', this.search);
+            this.$emit('tagUpdate', {'tag': this.search});
+        }
         this.search = '';
-        this.$emit('tagUpdate', {
-          'tag': newTag[0]
-        });
-      }
+    },*/
+    addTag: function addTag() {
+      var newTag = this.filteredAllTags.length > 0 ? this.filteredAllTags[0] : this.search;
+      this.$emit('tagUpdate', {
+        'tag': newTag
+      });
+      this.search = '';
     },
     removeTag: function removeTag(tag) {
       this.$emit('tagRemove', {
