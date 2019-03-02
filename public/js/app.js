@@ -8790,6 +8790,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ProjectInput__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProjectInput */ "./resources/js/components/ProjectInput.vue");
 /* harmony import */ var _SortableList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SortableList */ "./resources/js/components/SortableList.vue");
 /* harmony import */ var _SortableItem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SortableItem */ "./resources/js/components/SortableItem.vue");
+/* harmony import */ var _move__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../move */ "./resources/js/move.js");
+/* harmony import */ var _move__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_move__WEBPACK_IMPORTED_MODULE_3__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 //
@@ -8818,6 +8820,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 //
 //
 //
+
 
 
 
@@ -8960,6 +8963,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     undoHandler: function undoHandler(data) {
       var index = data.index;
       var state = JSON.parse(data.state);
+      var self = this;
 
       for (var property in state) {
         if (!state.hasOwnProperty(property)) {
@@ -8968,10 +8972,36 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         var propertyValue = state[property];
 
+        if (property === 'order_column' && this.projects[index][property] !== propertyValue) {
+          var mateIndex = self.findMovedPair(propertyValue);
+          var mateOrder = self.projects[mateIndex].order_column;
+          var moveProjects = Object(_move__WEBPACK_IMPORTED_MODULE_3__["move"])(self.projects, mateIndex, index);
+          console.log('stuff', index, mateOrder);
+          moveProjects[index][property] = mateOrder;
+          this.projects = moveProjects;
+        }
+
         if (this.projects[index][property] !== propertyValue) {
           this.projects[index][property] = propertyValue;
         }
       }
+    },
+    findMovedPair: function findMovedPair(stateOrder) {
+      var BreakException = {};
+      var out = null;
+
+      try {
+        this.projects.forEach(function (project, index) {
+          if (project.order_column === stateOrder) {
+            out = index;
+            throw BreakException;
+          }
+        });
+      } catch (e) {
+        if (e !== BreakException) throw e;
+      }
+
+      return out;
     }
   },
   created: function created() {
@@ -9404,24 +9434,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shopify_draggable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @shopify/draggable */ "./node_modules/@shopify/draggable/lib/draggable.bundle.js");
 /* harmony import */ var _shopify_draggable__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_shopify_draggable__WEBPACK_IMPORTED_MODULE_0__);
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+/* harmony import */ var _move__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../move */ "./resources/js/move.js");
+/* harmony import */ var _move__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_move__WEBPACK_IMPORTED_MODULE_1__);
 
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
-
-
-function move(items, oldIndex, newIndex) {
-  var itemRemovedArray = [].concat(_toConsumableArray(items.slice(0, oldIndex)), _toConsumableArray(items.slice(oldIndex + 1, items.length)));
-  var new_sorted = [].concat(_toConsumableArray(itemRemovedArray.slice(0, newIndex)), [items[oldIndex]], _toConsumableArray(itemRemovedArray.slice(newIndex, itemRemovedArray.length)));
-  new_sorted.forEach(function (sorted, index) {
-    sorted['order_column'] = index + 1;
-  });
-  return new_sorted;
-}
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -9454,7 +9469,7 @@ function move(items, oldIndex, newIndex) {
       var oldIndex = _ref.oldIndex,
           newIndex = _ref.newIndex;
 
-      _this.$emit("input", move(_this.value, oldIndex, newIndex));
+      _this.$emit("input", Object(_move__WEBPACK_IMPORTED_MODULE_1__["move"])(_this.value, oldIndex, newIndex));
     });
   },
   render: function render() {
@@ -57172,6 +57187,34 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_expandToggle_vue_vue_type_template_id_b26e394e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/move.js":
+/*!******************************!*\
+  !*** ./resources/js/move.js ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+module.exports = {
+  move: function move(items, oldIndex, newIndex) {
+    var itemRemovedArray = [].concat(_toConsumableArray(items.slice(0, oldIndex)), _toConsumableArray(items.slice(oldIndex + 1, items.length)));
+    var new_sorted = [].concat(_toConsumableArray(itemRemovedArray.slice(0, newIndex)), [items[oldIndex]], _toConsumableArray(itemRemovedArray.slice(newIndex, itemRemovedArray.length)));
+    new_sorted.forEach(function (sorted, index) {
+      sorted['order_column'] = index + 1;
+    });
+    return new_sorted;
+  }
+};
 
 /***/ }),
 

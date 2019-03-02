@@ -28,6 +28,8 @@
     import ProjectInput from "./ProjectInput";
     import SortableList from "./SortableList";
     import SortableItem from "./SortableItem";
+    import { move } from '../move';
+
     export default {
         name: "admin-projects",
         components: {SortableItem, SortableList, ProjectInput},
@@ -161,6 +163,7 @@
             undoHandler(data) {
                 const index = data.index;
                 const state = JSON.parse(data.state);
+                const self = this;
 
                 for (const property in state) {
                     if (!state.hasOwnProperty(property)) {
@@ -168,10 +171,37 @@
                     }
                     const propertyValue = state[property];
 
+                    if (property === 'order_column' && this.projects[index][property] !== propertyValue) {
+                        const mateIndex = self.findMovedPair(propertyValue);
+                        const mateOrder = self.projects[mateIndex].order_column;
+                        let moveProjects = move(self.projects, mateIndex, index);
+                        console.log('stuff', index, mateOrder);
+                        moveProjects[index][property] = mateOrder;
+                        this.projects = moveProjects;
+                    }
+
                     if (this.projects[index][property] !== propertyValue) {
                         this.projects[index][property] = propertyValue;
                     }
                 }
+            },
+            findMovedPair(stateOrder) {
+                const BreakException = {};
+                let out = null;
+
+                try {
+                    this.projects.forEach((project, index)=> {
+                        if (project.order_column === stateOrder) {
+                            out = index;
+                            throw BreakException;
+                        }
+                    });
+                } catch (e) {
+                    if (e !== BreakException) throw e;
+                }
+
+                return out;
+
             }
         },
         created() {
