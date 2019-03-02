@@ -8817,6 +8817,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 //
 //
 //
+//
 
 
 
@@ -8954,6 +8955,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (updated === false && this.updated.includes(id)) {
         var index = this.updated.indexOf(id);
         this.updated.splice(index, 1);
+      }
+    },
+    undoHandler: function undoHandler(data) {
+      var index = data.index;
+      var state = JSON.parse(data.state);
+
+      for (var property in state) {
+        if (!state.hasOwnProperty(property)) {
+          return;
+        }
+
+        var propertyValue = state[property];
+
+        if (this.projects[index][property] !== propertyValue) {
+          this.projects[index][property] = propertyValue;
+        }
       }
     }
   },
@@ -9187,6 +9204,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 //
 //
 //
+//
+//
 
 
 
@@ -9297,6 +9316,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     },
     setState: function setState() {
       this.state = JSON.stringify(this.project);
+    },
+    undo: function undo() {
+      this.$emit('undo', {
+        'index': this.index,
+        'state': this.state
+      });
     },
     projectIsUpdated: function projectIsUpdated() {
       if (this.initialized === false) {
@@ -9514,20 +9539,6 @@ __webpack_require__.r(__webpack_exports__);
     toggle: function toggle() {
       this.$emit("addTag", false);
     },
-
-    /*addTag() {
-        console.log(this.search.length);
-        if (this.search.length > 0) {
-            const newTag = this.filteredAllTags;
-            console.log('newTag', newTag);
-            this.$emit('tagUpdate', {'tag': newTag[0]});
-        }
-        if (this.search.length <= 0) {
-            console.log('bringo', this.search);
-            this.$emit('tagUpdate', {'tag': this.search});
-        }
-        this.search = '';
-    },*/
     addTag: function addTag() {
       var newTag = this.filteredAllTags.length > 0 ? this.filteredAllTags[0] : this.search;
       this.$emit('tagUpdate', {
@@ -44768,7 +44779,8 @@ var render = function() {
                           projectAdd: _vm.projectAdd,
                           projectRemove: _vm.projectRemove,
                           deleteImage: _vm.deleteImage,
-                          projectIsUpdated: _vm.projectIsUpdated
+                          projectIsUpdated: _vm.projectIsUpdated,
+                          undo: _vm.undoHandler
                         },
                         model: {
                           value: project[index],
@@ -45137,7 +45149,8 @@ var render = function() {
                 {
                   staticClass: "btn btn-dark",
                   class: { disabled: !_vm.projectIsUpdated() },
-                  attrs: { type: "button", tabindex: "-1" }
+                  attrs: { type: "button", tabindex: "-1" },
+                  on: { click: _vm.undo }
                 },
                 [_vm._v("Undo")]
               ),

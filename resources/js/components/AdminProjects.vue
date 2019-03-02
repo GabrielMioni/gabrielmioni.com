@@ -12,6 +12,7 @@
                             v-on:projectRemove="projectRemove"
                             v-on:deleteImage="deleteImage"
                             v-on:projectIsUpdated="projectIsUpdated"
+                            v-on:undo="undoHandler"
                             :key="project.id"
                             :index="index"
                             :project="project"
@@ -155,6 +156,21 @@
                 if (updated === false && this.updated.includes(id)) {
                     const index = this.updated.indexOf(id);
                     this.updated.splice(index, 1);
+                }
+            },
+            undoHandler(data) {
+                const index = data.index;
+                const state = JSON.parse(data.state);
+
+                for (const property in state) {
+                    if (!state.hasOwnProperty(property)) {
+                        return;
+                    }
+                    const propertyValue = state[property];
+
+                    if (this.projects[index][property] !== propertyValue) {
+                        this.projects[index][property] = propertyValue;
+                    }
                 }
             }
         },

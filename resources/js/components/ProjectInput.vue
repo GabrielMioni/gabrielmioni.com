@@ -104,7 +104,9 @@
             <div class="form-row justify-content-end">
                 <div class="col-sm-3">
                     <div class="update-controls float-right">
-                        <button type="button" tabindex="-1" class="btn btn-dark" v-bind:class="{ 'disabled' : !projectIsUpdated() }">Undo</button>
+                        <button
+                            @click="undo"
+                            type="button" tabindex="-1" class="btn btn-dark" v-bind:class="{ 'disabled' : !projectIsUpdated() }">Undo</button>
                         <button type="button" tabindex="-1" class="btn btn-primary ml-1" v-bind:class="{ 'disabled' : !projectIsUpdated() }">Update</button>
                     </div>
                 </div>
@@ -196,6 +198,9 @@
             },
             setState() {
                 this.state = JSON.stringify(this.project);
+            },
+            undo() {
+                this.$emit('undo', {'index':this.index, 'state':this.state});
             },
             projectIsUpdated() {
                 if (this.initialized === false) {
