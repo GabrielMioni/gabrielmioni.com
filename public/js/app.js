@@ -8976,16 +8976,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var mateIndex = self.findMovedPair(propertyValue);
           var mateOrder = self.projects[mateIndex].order_column;
           var moveProjects = Object(_move__WEBPACK_IMPORTED_MODULE_3__["move"])(self.projects, mateIndex, index);
-          console.log('stuff', index, mateOrder);
           moveProjects[index][property] = mateOrder;
-          this.projects = moveProjects;
+          this.projects = Object(_move__WEBPACK_IMPORTED_MODULE_3__["move"])(self.projects, mateIndex, index);
+          return;
         }
 
-        if (this.projects[index][property] !== propertyValue) {
-          this.projects[index][property] = propertyValue;
+        if (property !== 'order_column' && self.projects[index][property] !== propertyValue) {
+          self.projects[index][property] = propertyValue;
         }
       }
     },
+    moveBack: function moveBack(__callback) {},
     findMovedPair: function findMovedPair(stateOrder) {
       var BreakException = {};
       var out = null;

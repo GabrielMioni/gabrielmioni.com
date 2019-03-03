@@ -175,15 +175,18 @@
                         const mateIndex = self.findMovedPair(propertyValue);
                         const mateOrder = self.projects[mateIndex].order_column;
                         let moveProjects = move(self.projects, mateIndex, index);
-                        console.log('stuff', index, mateOrder);
                         moveProjects[index][property] = mateOrder;
-                        this.projects = moveProjects;
+                        this.projects = move(self.projects, mateIndex, index);
+                        return;
                     }
 
-                    if (this.projects[index][property] !== propertyValue) {
-                        this.projects[index][property] = propertyValue;
+                    if (property !== 'order_column' && self.projects[index][property] !== propertyValue) {
+                        self.projects[index][property] = propertyValue;
                     }
                 }
+            },
+            moveBack(__callback) {
+
             },
             findMovedPair(stateOrder) {
                 const BreakException = {};
