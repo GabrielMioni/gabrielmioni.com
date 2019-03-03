@@ -8974,9 +8974,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         if (property === 'order_column' && this.projects[index][property] !== propertyValue) {
           var mateIndex = self.findMovedPair(propertyValue);
-          var mateOrder = self.projects[mateIndex].order_column;
-          var moveProjects = Object(_move__WEBPACK_IMPORTED_MODULE_3__["move"])(self.projects, mateIndex, index);
-          moveProjects[index][property] = mateOrder;
           this.projects = Object(_move__WEBPACK_IMPORTED_MODULE_3__["move"])(self.projects, mateIndex, index);
           return;
         }

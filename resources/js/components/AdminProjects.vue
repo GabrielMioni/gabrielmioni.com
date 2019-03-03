@@ -173,9 +173,6 @@
 
                     if (property === 'order_column' && this.projects[index][property] !== propertyValue) {
                         const mateIndex = self.findMovedPair(propertyValue);
-                        const mateOrder = self.projects[mateIndex].order_column;
-                        let moveProjects = move(self.projects, mateIndex, index);
-                        moveProjects[index][property] = mateOrder;
                         this.projects = move(self.projects, mateIndex, index);
                         return;
                     }
@@ -184,9 +181,6 @@
                         self.projects[index][property] = propertyValue;
                     }
                 }
-            },
-            moveBack(__callback) {
-
             },
             findMovedPair(stateOrder) {
                 const BreakException = {};
