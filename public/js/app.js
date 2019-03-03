@@ -8790,8 +8790,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ProjectInput__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProjectInput */ "./resources/js/components/ProjectInput.vue");
 /* harmony import */ var _SortableList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SortableList */ "./resources/js/components/SortableList.vue");
 /* harmony import */ var _SortableItem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SortableItem */ "./resources/js/components/SortableItem.vue");
-/* harmony import */ var _move__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../move */ "./resources/js/move.js");
-/* harmony import */ var _move__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_move__WEBPACK_IMPORTED_MODULE_3__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 //
@@ -8820,7 +8818,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 //
 //
 //
-
 
 
 

@@ -28,7 +28,6 @@
     import ProjectInput from "./ProjectInput";
     import SortableList from "./SortableList";
     import SortableItem from "./SortableItem";
-    import { move } from '../move';
 
     export default {
         name: "admin-projects",
