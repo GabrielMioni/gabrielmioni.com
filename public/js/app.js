@@ -8970,11 +8970,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           return;
         }
 
-        var propertyValue = state[property];
+        var propertyValue = state[property]; // if (property === 'order_column' && this.projects[index][property] !== propertyValue) {
 
-        if (property === 'order_column' && this.projects[index][property] !== propertyValue) {
-          var mateIndex = self.findMovedPair(propertyValue);
-          this.projects = Object(_move__WEBPACK_IMPORTED_MODULE_3__["move"])(self.projects, mateIndex, index);
+        if (property === 'order_column') {
+          // const mateIndex = self.findMovedPair(propertyValue);
+          // this.projects = move(self.projects, mateIndex, index);
           return;
         }
 
@@ -8983,7 +8983,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }
     },
-    moveBack: function moveBack(__callback) {},
     findMovedPair: function findMovedPair(stateOrder) {
       var BreakException = {};
       var out = null;
@@ -9342,8 +9341,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         'fileObj': file
       });
     },
+    copyObject: function copyObject(obj) {
+      var copy = Object.assign({}, obj);
+      delete copy['order_column'];
+      return copy;
+    },
     setState: function setState() {
-      this.state = JSON.stringify(this.project);
+      var copy = this.copyObject(this.project);
+      this.state = JSON.stringify(copy);
     },
     undo: function undo() {
       this.$emit('undo', {
@@ -9356,12 +9361,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return;
       }
 
-      var isUpdated = JSON.stringify(this.project) !== this.state;
+      var currentState = this.copyObject(this.project);
+      var isUpdated = JSON.stringify(currentState) !== this.state;
       this.$emit('projectIsUpdated', {
         'id': this.project.id,
         'updated': isUpdated
       });
-      return isUpdated; //return JSON.stringify(this.project) !== this.state;
+      return isUpdated;
     }
   },
   created: function created() {},

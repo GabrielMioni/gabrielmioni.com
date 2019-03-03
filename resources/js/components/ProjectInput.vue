@@ -196,8 +196,14 @@
                 }
                 this.$emit('updateFile', {'index': this.index, 'fileUrl': file_url, 'fileObj': file});
             },
+            copyObject(obj) {
+                let copy = Object.assign({}, obj);
+                delete copy['order_column'];
+                return copy;
+            },
             setState() {
-                this.state = JSON.stringify(this.project);
+                let copy = this.copyObject(this.project);
+                this.state = JSON.stringify(copy);
             },
             undo() {
                 this.$emit('undo', {'index':this.index, 'state':this.state});
@@ -206,10 +212,10 @@
                 if (this.initialized === false) {
                     return;
                 }
-                const isUpdated = JSON.stringify(this.project) !== this.state;
+                const currentState = this.copyObject(this.project);
+                const isUpdated = JSON.stringify(currentState) !== this.state;
                 this.$emit('projectIsUpdated', {'id': this.project.id, 'updated' : isUpdated});
                 return isUpdated;
-                //return JSON.stringify(this.project) !== this.state;
             }
         },
         created() {

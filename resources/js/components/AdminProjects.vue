@@ -171,9 +171,10 @@
                     }
                     const propertyValue = state[property];
 
-                    if (property === 'order_column' && this.projects[index][property] !== propertyValue) {
-                        const mateIndex = self.findMovedPair(propertyValue);
-                        this.projects = move(self.projects, mateIndex, index);
+                    // if (property === 'order_column' && this.projects[index][property] !== propertyValue) {
+                    if (property === 'order_column') {
+                        // const mateIndex = self.findMovedPair(propertyValue);
+                        // this.projects = move(self.projects, mateIndex, index);
                         return;
                     }
 
