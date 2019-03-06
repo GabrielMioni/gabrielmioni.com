@@ -13,6 +13,7 @@
                             v-on:deleteImage="deleteImage"
                             v-on:projectIsUpdated="projectIsUpdated"
                             v-on:undo="undoHandler"
+                            v-on:updateSingle="updateSingleHandler"
                             :key="project.id"
                             :index="index"
                             :project="project"
@@ -199,7 +200,38 @@
 
                 return out;
 
-            }
+            },
+            updateSingleHandler(data) {
+                const index = data.index;
+                const id = data.id;
+
+                if (!this.updated.includes(id)) {
+                    return;
+                }
+
+                const projectArray = [this.projects[index]];
+                this.updateProjects(projectArray);
+            },
+            updateProjects(projectArray) {
+                console.log(projectArray);
+                let formData = new FormData();
+                formData.append('projects', JSON.stringify(projectArray));
+
+                projectArray.forEach( (project) => {
+                    const projectId = project['id'];
+
+                    if (typeof project.image_main === 'object') {
+                        formData.append('file['+projectId+']', project.image_main.fileObj);
+                    }
+                });
+
+                axios.post('/project-update', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+                    .then((response) => {
+                        console.log(response);
+                    }).catch( (error) => {
+                    console.log('errors: ', error);
+                });
+            },
         },
         created() {
             this.$options.projects_url = '/projects-json';

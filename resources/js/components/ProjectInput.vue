@@ -107,7 +107,9 @@
                         <button
                             @click="undo"
                             type="button" tabindex="-1" class="btn btn-dark" v-bind:class="{ 'disabled' : !projectIsUpdated() }">Undo</button>
-                        <button type="button" tabindex="-1" class="btn btn-primary ml-1" v-bind:class="{ 'disabled' : !projectIsUpdated() }">Update</button>
+                        <button
+                            @click="updateSingle"
+                            type="button" tabindex="-1" class="btn btn-primary ml-1" v-bind:class="{ 'disabled' : !projectIsUpdated() }">Update</button>
                     </div>
                 </div>
             </div>
@@ -207,6 +209,10 @@
             },
             undo() {
                 this.$emit('undo', {'index':this.index, 'state':this.state});
+            },
+            updateSingle() {
+                console.log('clicky');
+                this.$emit('updateSingle', {'index':this.index, 'id':this.project.id});
             },
             projectIsUpdated() {
                 if (this.initialized === false) {

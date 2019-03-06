@@ -8818,6 +8818,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 //
 //
 //
+//
 
 
 
@@ -8996,6 +8997,41 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       return out;
+    },
+    updateSingleHandler: function updateSingleHandler(data) {
+      console.log(data);
+      console.log('hi');
+      var index = data.index;
+      var id = data.id;
+
+      if (!this.updated.includes(id)) {
+        return;
+      }
+
+      var projectArray = [];
+      projectArray.push(this.projects[index]);
+      this.updateProjects(projectArray);
+    },
+    updateProjects: function updateProjects(projectArray) {
+      console.log(projectArray);
+      var formData = new FormData();
+      formData.append('projects', JSON.stringify(projectArray));
+      projectArray.forEach(function (project) {
+        var projectId = project['id'];
+
+        if (_typeof(project.image_main) === 'object') {
+          formData.append('file[' + projectId + ']', project.image_main.fileObj);
+        }
+      });
+      axios.post('/project-update', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (response) {
+        console.log(response);
+      }).catch(function (error) {
+        console.log('errors: ', error);
+      });
     }
   },
   created: function created() {
@@ -9113,6 +9149,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var drag_drop__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(drag_drop__WEBPACK_IMPORTED_MODULE_4__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+//
+//
 //
 //
 //
@@ -9351,6 +9389,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       this.$emit('undo', {
         'index': this.index,
         'state': this.state
+      });
+    },
+    updateSingle: function updateSingle() {
+      console.log('clicky');
+      this.$emit('updateSingle', {
+        'index': this.index,
+        'id': this.project.id
       });
     },
     projectIsUpdated: function projectIsUpdated() {
@@ -44796,7 +44841,8 @@ var render = function() {
                           projectRemove: _vm.projectRemove,
                           deleteImage: _vm.deleteImage,
                           projectIsUpdated: _vm.projectIsUpdated,
-                          undo: _vm.undoHandler
+                          undo: _vm.undoHandler,
+                          updateSingle: _vm.updateSingleHandler
                         },
                         model: {
                           value: project[index],
@@ -45176,7 +45222,8 @@ var render = function() {
                 {
                   staticClass: "btn btn-primary ml-1",
                   class: { disabled: !_vm.projectIsUpdated() },
-                  attrs: { type: "button", tabindex: "-1" }
+                  attrs: { type: "button", tabindex: "-1" },
+                  on: { click: _vm.updateSingle }
                 },
                 [_vm._v("Update")]
               )
