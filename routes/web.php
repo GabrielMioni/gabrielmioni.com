@@ -22,4 +22,5 @@ Route::group(['middleware' => 'role:admin'], function () {
     Route::get('/all-tags', 'AdminController@allTags')->name('all_tags');
     Route::get('/projects-json', 'AdminController@getProjects')->name('projects_json');
     Route::get('/home', 'HomeController@index')->name('home');
+    Route::post('/project-update', 'AdminController@updateProject')->name('project_update');
 });
