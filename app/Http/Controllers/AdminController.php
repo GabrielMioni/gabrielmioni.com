@@ -38,7 +38,49 @@ class AdminController extends Controller
         return $projectData;
     }
 
-    public function updateProject(Request $request) {
+    public function storeProject(Request $request) {
+        $projects = json_decode($request->get('projects'), true);
+        $files    = $request->file('file');
+
+        foreach ($projects as $key => $projectData) {
+
+            /*if (is_int($projectData['id'])) {
+                $this->updateProject($projectData);
+                continue;
+            }*/
+
+            $this->updateProject($projectData, !is_int($projectData['id']));
+        }
+    }
+
+    public function updateProject(array $projectData, $isNew = false) {
+        //$project = null;
+
+        /*if ($isNew === true) {
+            $project = new Project();
+        }
+        if ($isNew === false) {
+            $project = Project::find($projectData['id']);
+        }*/
+
+        $project = $isNew === true ? new Project() : Project::find($projectData['id']);
+
+        foreach ($projectData as $innerKey => $value) {
+            if ($innerKey === 'id') {
+                continue;
+            }
+            if ($innerKey === 'tags') {
+                $this->processTags($value, $project);
+                continue;
+            }
+            if ($project->$innerKey !== $value) {
+                $project->$innerKey = $value;
+            }
+        }
+        $project->save();
+    }
+
+    /*public function updateProject(Request $request) {
         $projects = json_decode($request->get('projects'), true);
         $files    = $request->file('file');
 
@@ -53,15 +95,15 @@ class AdminController extends Controller
                 }
                 if ($innerKey === 'tags') {
                     $this->processTags($value, $project);
+                    continue;
                 }
                 if ($project->$innerKey !== $value) {
                     $project->$innerKey = $value;
                 }
-                $project->save();
-
             }
+            $project->save();
         }
-    }
+    }*/
 
     protected function getProjectTags(Project $project) {
 
