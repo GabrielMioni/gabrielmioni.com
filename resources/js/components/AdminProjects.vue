@@ -29,6 +29,7 @@
     import ProjectInput from "./ProjectInput";
     import SortableList from "./SortableList";
     import SortableItem from "./SortableItem";
+    import { move } from '../move';
 
     export default {
         name: "admin-projects",
@@ -106,13 +107,14 @@
                     'documentation' : '',
                     'image_main' : '',
                     'image_main_ext' : '',
-                    'tags' : [],
-                    'updatedProjects' : []
+                    'order_column' : '',
+                    'tags' : []
                 };
 
                 const index = data.index;
 
                 this.projects.splice(index, 0, newProject);
+                this.projects = move(this.projects, index, index);
             },
             projectRemove(data) {
                 let project = this.getProjectAtIndex(data.index);
@@ -225,7 +227,7 @@
                     }
                 });
 
-                axios.post('/project-update', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+                axios.post('/project-store', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
                     .then((response) => {
                         console.log(response);
                     }).catch( (error) => {
