@@ -71,15 +71,11 @@ class AdminController extends Controller
         $resortData = [];
 
         foreach ($projectData as $innerKey => $value) {
-            if ($innerKey === 'id') {
+            if ($innerKey === 'id' || $innerKey === 'order_column') {
                 continue;
             }
             if ($innerKey === 'tags') {
                 $this->processTags($value, $project);
-                continue;
-            }
-            if ($innerKey === 'order_column') {
-                //$resortData[$projectData['id']] = $value;
                 continue;
             }
             if ($project->$innerKey !== $value) {
@@ -89,20 +85,6 @@ class AdminController extends Controller
         $project->save();
 
         return $resortData;
-    }
-
-    protected function getProjectTags(Project $project) {
-
-        $out = [];
-
-        $tags = $project->Tags()->get()->toArray();
-
-        foreach ($tags as $tagData) {
-            $tagId = $tagData['id'];
-            $out[$tagId] = $tagData['tag'];
-        }
-
-        return $out;
     }
 
     protected function processTags(array $tags, Project $project) {
@@ -138,6 +120,20 @@ class AdminController extends Controller
                 $project->tags()->attach($tagId);
             }
         }
+    }
+
+    protected function getProjectTags(Project $project) {
+
+        $out = [];
+
+        $tags = $project->Tags()->get()->toArray();
+
+        foreach ($tags as $tagData) {
+            $tagId = $tagData['id'];
+            $out[$tagId] = $tagData['tag'];
+        }
+
+        return $out;
     }
 
     public function allTags() {
