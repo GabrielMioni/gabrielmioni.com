@@ -88,37 +88,8 @@ class AdminController extends Controller
         }
         $project->save();
 
-        /*if (!empty($resortData)) {
-            $this->resortProjects($resortData);
-        }*/
-
         return $resortData;
     }
-
-    /*public function updateProject(Request $request) {
-        $projects = json_decode($request->get('projects'), true);
-        $files    = $request->file('file');
-
-        foreach ($projects as $key => $projectData) {
-            $id = $projectData['id'];
-
-            $project = Project::find($id);
-
-            foreach ($projectData as $innerKey => $value) {
-                if ($innerKey === 'id') {
-                    continue;
-                }
-                if ($innerKey === 'tags') {
-                    $this->processTags($value, $project);
-                    continue;
-                }
-                if ($project->$innerKey !== $value) {
-                    $project->$innerKey = $value;
-                }
-            }
-            $project->save();
-        }
-    }*/
 
     protected function getProjectTags(Project $project) {
 
