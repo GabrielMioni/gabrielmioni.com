@@ -14,6 +14,7 @@
                             v-on:projectIsUpdated="projectIsUpdated"
                             v-on:undo="undoHandler"
                             v-on:updateSingle="updateSingleHandler"
+                            v-on:sortOrder="sortOrderHandler"
                             :key="project.id"
                             :index="index"
                             :project="project"
@@ -40,6 +41,7 @@
                 allTags: [],
                 updated: [],
                 tempIds: [],
+                resort:  [],
                 initialized: false,
                 loading: true,
             };
@@ -214,10 +216,20 @@
                 const projectArray = [this.projects[index]];
                 this.updateProjects(projectArray);
             },
+            sortOrderHandler(data) {
+                const id = data.id;
+                const orderColumn = data.orderColumn;
+
+                const sortString = id + '-' + orderColumn;
+                if (!this.resort.includes(sortString)) {
+                    this.resort.push(sortString);
+                }
+            },
             updateProjects(projectArray) {
                 console.log(projectArray);
                 let formData = new FormData();
                 formData.append('projects', JSON.stringify(projectArray));
+                formData.append('resort', JSON.stringify(this.resort));
 
                 projectArray.forEach( (project) => {
                     const projectId = project['id'];

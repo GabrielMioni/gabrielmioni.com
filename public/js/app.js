@@ -8821,6 +8821,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 //
 //
 //
+//
 
 
 
@@ -8838,6 +8839,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       allTags: [],
       updated: [],
       tempIds: [],
+      resort: [],
       initialized: false,
       loading: true
     };
@@ -9013,10 +9015,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var projectArray = [this.projects[index]];
       this.updateProjects(projectArray);
     },
+    sortOrderHandler: function sortOrderHandler(data) {
+      var id = data.id;
+      var orderColumn = data.orderColumn;
+      var sortString = id + '-' + orderColumn;
+
+      if (!this.resort.includes(sortString)) {
+        this.resort.push(sortString);
+      }
+    },
     updateProjects: function updateProjects(projectArray) {
       console.log(projectArray);
       var formData = new FormData();
       formData.append('projects', JSON.stringify(projectArray));
+      formData.append('resort', JSON.stringify(this.resort));
       projectArray.forEach(function (project) {
         var projectId = project['id'];
 
@@ -9378,13 +9390,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
     },
     copyObject: function copyObject(obj) {
-      var copy = Object.assign({}, obj);
-      delete copy['order_column'];
-      return copy;
+      //let copy = Object.assign({}, obj);
+      //delete copy['order_column'];
+      //return copy;
+      return Object.assign({}, obj);
     },
     setState: function setState() {
-      var copy = this.copyObject(this.project);
-      this.state = JSON.stringify(copy);
+      // let copy = this.copyObject(this.project);
+      // this.state = JSON.stringify(copy);
+      this.state = this.copyObject(this.project);
     },
     undo: function undo() {
       this.$emit('undo', {
@@ -9405,12 +9419,25 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       var currentState = this.copyObject(this.project);
-      var isUpdated = JSON.stringify(currentState) !== this.state;
+      var isUpdated = JSON.stringify(currentState) !== JSON.stringify(this.state);
       this.$emit('projectIsUpdated', {
         'id': this.project.id,
         'updated': isUpdated
       });
+
+      if (isUpdated) {
+        this.checkForOrderUpdate();
+      }
+
       return isUpdated;
+    },
+    checkForOrderUpdate: function checkForOrderUpdate() {
+      if (this.state.order_column !== this.project.order_column) {
+        this.$emit('sortOrder', {
+          'id': this.project.id,
+          'orderColumn': this.project.order_column
+        });
+      }
     }
   },
   created: function created() {},
@@ -44843,7 +44870,8 @@ var render = function() {
                           deleteImage: _vm.deleteImage,
                           projectIsUpdated: _vm.projectIsUpdated,
                           undo: _vm.undoHandler,
-                          updateSingle: _vm.updateSingleHandler
+                          updateSingle: _vm.updateSingleHandler,
+                          sortOrder: _vm.sortOrderHandler
                         },
                         model: {
                           value: project[index],

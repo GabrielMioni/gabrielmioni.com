@@ -17,7 +17,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::group(['middleware' => 'role:admin'], function () {
+//Route::group(['middleware' => 'role:admin'], function () {
+Route::group(['middleware' => ['auth']], function() {
     Route::get('/admin', 'AdminController@index')->name('admin');
     Route::get('/all-tags', 'AdminController@allTags')->name('all_tags');
     Route::get('/projects-json', 'AdminController@getProjects')->name('projects_json');
