@@ -42,28 +42,30 @@ class AdminController extends Controller
         $projects = json_decode($request->get('projects'), true);
         $files    = $request->file('file');
 
+        $resortData = [];
+
         foreach ($projects as $key => $projectData) {
 
-            /*if (is_int($projectData['id'])) {
-                $this->updateProject($projectData);
-                continue;
-            }*/
-
-            $this->updateProject($projectData, !is_int($projectData['id']));
+            $resortData[] = $this->updateProject($projectData, !is_int($projectData['id']));
         }
+
+        file_put_contents(dirname(__FILE__) . '/log', print_r($resortData, true), FILE_APPEND);
     }
 
-    public function updateProject(array $projectData, $isNew = false) {
-        //$project = null;
+    /*protected function resortProjects(array $resortIds) {
 
-        /*if ($isNew === true) {
-            $project = new Project();
+        $idCollection = [];
+
+        foreach ($resortIds as $rId) {
+            $tagId = Projects::where('i', $tag)->first()->id;
         }
-        if ($isNew === false) {
-            $project = Project::find($projectData['id']);
-        }*/
 
+    }*/
+
+    public function updateProject(array $projectData, $isNew = false) {
         $project = $isNew === true ? new Project() : Project::find($projectData['id']);
+
+        $resortData = [];
 
         foreach ($projectData as $innerKey => $value) {
             if ($innerKey === 'id') {
@@ -73,11 +75,39 @@ class AdminController extends Controller
                 $this->processTags($value, $project);
                 continue;
             }
+            if ($innerKey === 'order_column') {
+                $resortData[$projectData['id']] = $value;
+            }
             if ($project->$innerKey !== $value) {
                 $project->$innerKey = $value;
             }
         }
         $project->save();
+
+        if (!empty($resortData)) {
+            $this->resortProjects($resortData);
+        }
+
+        return $resortData;
+    }
+
+    protected function resortProjects(array $resortData) {
+        foreach ($resortData as $id => $orderColumn) {
+            $projects = Project::select('id', 'order_column','updated_at')->where('order_column', $orderColumn)->orderBy('updated_at', 'desc')->get();
+
+            $current_order = $orderColumn;
+
+            foreach ($projects as $key => $reorderedProject) {
+                if ($key === 0) {
+                    continue;
+                }
+                ++$current_order;
+                $reorderedProject->order_column = $current_order;
+                $reorderedProject->save();
+            }
+
+            //file_put_contents(dirname(__FILE__) . '/order_log', print_r($projects, true), FILE_APPEND);
+        }
     }
 
     /*public function updateProject(Request $request) {
