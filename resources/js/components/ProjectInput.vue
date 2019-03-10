@@ -198,11 +198,13 @@
                 }
                 this.$emit('updateFile', {'index': this.index, 'fileUrl': file_url, 'fileObj': file});
             },
-            copyObject(obj) {
-                //let copy = Object.assign({}, obj);
-                //delete copy['order_column'];
-                //return copy;
-                return Object.assign({}, obj);
+            copyObject(obj, deleteOrderColumn = false) {
+                let copy = Object.assign({}, obj);
+                if (deleteOrderColumn === true) {
+                    delete copy['order_column'];
+                }
+                return copy;
+                //return Object.assign({}, obj);
             },
             setState() {
                 // let copy = this.copyObject(this.project);
@@ -220,12 +222,15 @@
                 if (this.initialized === false) {
                     return;
                 }
-                const currentState = this.copyObject(this.project);
-                const isUpdated = JSON.stringify(currentState) !== JSON.stringify(this.state);
+                this.checkForOrderUpdate();
+
+                const currentState = this.copyObject(this.project, false);
+                const savedState = this.copyObject(this.state, false);
+                const isUpdated = JSON.stringify(currentState) !== JSON.stringify(savedState);
                 this.$emit('projectIsUpdated', {'id': this.project.id, 'updated' : isUpdated});
-                if (isUpdated) {
+                /*if (isUpdated) {
                     this.checkForOrderUpdate();
-                }
+                }*/
                 return isUpdated;
             },
             checkForOrderUpdate() {

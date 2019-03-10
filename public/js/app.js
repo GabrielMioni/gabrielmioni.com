@@ -9390,10 +9390,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
     },
     copyObject: function copyObject(obj) {
-      //let copy = Object.assign({}, obj);
-      //delete copy['order_column'];
-      //return copy;
-      return Object.assign({}, obj);
+      var deleteOrderColumn = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+      var copy = Object.assign({}, obj);
+
+      if (deleteOrderColumn === true) {
+        delete copy['order_column'];
+      }
+
+      return copy; //return Object.assign({}, obj);
     },
     setState: function setState() {
       // let copy = this.copyObject(this.project);
@@ -9418,16 +9422,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return;
       }
 
-      var currentState = this.copyObject(this.project);
-      var isUpdated = JSON.stringify(currentState) !== JSON.stringify(this.state);
+      this.checkForOrderUpdate();
+      var currentState = this.copyObject(this.project, false);
+      var savedState = this.copyObject(this.state, false);
+      var isUpdated = JSON.stringify(currentState) !== JSON.stringify(savedState);
       this.$emit('projectIsUpdated', {
         'id': this.project.id,
         'updated': isUpdated
       });
-
-      if (isUpdated) {
-        this.checkForOrderUpdate();
-      }
+      /*if (isUpdated) {
+          this.checkForOrderUpdate();
+      }*/
 
       return isUpdated;
     },
