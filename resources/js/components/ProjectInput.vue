@@ -212,7 +212,7 @@
                 this.state = this.copyObject(this.project);
             },
             undo() {
-                this.$emit('undo', {'index':this.index, 'state':this.state});
+                this.$emit('undo', {'index':this.index, 'state':JSON.stringify(this.state)});
             },
             updateSingle() {
                 console.log('clicky');

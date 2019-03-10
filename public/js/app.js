@@ -8967,6 +8967,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     undoHandler: function undoHandler(data) {
       var index = data.index;
       var state = JSON.parse(data.state);
+      console.log(state);
       var self = this;
 
       for (var property in state) {
@@ -9407,7 +9408,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     undo: function undo() {
       this.$emit('undo', {
         'index': this.index,
-        'state': this.state
+        'state': JSON.stringify(this.state)
       });
     },
     updateSingle: function updateSingle() {
