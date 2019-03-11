@@ -8790,6 +8790,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ProjectInput__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProjectInput */ "./resources/js/components/ProjectInput.vue");
 /* harmony import */ var _SortableList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SortableList */ "./resources/js/components/SortableList.vue");
 /* harmony import */ var _SortableItem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SortableItem */ "./resources/js/components/SortableItem.vue");
+/* harmony import */ var _move__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../move */ "./resources/js/move.js");
+/* harmony import */ var _move__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_move__WEBPACK_IMPORTED_MODULE_3__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 //
@@ -8819,6 +8821,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 //
 //
 //
+//
+//
+//
+//
+
 
 
 
@@ -8835,6 +8842,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       allTags: [],
       updated: [],
       tempIds: [],
+      resort: {},
       initialized: false,
       loading: true
     };
@@ -8902,11 +8910,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         'documentation': '',
         'image_main': '',
         'image_main_ext': '',
-        'tags': [],
-        'updatedProjects': []
+        'order_column': '',
+        'tags': []
       };
       var index = data.index;
       this.projects.splice(index, 0, newProject);
+      this.projects = Object(_move__WEBPACK_IMPORTED_MODULE_3__["move"])(this.projects, index, index);
     },
     projectRemove: function projectRemove(data) {
       var project = this.getProjectAtIndex(data.index);
@@ -8999,8 +9008,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       return out;
     },
     updateSingleHandler: function updateSingleHandler(data) {
-      console.log(data);
-      console.log('hi');
       var index = data.index;
       var id = data.id;
 
@@ -9008,14 +9015,49 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return;
       }
 
-      var projectArray = [];
-      projectArray.push(this.projects[index]);
+      var projectArray = [this.projects[index]];
       this.updateProjects(projectArray);
     },
+    moveHandler: function moveHandler() {
+      var processed = 0;
+      var resort = {};
+      var self = this;
+      this.projects.forEach(function (project) {
+        //this.resort[project.id] = project.order_column;
+        resort[project.id] = project.order_column;
+        ++processed;
+
+        if (self.projects.length === processed) {
+          self.sendSortOrder(resort);
+        }
+      });
+    },
+    sendSortOrder: function sendSortOrder(resort) {
+      var formData = new FormData();
+      formData.append('resort', JSON.stringify(resort));
+      axios.post('/project-store-sort-order', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (response) {
+        console.log(response);
+      }).catch(function (error) {
+        console.log('errors: ', error);
+      });
+    },
+    sortOrderHandler: function sortOrderHandler(data) {
+      var id = data.id;
+      var orderColumn = data.orderColumn;
+      var sortString = id + '-' + orderColumn;
+
+      if (!this.resort.includes(sortString)) {
+        this.resort.push(sortString);
+      }
+    },
     updateProjects: function updateProjects(projectArray) {
-      console.log(projectArray);
       var formData = new FormData();
       formData.append('projects', JSON.stringify(projectArray));
+      formData.append('resort', JSON.stringify(this.resort));
       projectArray.forEach(function (project) {
         var projectId = project['id'];
 
@@ -9023,7 +9065,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           formData.append('file[' + projectId + ']', project.image_main.fileObj);
         }
       });
-      axios.post('/project-update', formData, {
+      axios.post('/project-store', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -9377,18 +9419,24 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
     },
     copyObject: function copyObject(obj) {
+      var deleteOrderColumn = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       var copy = Object.assign({}, obj);
-      delete copy['order_column'];
-      return copy;
+
+      if (deleteOrderColumn === true) {
+        delete copy['order_column'];
+      }
+
+      return copy; //return Object.assign({}, obj);
     },
     setState: function setState() {
-      var copy = this.copyObject(this.project);
-      this.state = JSON.stringify(copy);
+      // let copy = this.copyObject(this.project);
+      // this.state = JSON.stringify(copy);
+      this.state = this.copyObject(this.project);
     },
     undo: function undo() {
       this.$emit('undo', {
         'index': this.index,
-        'state': this.state
+        'state': JSON.stringify(this.state)
       });
     },
     updateSingle: function updateSingle() {
@@ -9401,15 +9449,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     projectIsUpdated: function projectIsUpdated() {
       if (this.initialized === false) {
         return;
-      }
+      } //this.checkForOrderUpdate();
 
-      var currentState = this.copyObject(this.project);
-      var isUpdated = JSON.stringify(currentState) !== this.state;
+
+      var currentState = this.copyObject(this.project, true);
+      var savedState = this.copyObject(this.state, true);
+      var isUpdated = JSON.stringify(currentState) !== JSON.stringify(savedState);
       this.$emit('projectIsUpdated', {
         'id': this.project.id,
         'updated': isUpdated
       });
+      /*if (isUpdated) {
+          this.checkForOrderUpdate();
+      }*/
+
       return isUpdated;
+    },
+    checkForOrderUpdate: function checkForOrderUpdate() {
+      if (this.state.order_column !== this.project.order_column) {
+        this.$emit('sortOrder', {
+          'id': this.project.id,
+          'orderColumn': this.project.order_column
+        });
+      }
     }
   },
   created: function created() {},
@@ -9516,6 +9578,8 @@ __webpack_require__.r(__webpack_exports__);
           newIndex = _ref.newIndex;
 
       _this.$emit("input", Object(_move__WEBPACK_IMPORTED_MODULE_1__["move"])(_this.value, oldIndex, newIndex));
+
+      _this.$emit("move");
     });
   },
   render: function render() {
@@ -44813,6 +44877,7 @@ var render = function() {
     "form",
     [
       _c("sortable-list", {
+        on: { move: _vm.moveHandler },
         scopedSlots: _vm._u([
           {
             key: "default",
@@ -44828,6 +44893,8 @@ var render = function() {
                     [
                       _c("project-input", {
                         key: project.id,
+                        ref: index,
+                        refInFor: true,
                         attrs: {
                           index: index,
                           project: project,
@@ -44842,7 +44909,8 @@ var render = function() {
                           deleteImage: _vm.deleteImage,
                           projectIsUpdated: _vm.projectIsUpdated,
                           undo: _vm.undoHandler,
-                          updateSingle: _vm.updateSingleHandler
+                          updateSingle: _vm.updateSingleHandler,
+                          sortOrder: _vm.sortOrderHandler
                         },
                         model: {
                           value: project[index],

@@ -198,17 +198,21 @@
                 }
                 this.$emit('updateFile', {'index': this.index, 'fileUrl': file_url, 'fileObj': file});
             },
-            copyObject(obj) {
+            copyObject(obj, deleteOrderColumn = false) {
                 let copy = Object.assign({}, obj);
-                delete copy['order_column'];
+                if (deleteOrderColumn === true) {
+                    delete copy['order_column'];
+                }
                 return copy;
+                //return Object.assign({}, obj);
             },
             setState() {
-                let copy = this.copyObject(this.project);
-                this.state = JSON.stringify(copy);
+                // let copy = this.copyObject(this.project);
+                // this.state = JSON.stringify(copy);
+                this.state = this.copyObject(this.project);
             },
             undo() {
-                this.$emit('undo', {'index':this.index, 'state':this.state});
+                this.$emit('undo', {'index':this.index, 'state':JSON.stringify(this.state)});
             },
             updateSingle() {
                 console.log('clicky');
@@ -218,11 +222,23 @@
                 if (this.initialized === false) {
                     return;
                 }
-                const currentState = this.copyObject(this.project);
-                const isUpdated = JSON.stringify(currentState) !== this.state;
+                //this.checkForOrderUpdate();
+
+                const currentState = this.copyObject(this.project, true);
+                const savedState = this.copyObject(this.state, true);
+                const isUpdated = JSON.stringify(currentState) !== JSON.stringify(savedState);
                 this.$emit('projectIsUpdated', {'id': this.project.id, 'updated' : isUpdated});
+                /*if (isUpdated) {
+                    this.checkForOrderUpdate();
+                }*/
                 return isUpdated;
-            }
+            },
+            /*checkForOrderUpdate() {
+                if (this.state.order_column !== this.project.order_column) {
+                    this.$emit('sortOrder', {'id': this.project.id, 'orderColumn' : this.project.order_column});
+                }
+
+            }*/
         },
         created() {
 

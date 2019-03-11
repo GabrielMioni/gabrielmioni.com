@@ -1,6 +1,8 @@
 <template>
     <form>
-        <sortable-list v-model="projects">
+        <sortable-list
+            v-model="projects"
+            v-on:move="moveHandler">
             <div class="project-list" slot-scope="{ items: projects }" tabindex="-1">
                 <sortable-item v-for="(project, index) in projects" :key="project.id">
                     <project-input
@@ -14,7 +16,9 @@
                             v-on:projectIsUpdated="projectIsUpdated"
                             v-on:undo="undoHandler"
                             v-on:updateSingle="updateSingleHandler"
+                            v-on:sortOrder="sortOrderHandler"
                             :key="project.id"
+                            :ref="index"
                             :index="index"
                             :project="project"
                             :allTags="allTags">
@@ -29,6 +33,7 @@
     import ProjectInput from "./ProjectInput";
     import SortableList from "./SortableList";
     import SortableItem from "./SortableItem";
+    import { move } from '../move';
 
     export default {
         name: "admin-projects",
@@ -39,6 +44,7 @@
                 allTags: [],
                 updated: [],
                 tempIds: [],
+                resort:  {},
                 initialized: false,
                 loading: true,
             };
@@ -106,13 +112,14 @@
                     'documentation' : '',
                     'image_main' : '',
                     'image_main_ext' : '',
-                    'tags' : [],
-                    'updatedProjects' : []
+                    'order_column' : '',
+                    'tags' : []
                 };
 
                 const index = data.index;
 
                 this.projects.splice(index, 0, newProject);
+                this.projects = move(this.projects, index, index);
             },
             projectRemove(data) {
                 let project = this.getProjectAtIndex(data.index);
@@ -212,10 +219,45 @@
                 const projectArray = [this.projects[index]];
                 this.updateProjects(projectArray);
             },
+            moveHandler() {
+                let processed = 0;
+                let resort = {};
+                const self = this;
+
+                this.projects.forEach( (project) => {
+                    //this.resort[project.id] = project.order_column;
+                    resort[project.id] = project.order_column;
+                    ++processed;
+
+                    if (self.projects.length === processed) {
+                        self.sendSortOrder(resort);
+                    }
+                });
+            },
+            sendSortOrder(resort) {
+                let formData = new FormData();
+                formData.append('resort', JSON.stringify(resort));
+
+                axios.post('/project-store-sort-order', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+                    .then((response) => {
+                        console.log(response);
+                    }).catch( (error) => {
+                    console.log('errors: ', error);
+                });
+            },
+            sortOrderHandler(data) {
+                const id = data.id;
+                const orderColumn = data.orderColumn;
+
+                const sortString = id + '-' + orderColumn;
+                if (!this.resort.includes(sortString)) {
+                    this.resort.push(sortString);
+                }
+            },
             updateProjects(projectArray) {
-                console.log(projectArray);
                 let formData = new FormData();
                 formData.append('projects', JSON.stringify(projectArray));
+                formData.append('resort', JSON.stringify(this.resort));
 
                 projectArray.forEach( (project) => {
                     const projectId = project['id'];
@@ -225,7 +267,7 @@
                     }
                 });
 
-                axios.post('/project-update', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+                axios.post('/project-store', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
                     .then((response) => {
                         console.log(response);
                     }).catch( (error) => {

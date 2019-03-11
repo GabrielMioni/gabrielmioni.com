@@ -38,43 +38,84 @@ class AdminController extends Controller
         return $projectData;
     }
 
-    public function updateProject(Request $request) {
-        $projects = json_decode($request->get('projects'), true);
-        $files    = $request->file('file');
+    public function storeProject(Request $request) {
+        $projects   = json_decode($request->get('projects'), true);
+        //$resortData = json_decode($request->get('resort'), true);
+        $files      = $request->file('file');
 
         foreach ($projects as $key => $projectData) {
-            $id = $projectData['id'];
+            $this->updateProject($projectData, !is_int($projectData['id']));
+        }
 
-            $project = Project::find($id);
+        /*if (!empty($resortData)) {
+            $this->resortProjects($resortData);
+        }*/
+    }
+    public function storeNewSortOrder(Request $request) {
+        $resortData = json_decode($request->get('resort'), true);
+        asort($resortData);
 
-            foreach ($projectData as $innerKey => $value) {
-                if ($innerKey === 'id') {
-                    continue;
-                }
-                if ($innerKey === 'tags') {
-                    $this->processTags($value, $project);
-                }
-                if ($project->$innerKey !== $value) {
-                    $project->$innerKey = $value;
-                }
+        $ids = [];
+
+        foreach ($resortData as $id => $order) {
+            $ids[] = $id;
+        }
+
+        Project::setNewOrder($ids);
+    }
+    /*protected function resortProjects(array $resortData) {
+        foreach ($resortData as $projectId => $orderColumn) {
+            $project = Project::where('id', $projectId)->get()->first();
+            if ($project->order_column !== $orderColumn) {
+                $project->order_column = $orderColumn;
                 $project->save();
-
             }
         }
-    }
+    }*/
+    public function updateProject(array $projectData, $isNew = false) {
+        $project = $isNew === true ? new Project() : Project::find($projectData['id']);
 
-    protected function getProjectTags(Project $project) {
+        $resortData = [];
 
-        $out = [];
+        foreach ($projectData as $innerKey => $value) {
+            if ($innerKey === 'id' || $innerKey === 'order_column') {
+                continue;
+            }
+            if ($innerKey === 'tags') {
+                $this->processTags($value, $project);
+                continue;
+            }
+            if ($project->$innerKey !== $value) {
+                $project->$innerKey = $value;
+            }
+        }
+        $project->save();
 
-        $tags = $project->Tags()->get()->toArray();
+        if ($isNew === true) {
+            $id = $project->id;
 
-        foreach ($tags as $tagData) {
-            $tagId = $tagData['id'];
-            $out[$tagId] = $tagData['tag'];
+            $projectShiftIds = $this->getProjectOrderShiftIds($projectData['order_column'], $id);
+
+            Project::setNewOrder($projectShiftIds, $projectData['order_column']);
         }
 
-        return $out;
+        return $resortData;
+    }
+
+    protected function getProjectOrderShiftIds($order_column, $currentId) {
+        $projects = Project::where('order_column', '>=', $order_column)->get();
+
+        $ids = [];
+
+        foreach ($projects as $project) {
+            if ($project->id !== $currentId) {
+                $ids[] = $project->id;
+            }
+        }
+
+        array_unshift($ids, $currentId);
+
+        return $ids;
     }
 
     protected function processTags(array $tags, Project $project) {
@@ -110,6 +151,20 @@ class AdminController extends Controller
                 $project->tags()->attach($tagId);
             }
         }
+    }
+
+    protected function getProjectTags(Project $project) {
+
+        $out = [];
+
+        $tags = $project->Tags()->get()->toArray();
+
+        foreach ($tags as $tagData) {
+            $tagId = $tagData['id'];
+            $out[$tagId] = $tagData['tag'];
+        }
+
+        return $out;
     }
 
     public function allTags() {
