@@ -40,31 +40,38 @@ class AdminController extends Controller
 
     public function storeProject(Request $request) {
         $projects   = json_decode($request->get('projects'), true);
-        $resortData = json_decode($request->get('resort'), true);
+        //$resortData = json_decode($request->get('resort'), true);
         $files      = $request->file('file');
 
         foreach ($projects as $key => $projectData) {
             $this->updateProject($projectData, !is_int($projectData['id']));
         }
 
-        if (!empty($resortData)) {
+        /*if (!empty($resortData)) {
             $this->resortProjects($resortData);
-        }
+        }*/
     }
-    protected function resortProjects(array $resortData) {
-        foreach ($resortData as $idWithOrderPair) {
-            $split = explode('-', $idWithOrderPair);
-            if (count($split) !== 2) {
-                continue;
-            }
-            $id = $split[0];
-            $orderColumn = $split[1];
+    public function storeNewSortOrder(Request $request) {
+        $resortData = json_decode($request->get('resort'), true);
+        asort($resortData);
 
-            $project = Project::where('id', $id)->get()->first();
-            $project->order_column = $orderColumn;
-            $project->save();
+        $ids = [];
+
+        foreach ($resortData as $id => $order) {
+            $ids[] = $id;
         }
+
+        Project::setNewOrder($ids);
     }
+    /*protected function resortProjects(array $resortData) {
+        foreach ($resortData as $projectId => $orderColumn) {
+            $project = Project::where('id', $projectId)->get()->first();
+            if ($project->order_column !== $orderColumn) {
+                $project->order_column = $orderColumn;
+                $project->save();
+            }
+        }
+    }*/
     public function updateProject(array $projectData, $isNew = false) {
         $project = $isNew === true ? new Project() : Project::find($projectData['id']);
 
@@ -84,7 +91,31 @@ class AdminController extends Controller
         }
         $project->save();
 
+        if ($isNew === true) {
+            $id = $project->id;
+
+            $projectShiftIds = $this->getProjectOrderShiftIds($projectData['order_column'], $id);
+
+            Project::setNewOrder($projectShiftIds, $projectData['order_column']);
+        }
+
         return $resortData;
+    }
+
+    protected function getProjectOrderShiftIds($order_column, $currentId) {
+        $projects = Project::where('order_column', '>=', $order_column)->get();
+
+        $ids = [];
+
+        foreach ($projects as $project) {
+            if ($project->id !== $currentId) {
+                $ids[] = $project->id;
+            }
+        }
+
+        array_unshift($ids, $currentId);
+
+        return $ids;
     }
 
     protected function processTags(array $tags, Project $project) {
