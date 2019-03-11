@@ -8822,6 +8822,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 //
 //
 //
+//
+//
+//
 
 
 
@@ -8839,7 +8842,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       allTags: [],
       updated: [],
       tempIds: [],
-      resort: [],
+      resort: {},
       initialized: false,
       loading: true
     };
@@ -8967,7 +8970,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     undoHandler: function undoHandler(data) {
       var index = data.index;
       var state = JSON.parse(data.state);
-      console.log(state);
       var self = this;
 
       for (var property in state) {
@@ -9016,6 +9018,33 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var projectArray = [this.projects[index]];
       this.updateProjects(projectArray);
     },
+    moveHandler: function moveHandler() {
+      var processed = 0;
+      var resort = {};
+      var self = this;
+      this.projects.forEach(function (project) {
+        //this.resort[project.id] = project.order_column;
+        resort[project.id] = project.order_column;
+        ++processed;
+
+        if (self.projects.length === processed) {
+          self.sendSortOrder(resort);
+        }
+      });
+    },
+    sendSortOrder: function sendSortOrder(resort) {
+      var formData = new FormData();
+      formData.append('resort', JSON.stringify(resort));
+      axios.post('/project-store-sort-order', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (response) {
+        console.log(response);
+      }).catch(function (error) {
+        console.log('errors: ', error);
+      });
+    },
     sortOrderHandler: function sortOrderHandler(data) {
       var id = data.id;
       var orderColumn = data.orderColumn;
@@ -9026,7 +9055,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     },
     updateProjects: function updateProjects(projectArray) {
-      console.log(projectArray);
       var formData = new FormData();
       formData.append('projects', JSON.stringify(projectArray));
       formData.append('resort', JSON.stringify(this.resort));
@@ -9421,11 +9449,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     projectIsUpdated: function projectIsUpdated() {
       if (this.initialized === false) {
         return;
-      }
+      } //this.checkForOrderUpdate();
 
-      this.checkForOrderUpdate();
-      var currentState = this.copyObject(this.project, false);
-      var savedState = this.copyObject(this.state, false);
+
+      var currentState = this.copyObject(this.project, true);
+      var savedState = this.copyObject(this.state, true);
       var isUpdated = JSON.stringify(currentState) !== JSON.stringify(savedState);
       this.$emit('projectIsUpdated', {
         'id': this.project.id,
@@ -9550,6 +9578,8 @@ __webpack_require__.r(__webpack_exports__);
           newIndex = _ref.newIndex;
 
       _this.$emit("input", Object(_move__WEBPACK_IMPORTED_MODULE_1__["move"])(_this.value, oldIndex, newIndex));
+
+      _this.$emit("move");
     });
   },
   render: function render() {
@@ -44847,6 +44877,7 @@ var render = function() {
     "form",
     [
       _c("sortable-list", {
+        on: { move: _vm.moveHandler },
         scopedSlots: _vm._u([
           {
             key: "default",
@@ -44862,6 +44893,8 @@ var render = function() {
                     [
                       _c("project-input", {
                         key: project.id,
+                        ref: index,
+                        refInFor: true,
                         attrs: {
                           index: index,
                           project: project,
