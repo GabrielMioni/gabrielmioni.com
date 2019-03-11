@@ -222,10 +222,10 @@
                 if (this.initialized === false) {
                     return;
                 }
-                this.checkForOrderUpdate();
+                //this.checkForOrderUpdate();
 
-                const currentState = this.copyObject(this.project, false);
-                const savedState = this.copyObject(this.state, false);
+                const currentState = this.copyObject(this.project, true);
+                const savedState = this.copyObject(this.state, true);
                 const isUpdated = JSON.stringify(currentState) !== JSON.stringify(savedState);
                 this.$emit('projectIsUpdated', {'id': this.project.id, 'updated' : isUpdated});
                 /*if (isUpdated) {
