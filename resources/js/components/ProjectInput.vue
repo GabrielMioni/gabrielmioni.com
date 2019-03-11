@@ -233,12 +233,12 @@
                 }*/
                 return isUpdated;
             },
-            checkForOrderUpdate() {
+            /*checkForOrderUpdate() {
                 if (this.state.order_column !== this.project.order_column) {
                     this.$emit('sortOrder', {'id': this.project.id, 'orderColumn' : this.project.order_column});
                 }
 
-            }
+            }*/
         },
         created() {
 
