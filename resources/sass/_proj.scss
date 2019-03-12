@@ -144,6 +144,14 @@
     }
 }
 
+.loading {
+    display: inline-block;
+    color: $blue;
+    font-size: 1.5rem;
+    vertical-align: bottom;
+    margin-right: 10px;
+}
+
 @keyframes bounce {
     10%, 90% {
         transform: translatey(5px);
