@@ -170,25 +170,14 @@
             undoHandler(data) {
                 const index = data.index;
                 const state = JSON.parse(data.state);
-                const self = this;
 
-                for (const property in state) {
-                    if (!state.hasOwnProperty(property)) {
-                        return;
-                    }
-                    const propertyValue = state[property];
-
-                    // if (property === 'order_column' && this.projects[index][property] !== propertyValue) {
-                    if (property === 'order_column') {
-                        // const mateIndex = self.findMovedPair(propertyValue);
-                        // this.projects = move(self.projects, mateIndex, index);
-                        return;
-                    }
-
-                    if (property !== 'order_column' && self.projects[index][property] !== propertyValue) {
-                        self.projects[index][property] = propertyValue;
-                    }
-                }
+                this.projects[index].description = state.description;
+                this.projects[index].documentation = state.documentation;
+                this.projects[index].image_main = state.image_main;
+                this.projects[index].image_main_ext = state.image_main_ext;
+                this.projects[index].tags = state.tags;
+                this.projects[index].title = state.title;
+                this.projects[index].wordpress = state.wordpress;
             },
             findMovedPair(stateOrder) {
                 const BreakException = {};
@@ -219,24 +208,17 @@
                 const projectArray = [this.projects[index]];
                 this.updateProjects(projectArray);
             },
-            moveHandler() {
-                let processed = 0;
-                let resort = {};
-                const self = this;
+            moveHandler(data) {
+                const index = data.index;
+                const id = this.projects[index].id;
+                const orderColumn = this.projects[index].order_column;
 
-                this.projects.forEach( (project) => {
-                    //this.resort[project.id] = project.order_column;
-                    resort[project.id] = project.order_column;
-                    ++processed;
-
-                    if (self.projects.length === processed) {
-                        self.sendSortOrder(resort);
-                    }
-                });
+                this.sendSortOrder(id, orderColumn);
             },
-            sendSortOrder(resort) {
+            sendSortOrder(id, orderColumn) {
+                let resortData = {'id': id, 'orderColumn' : orderColumn};
                 let formData = new FormData();
-                formData.append('resort', JSON.stringify(resort));
+                formData.append('resortData', JSON.stringify(resortData));
 
                 axios.post('/project-store-sort-order', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
                     .then((response) => {
