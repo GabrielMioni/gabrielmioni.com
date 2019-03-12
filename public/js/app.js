@@ -9065,13 +9065,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }).catch(function (error) {
         console.log('errors: ', error);
       });
-    },
-    initProjectLoading: function initProjectLoading() {
-      var out = [];
-      this.projects.forEach(function () {
-        out.push(false);
-      });
-      this.projectsLoading = out;
     }
   },
   created: function created() {

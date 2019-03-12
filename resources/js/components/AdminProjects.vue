@@ -262,15 +262,6 @@
                     }).catch( (error) => {
                     console.log('errors: ', error);
                 });
-            },
-            initProjectLoading() {
-                let out = [];
-
-                this.projects.forEach(()=> {
-                    out.push(false);
-                });
-
-                this.projectsLoading = out;
             }
         },
         created() {
