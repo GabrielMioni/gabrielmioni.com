@@ -8842,7 +8842,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       allTags: [],
       updated: [],
       tempIds: [],
-      resort: {},
+      projectsLoading: [],
       initialized: false,
       loading: true
     };
@@ -8860,6 +8860,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         setTimeout(function () {
           self.loading = false;
           self.projects = data_obj;
+          self.initProjectLoading();
         }, 1000);
       });
     },
@@ -8970,25 +8971,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     undoHandler: function undoHandler(data) {
       var index = data.index;
       var state = JSON.parse(data.state);
-      var self = this;
-
-      for (var property in state) {
-        if (!state.hasOwnProperty(property)) {
-          return;
-        }
-
-        var propertyValue = state[property]; // if (property === 'order_column' && this.projects[index][property] !== propertyValue) {
-
-        if (property === 'order_column') {
-          // const mateIndex = self.findMovedPair(propertyValue);
-          // this.projects = move(self.projects, mateIndex, index);
-          return;
-        }
-
-        if (property !== 'order_column' && self.projects[index][property] !== propertyValue) {
-          self.projects[index][property] = propertyValue;
-        }
-      }
+      this.projects[index].description = state.description;
+      this.projects[index].documentation = state.documentation;
+      this.projects[index].image_main = state.image_main;
+      this.projects[index].image_main_ext = state.image_main_ext;
+      this.projects[index].tags = state.tags;
+      this.projects[index].title = state.title;
+      this.projects[index].wordpress = state.wordpress;
     },
     findMovedPair: function findMovedPair(stateOrder) {
       var BreakException = {};
@@ -9015,26 +9004,28 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return;
       }
 
+      var projectInput = this.$refs[id][0];
+      projectInput.toggleLoading();
+      setTimeout(function () {
+        projectInput.toggleLoading();
+        projectInput.updateState();
+      }, 1000);
       var projectArray = [this.projects[index]];
       this.updateProjects(projectArray);
     },
-    moveHandler: function moveHandler() {
-      var processed = 0;
-      var resort = {};
-      var self = this;
-      this.projects.forEach(function (project) {
-        //this.resort[project.id] = project.order_column;
-        resort[project.id] = project.order_column;
-        ++processed;
-
-        if (self.projects.length === processed) {
-          self.sendSortOrder(resort);
-        }
-      });
+    moveHandler: function moveHandler(data) {
+      var index = data.index;
+      var id = this.projects[index].id;
+      var orderColumn = this.projects[index].order_column;
+      this.sendSortOrder(id, orderColumn);
     },
-    sendSortOrder: function sendSortOrder(resort) {
+    sendSortOrder: function sendSortOrder(id, orderColumn) {
+      var resortData = {
+        'id': id,
+        'orderColumn': orderColumn
+      };
       var formData = new FormData();
-      formData.append('resort', JSON.stringify(resort));
+      formData.append('resortData', JSON.stringify(resortData));
       axios.post('/project-store-sort-order', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -9074,6 +9065,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }).catch(function (error) {
         console.log('errors: ', error);
       });
+    },
+    initProjectLoading: function initProjectLoading() {
+      var out = [];
+      this.projects.forEach(function () {
+        out.push(false);
+      });
+      this.projectsLoading = out;
     }
   },
   created: function created() {
@@ -9082,6 +9080,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   },
   mounted: function mounted() {
     this.getProjects();
+    this.initProjectLoading();
     this.getTags();
   }
 });
@@ -9310,6 +9309,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 //
 //
 //
+//
 
 
 
@@ -9328,7 +9328,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     return {
       expanded: true,
       state: '',
-      initialized: false
+      initialized: false,
+      loading: false
     };
   },
   methods: {
@@ -9426,17 +9427,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         delete copy['order_column'];
       }
 
-      return copy; //return Object.assign({}, obj);
+      return copy;
     },
     setState: function setState() {
-      // let copy = this.copyObject(this.project);
-      // this.state = JSON.stringify(copy);
-      this.state = this.copyObject(this.project);
+      this.state = JSON.stringify(this.copyObject(this.project, true));
     },
     undo: function undo() {
       this.$emit('undo', {
         'index': this.index,
-        'state': JSON.stringify(this.state)
+        'state': this.state
       });
     },
     updateSingle: function updateSingle() {
@@ -9449,29 +9448,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     projectIsUpdated: function projectIsUpdated() {
       if (this.initialized === false) {
         return;
-      } //this.checkForOrderUpdate();
+      }
 
-
-      var currentState = this.copyObject(this.project, true);
-      var savedState = this.copyObject(this.state, true);
-      var isUpdated = JSON.stringify(currentState) !== JSON.stringify(savedState);
+      var currentState = JSON.stringify(this.copyObject(this.project, true));
+      var isUpdated = currentState !== this.state;
       this.$emit('projectIsUpdated', {
         'id': this.project.id,
         'updated': isUpdated
       });
-      /*if (isUpdated) {
-          this.checkForOrderUpdate();
-      }*/
-
       return isUpdated;
     },
-    checkForOrderUpdate: function checkForOrderUpdate() {
-      if (this.state.order_column !== this.project.order_column) {
-        this.$emit('sortOrder', {
-          'id': this.project.id,
-          'orderColumn': this.project.order_column
-        });
-      }
+    toggleLoading: function toggleLoading() {
+      this.loading = !this.loading;
+    },
+    updateState: function updateState() {
+      this.state = JSON.stringify(this.copyObject(this.project, true));
     }
   },
   created: function created() {},
@@ -9579,7 +9570,9 @@ __webpack_require__.r(__webpack_exports__);
 
       _this.$emit("input", Object(_move__WEBPACK_IMPORTED_MODULE_1__["move"])(_this.value, oldIndex, newIndex));
 
-      _this.$emit("move");
+      _this.$emit("move", {
+        'index': newIndex
+      });
     });
   },
   render: function render() {
@@ -9666,9 +9659,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     addTag: function addTag() {
       var newTag = this.filteredAllTags.length > 0 ? this.filteredAllTags[0] : this.search;
-      this.$emit('tagUpdate', {
-        'tag': newTag
-      });
+
+      if (!this.tags.includes(newTag)) {
+        this.$emit('tagUpdate', {
+          'tag': newTag
+        });
+      }
+
       this.search = '';
     },
     removeTag: function removeTag(tag) {
@@ -44893,7 +44890,7 @@ var render = function() {
                     [
                       _c("project-input", {
                         key: project.id,
-                        ref: index,
+                        ref: project.id,
                         refInFor: true,
                         attrs: {
                           index: index,
@@ -45274,6 +45271,12 @@ var render = function() {
         _c("div", { staticClass: "form-row justify-content-end" }, [
           _c("div", { staticClass: "col-sm-3" }, [
             _c("div", { staticClass: "update-controls float-right" }, [
+              _vm.loading === true
+                ? _c("div", { staticClass: "loading" }, [
+                    _c("i", { staticClass: "fas fa-circle-notch fa-spin" })
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
               _c(
                 "button",
                 {

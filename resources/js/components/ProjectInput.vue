@@ -104,6 +104,7 @@
             <div class="form-row justify-content-end">
                 <div class="col-sm-3">
                     <div class="update-controls float-right">
+                        <div v-if="loading === true" class="loading"><i class="fas fa-circle-notch fa-spin"></i></div>
                         <button
                             @click="undo"
                             type="button" tabindex="-1" class="btn btn-dark" v-bind:class="{ 'disabled' : !projectIsUpdated() }">Undo</button>
@@ -133,6 +134,7 @@
                 expanded : true,
                 state : '',
                 initialized: false,
+                loading: false,
             };
         },
         methods: {
@@ -204,15 +206,12 @@
                     delete copy['order_column'];
                 }
                 return copy;
-                //return Object.assign({}, obj);
             },
             setState() {
-                // let copy = this.copyObject(this.project);
-                // this.state = JSON.stringify(copy);
-                this.state = this.copyObject(this.project);
+                this.state = JSON.stringify(this.copyObject(this.project, true));
             },
             undo() {
-                this.$emit('undo', {'index':this.index, 'state':JSON.stringify(this.state)});
+                this.$emit('undo', {'index':this.index, 'state':this.state});
             },
             updateSingle() {
                 console.log('clicky');
@@ -222,23 +221,17 @@
                 if (this.initialized === false) {
                     return;
                 }
-                //this.checkForOrderUpdate();
-
-                const currentState = this.copyObject(this.project, true);
-                const savedState = this.copyObject(this.state, true);
-                const isUpdated = JSON.stringify(currentState) !== JSON.stringify(savedState);
+                const currentState = JSON.stringify(this.copyObject(this.project, true));
+                const isUpdated = currentState !== this.state;
                 this.$emit('projectIsUpdated', {'id': this.project.id, 'updated' : isUpdated});
-                /*if (isUpdated) {
-                    this.checkForOrderUpdate();
-                }*/
                 return isUpdated;
             },
-            /*checkForOrderUpdate() {
-                if (this.state.order_column !== this.project.order_column) {
-                    this.$emit('sortOrder', {'id': this.project.id, 'orderColumn' : this.project.order_column});
-                }
-
-            }*/
+            toggleLoading() {
+                this.loading = !this.loading;
+            },
+            updateState() {
+                this.state = JSON.stringify(this.copyObject(this.project, true));
+            }
         },
         created() {
 

@@ -10658,6 +10658,14 @@ a.text-dark:focus {
   font-size: 3rem;
 }
 
+.loading {
+  display: inline-block;
+  color: #3490dc;
+  font-size: 1.5rem;
+  vertical-align: bottom;
+  margin-right: 10px;
+}
+
 @-webkit-keyframes bounce {
   10%, 90% {
     -webkit-transform: translatey(5px);

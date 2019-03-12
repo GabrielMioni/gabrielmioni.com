@@ -63,7 +63,9 @@
             },
             addTag() {
                 const newTag = this.filteredAllTags.length > 0 ? this.filteredAllTags[0] : this.search;
-                this.$emit('tagUpdate', {'tag': newTag});
+                if (!this.tags.includes(newTag)) {
+                    this.$emit('tagUpdate', {'tag': newTag});
+                }
                 this.search = '';
             },
             removeTag(tag) {
