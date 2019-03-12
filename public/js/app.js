@@ -8842,7 +8842,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       allTags: [],
       updated: [],
       tempIds: [],
-      resort: {},
+      projectsLoading: [],
       initialized: false,
       loading: true
     };
@@ -8860,6 +8860,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         setTimeout(function () {
           self.loading = false;
           self.projects = data_obj;
+          self.initProjectLoading();
         }, 1000);
       });
     },
@@ -9003,6 +9004,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return;
       }
 
+      var projectInput = this.$refs[id][0];
+      projectInput.toggleLoading();
+      setTimeout(function () {
+        projectInput.toggleLoading();
+        projectInput.updateState();
+      }, 1000);
       var projectArray = [this.projects[index]];
       this.updateProjects(projectArray);
     },
@@ -9058,6 +9065,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }).catch(function (error) {
         console.log('errors: ', error);
       });
+    },
+    initProjectLoading: function initProjectLoading() {
+      var out = [];
+      this.projects.forEach(function () {
+        out.push(false);
+      });
+      this.projectsLoading = out;
     }
   },
   created: function created() {
@@ -9066,6 +9080,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   },
   mounted: function mounted() {
     this.getProjects();
+    this.initProjectLoading();
     this.getTags();
   }
 });
@@ -9294,6 +9309,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 //
 //
 //
+//
 
 
 
@@ -9312,7 +9328,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     return {
       expanded: true,
       state: '',
-      initialized: false
+      initialized: false,
+      loading: false
     };
   },
   methods: {
@@ -9440,6 +9457,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         'updated': isUpdated
       });
       return isUpdated;
+    },
+    toggleLoading: function toggleLoading() {
+      this.loading = !this.loading;
+    },
+    updateState: function updateState() {
+      this.state = JSON.stringify(this.copyObject(this.project, true));
     }
   },
   created: function created() {},
@@ -44867,7 +44890,7 @@ var render = function() {
                     [
                       _c("project-input", {
                         key: project.id,
-                        ref: index,
+                        ref: project.id,
                         refInFor: true,
                         attrs: {
                           index: index,
@@ -45248,6 +45271,12 @@ var render = function() {
         _c("div", { staticClass: "form-row justify-content-end" }, [
           _c("div", { staticClass: "col-sm-3" }, [
             _c("div", { staticClass: "update-controls float-right" }, [
+              _vm.loading === true
+                ? _c("div", { staticClass: "loading" }, [
+                    _c("i", { staticClass: "fas fa-circle-notch fa-spin" })
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
               _c(
                 "button",
                 {

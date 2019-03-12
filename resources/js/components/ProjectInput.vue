@@ -104,6 +104,7 @@
             <div class="form-row justify-content-end">
                 <div class="col-sm-3">
                     <div class="update-controls float-right">
+                        <div v-if="loading === true" class="loading"><i class="fas fa-circle-notch fa-spin"></i></div>
                         <button
                             @click="undo"
                             type="button" tabindex="-1" class="btn btn-dark" v-bind:class="{ 'disabled' : !projectIsUpdated() }">Undo</button>
@@ -133,6 +134,7 @@
                 expanded : true,
                 state : '',
                 initialized: false,
+                loading: false,
             };
         },
         methods: {
@@ -224,6 +226,12 @@
                 this.$emit('projectIsUpdated', {'id': this.project.id, 'updated' : isUpdated});
                 return isUpdated;
             },
+            toggleLoading() {
+                this.loading = !this.loading;
+            },
+            updateState() {
+                this.state = JSON.stringify(this.copyObject(this.project, true));
+            }
         },
         created() {
 

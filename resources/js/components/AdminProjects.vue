@@ -18,7 +18,7 @@
                             v-on:updateSingle="updateSingleHandler"
                             v-on:sortOrder="sortOrderHandler"
                             :key="project.id"
-                            :ref="index"
+                            :ref="project.id"
                             :index="index"
                             :project="project"
                             :allTags="allTags">
@@ -44,7 +44,7 @@
                 allTags: [],
                 updated: [],
                 tempIds: [],
-                resort:  {},
+                projectsLoading: [],
                 initialized: false,
                 loading: true,
             };
@@ -63,6 +63,7 @@
                     setTimeout(() => {
                         self.loading = false;
                         self.projects = data_obj;
+                        self.initProjectLoading();
                     }, 1000);
                 });
             },
@@ -204,6 +205,12 @@
                 if (!this.updated.includes(id)) {
                     return;
                 }
+                const projectInput = this.$refs[id][0];
+                projectInput.toggleLoading();
+                setTimeout(() => {
+                    projectInput.toggleLoading();
+                    projectInput.updateState();
+                }, 1000);
 
                 const projectArray = [this.projects[index]];
                 this.updateProjects(projectArray);
@@ -256,6 +263,15 @@
                     console.log('errors: ', error);
                 });
             },
+            initProjectLoading() {
+                let out = [];
+
+                this.projects.forEach(()=> {
+                    out.push(false);
+                });
+
+                this.projectsLoading = out;
+            }
         },
         created() {
             this.$options.projects_url = '/projects-json';
@@ -263,6 +279,7 @@
         },
         mounted() {
             this.getProjects();
+            this.initProjectLoading();
             this.getTags();
         }
     }
