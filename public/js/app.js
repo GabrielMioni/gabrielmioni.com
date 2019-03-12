@@ -8970,25 +8970,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     undoHandler: function undoHandler(data) {
       var index = data.index;
       var state = JSON.parse(data.state);
-      var self = this;
-
-      for (var property in state) {
-        if (!state.hasOwnProperty(property)) {
-          return;
-        }
-
-        var propertyValue = state[property]; // if (property === 'order_column' && this.projects[index][property] !== propertyValue) {
-
-        if (property === 'order_column') {
-          // const mateIndex = self.findMovedPair(propertyValue);
-          // this.projects = move(self.projects, mateIndex, index);
-          return;
-        }
-
-        if (property !== 'order_column' && self.projects[index][property] !== propertyValue) {
-          self.projects[index][property] = propertyValue;
-        }
-      }
+      this.projects[index].description = state.description;
+      this.projects[index].documentation = state.documentation;
+      this.projects[index].image_main = state.image_main;
+      this.projects[index].image_main_ext = state.image_main_ext;
+      this.projects[index].tags = state.tags;
+      this.projects[index].title = state.title;
+      this.projects[index].wordpress = state.wordpress;
     },
     findMovedPair: function findMovedPair(stateOrder) {
       var BreakException = {};
@@ -9018,23 +9006,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var projectArray = [this.projects[index]];
       this.updateProjects(projectArray);
     },
-    moveHandler: function moveHandler() {
-      var processed = 0;
-      var resort = {};
-      var self = this;
-      this.projects.forEach(function (project) {
-        //this.resort[project.id] = project.order_column;
-        resort[project.id] = project.order_column;
-        ++processed;
-
-        if (self.projects.length === processed) {
-          self.sendSortOrder(resort);
-        }
-      });
+    moveHandler: function moveHandler(data) {
+      var index = data.index;
+      var id = this.projects[index].id;
+      var orderColumn = this.projects[index].order_column;
+      this.sendSortOrder(id, orderColumn);
     },
-    sendSortOrder: function sendSortOrder(resort) {
+    sendSortOrder: function sendSortOrder(id, orderColumn) {
+      var resortData = {
+        'id': id,
+        'orderColumn': orderColumn
+      };
       var formData = new FormData();
-      formData.append('resort', JSON.stringify(resort));
+      formData.append('resortData', JSON.stringify(resortData));
       axios.post('/project-store-sort-order', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -9431,12 +9415,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     setState: function setState() {
       // let copy = this.copyObject(this.project);
       // this.state = JSON.stringify(copy);
-      this.state = this.copyObject(this.project);
+      this.state = JSON.stringify(this.copyObject(this.project));
     },
     undo: function undo() {
       this.$emit('undo', {
         'index': this.index,
-        'state': JSON.stringify(this.state)
+        'state': this.state
       });
     },
     updateSingle: function updateSingle() {
@@ -9452,9 +9436,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       } //this.checkForOrderUpdate();
 
 
-      var currentState = this.copyObject(this.project, true);
-      var savedState = this.copyObject(this.state, true);
-      var isUpdated = JSON.stringify(currentState) !== JSON.stringify(savedState);
+      var currentState = JSON.stringify(this.project); //const savedState = this.copyObject(this.state, true);
+
+      var isUpdated = currentState !== this.state;
       this.$emit('projectIsUpdated', {
         'id': this.project.id,
         'updated': isUpdated
@@ -9464,14 +9448,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }*/
 
       return isUpdated;
-    },
-    checkForOrderUpdate: function checkForOrderUpdate() {
-      if (this.state.order_column !== this.project.order_column) {
-        this.$emit('sortOrder', {
-          'id': this.project.id,
-          'orderColumn': this.project.order_column
-        });
-      }
     }
   },
   created: function created() {},
@@ -9579,7 +9555,9 @@ __webpack_require__.r(__webpack_exports__);
 
       _this.$emit("input", Object(_move__WEBPACK_IMPORTED_MODULE_1__["move"])(_this.value, oldIndex, newIndex));
 
-      _this.$emit("move");
+      _this.$emit("move", {
+        'index': newIndex
+      });
     });
   },
   render: function render() {
