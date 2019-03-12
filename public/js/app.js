@@ -9410,12 +9410,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         delete copy['order_column'];
       }
 
-      return copy; //return Object.assign({}, obj);
+      return copy;
     },
     setState: function setState() {
-      // let copy = this.copyObject(this.project);
-      // this.state = JSON.stringify(copy);
-      this.state = JSON.stringify(this.copyObject(this.project));
+      this.state = JSON.stringify(this.copyObject(this.project, true));
     },
     undo: function undo() {
       this.$emit('undo', {
@@ -9433,20 +9431,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     projectIsUpdated: function projectIsUpdated() {
       if (this.initialized === false) {
         return;
-      } //this.checkForOrderUpdate();
+      }
 
-
-      var currentState = JSON.stringify(this.project); //const savedState = this.copyObject(this.state, true);
-
+      var currentState = JSON.stringify(this.copyObject(this.project, true));
       var isUpdated = currentState !== this.state;
       this.$emit('projectIsUpdated', {
         'id': this.project.id,
         'updated': isUpdated
       });
-      /*if (isUpdated) {
-          this.checkForOrderUpdate();
-      }*/
-
       return isUpdated;
     }
   },

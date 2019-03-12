@@ -206,7 +206,7 @@
                 return copy;
             },
             setState() {
-                this.state = JSON.stringify(this.copyObject(this.project));
+                this.state = JSON.stringify(this.copyObject(this.project, true));
             },
             undo() {
                 this.$emit('undo', {'index':this.index, 'state':this.state});
@@ -219,7 +219,7 @@
                 if (this.initialized === false) {
                     return;
                 }
-                const currentState = JSON.stringify(this.project);
+                const currentState = JSON.stringify(this.copyObject(this.project, true));
                 const isUpdated = currentState !== this.state;
                 this.$emit('projectIsUpdated', {'id': this.project.id, 'updated' : isUpdated});
                 return isUpdated;
