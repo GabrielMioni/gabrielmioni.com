@@ -204,15 +204,12 @@
                     delete copy['order_column'];
                 }
                 return copy;
-                //return Object.assign({}, obj);
             },
             setState() {
-                // let copy = this.copyObject(this.project);
-                // this.state = JSON.stringify(copy);
-                this.state = this.copyObject(this.project);
+                this.state = JSON.stringify(this.copyObject(this.project));
             },
             undo() {
-                this.$emit('undo', {'index':this.index, 'state':JSON.stringify(this.state)});
+                this.$emit('undo', {'index':this.index, 'state':this.state});
             },
             updateSingle() {
                 console.log('clicky');
@@ -222,23 +219,11 @@
                 if (this.initialized === false) {
                     return;
                 }
-                //this.checkForOrderUpdate();
-
-                const currentState = this.copyObject(this.project, true);
-                const savedState = this.copyObject(this.state, true);
-                const isUpdated = JSON.stringify(currentState) !== JSON.stringify(savedState);
+                const currentState = JSON.stringify(this.project);
+                const isUpdated = currentState !== this.state;
                 this.$emit('projectIsUpdated', {'id': this.project.id, 'updated' : isUpdated});
-                /*if (isUpdated) {
-                    this.checkForOrderUpdate();
-                }*/
                 return isUpdated;
             },
-            /*checkForOrderUpdate() {
-                if (this.state.order_column !== this.project.order_column) {
-                    this.$emit('sortOrder', {'id': this.project.id, 'orderColumn' : this.project.order_column});
-                }
-
-            }*/
         },
         created() {
 
