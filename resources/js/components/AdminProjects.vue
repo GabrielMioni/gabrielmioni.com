@@ -234,15 +234,6 @@
                     console.log('errors: ', error);
                 });
             },
-            sortOrderHandler(data) {
-                const id = data.id;
-                const orderColumn = data.orderColumn;
-
-                const sortString = id + '-' + orderColumn;
-                if (!this.resort.includes(sortString)) {
-                    this.resort.push(sortString);
-                }
-            },
             updateProjects(projectArray, callback = null) {
                 let formData = new FormData();
                 formData.append('projects', JSON.stringify(projectArray));
