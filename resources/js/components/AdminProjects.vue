@@ -16,7 +16,6 @@
                             v-on:projectIsUpdated="projectIsUpdated"
                             v-on:undo="undoHandler"
                             v-on:updateSingle="updateSingleHandler"
-                            v-on:sortOrder="sortOrderHandler"
                             :key="project.id"
                             :ref="project.id"
                             :index="index"
@@ -63,7 +62,6 @@
                     setTimeout(() => {
                         self.loading = false;
                         self.projects = data_obj;
-                        self.initProjectLoading();
                     }, 1000);
                 });
             },
@@ -207,13 +205,14 @@
                 }
                 const projectInput = this.$refs[id][0];
                 projectInput.toggleLoading();
-                setTimeout(() => {
-                    projectInput.toggleLoading();
-                    projectInput.updateState();
-                }, 1000);
 
                 const projectArray = [this.projects[index]];
-                this.updateProjects(projectArray);
+                this.updateProjects(projectArray, () => {
+                    setTimeout(() => {
+                        projectInput.toggleLoading();
+                        projectInput.updateState();
+                    }, 1000);
+                });
             },
             moveHandler(data) {
                 const index = data.index;
@@ -223,8 +222,20 @@
                 this.sendSortOrder(id, orderColumn);
             },
             sendSortOrder(id, orderColumn) {
-                let resortData = {'id': id, 'orderColumn' : orderColumn};
+
+                let ids = [];
+
+                this.projects.forEach((project)=>{
+                    if (project.order_column < orderColumn) {
+                        ids.push(project.id)
+                    }
+                });
+
+                ids.push(id);
+
+                let resortData = {'ids': ids, 'orderColumn' : orderColumn};
                 let formData = new FormData();
+
                 formData.append('resortData', JSON.stringify(resortData));
 
                 axios.post('/project-store-sort-order', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
@@ -234,19 +245,10 @@
                     console.log('errors: ', error);
                 });
             },
-            sortOrderHandler(data) {
-                const id = data.id;
-                const orderColumn = data.orderColumn;
-
-                const sortString = id + '-' + orderColumn;
-                if (!this.resort.includes(sortString)) {
-                    this.resort.push(sortString);
-                }
-            },
-            updateProjects(projectArray) {
+            updateProjects(projectArray, callback = null) {
                 let formData = new FormData();
                 formData.append('projects', JSON.stringify(projectArray));
-                formData.append('resort', JSON.stringify(this.resort));
+                //formData.append('resort', JSON.stringify(this.resort));
 
                 projectArray.forEach( (project) => {
                     const projectId = project['id'];
@@ -259,6 +261,9 @@
                 axios.post('/project-store', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
                     .then((response) => {
                         console.log(response);
+                        if (typeof callback === 'function') {
+                            callback();
+                        }
                     }).catch( (error) => {
                     console.log('errors: ', error);
                 });
@@ -270,7 +275,6 @@
         },
         mounted() {
             this.getProjects();
-            this.initProjectLoading();
             this.getTags();
         }
     }

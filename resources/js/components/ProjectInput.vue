@@ -131,7 +131,7 @@
         props: ['project', 'index', 'allTags'],
         data() {
             return {
-                expanded : true,
+                expanded : false,
                 state : '',
                 initialized: false,
                 loading: false,
