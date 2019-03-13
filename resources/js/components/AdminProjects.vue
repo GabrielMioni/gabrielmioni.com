@@ -16,7 +16,6 @@
                             v-on:projectIsUpdated="projectIsUpdated"
                             v-on:undo="undoHandler"
                             v-on:updateSingle="updateSingleHandler"
-                            v-on:sortOrder="sortOrderHandler"
                             :key="project.id"
                             :ref="project.id"
                             :index="index"
