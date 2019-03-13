@@ -49,12 +49,17 @@ class AdminController extends Controller
     public function storeNewSortOrder(Request $request) {
         $resortData = json_decode($request->get('resortData'), true);
 
-        $currentId = $resortData['id'];
+//        $currentId = $resortData['id'];
+//        $orderColumn = $resortData['orderColumn'];
+
+        $ids = $resortData['ids'];
         $orderColumn = $resortData['orderColumn'];
 
-        $ids = $this->getProjectOrderShiftIds($orderColumn, $currentId);
+        $afterIds = $this->getProjectOrderShiftIds($orderColumn, $ids);
 
-        Project::setNewOrder($ids);
+        //$ids = $this->getProjectOrderShiftIds($orderColumn, $currentId);
+
+        Project::setNewOrder(array_merge($ids, $afterIds));
     }
     public function updateProject(array $projectData, $isNew = false) {
         $project = $isNew === true ? new Project() : Project::find($projectData['id']);
@@ -91,13 +96,20 @@ class AdminController extends Controller
 
         $ids = [];
 
+        $currentIdIsArray = is_array($currentId);
+
         foreach ($projects as $project) {
-            if ($project->id !== $currentId) {
+            if ($currentIdIsArray && !in_array($project->id, $currentId)) {
+                $ids[] = $project->id;
+            }
+            if (!$currentIdIsArray && $project->id !== $currentId) {
                 $ids[] = $project->id;
             }
         }
 
-        array_unshift($ids, $currentId);
+        if (!$currentIdIsArray) {
+            array_unshift($ids, $currentId);
+        }
 
         return $ids;
     }

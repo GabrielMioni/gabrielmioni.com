@@ -222,8 +222,20 @@
                 this.sendSortOrder(id, orderColumn);
             },
             sendSortOrder(id, orderColumn) {
-                let resortData = {'id': id, 'orderColumn' : orderColumn};
+
+                let ids = [];
+
+                this.projects.forEach((project)=>{
+                    if (project.order_column < orderColumn) {
+                        ids.push(project.id)
+                    }
+                });
+
+                ids.push(id);
+
+                let resortData = {'ids': ids, 'orderColumn' : orderColumn};
                 let formData = new FormData();
+
                 formData.append('resortData', JSON.stringify(resortData));
 
                 axios.post('/project-store-sort-order', formData, { headers: { 'Content-Type': 'multipart/form-data' } })

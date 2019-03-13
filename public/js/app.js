@@ -8824,7 +8824,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 //
 //
 //
-//
 
 
 
@@ -9020,8 +9019,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       this.sendSortOrder(id, orderColumn);
     },
     sendSortOrder: function sendSortOrder(id, orderColumn) {
+      var ids = [];
+      this.projects.forEach(function (project) {
+        if (project.order_column < orderColumn) {
+          ids.push(project.id);
+        }
+      });
+      ids.push(id);
       var resortData = {
-        'id': id,
+        'ids': ids,
         'orderColumn': orderColumn
       };
       var formData = new FormData();
@@ -9035,15 +9041,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }).catch(function (error) {
         console.log('errors: ', error);
       });
-    },
-    sortOrderHandler: function sortOrderHandler(data) {
-      var id = data.id;
-      var orderColumn = data.orderColumn;
-      var sortString = id + '-' + orderColumn;
-
-      if (!this.resort.includes(sortString)) {
-        this.resort.push(sortString);
-      }
     },
     updateProjects: function updateProjects(projectArray) {
       var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
@@ -44903,8 +44900,7 @@ var render = function() {
                           deleteImage: _vm.deleteImage,
                           projectIsUpdated: _vm.projectIsUpdated,
                           undo: _vm.undoHandler,
-                          updateSingle: _vm.updateSingleHandler,
-                          sortOrder: _vm.sortOrderHandler
+                          updateSingle: _vm.updateSingleHandler
                         },
                         model: {
                           value: project[index],
