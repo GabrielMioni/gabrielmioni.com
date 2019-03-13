@@ -8860,7 +8860,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         setTimeout(function () {
           self.loading = false;
           self.projects = data_obj;
-          self.initProjectLoading();
         }, 1000);
       });
     },
@@ -9006,12 +9005,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       var projectInput = this.$refs[id][0];
       projectInput.toggleLoading();
-      setTimeout(function () {
-        projectInput.toggleLoading();
-        projectInput.updateState();
-      }, 1000);
       var projectArray = [this.projects[index]];
-      this.updateProjects(projectArray);
+      this.updateProjects(projectArray, function () {
+        setTimeout(function () {
+          projectInput.toggleLoading();
+          projectInput.updateState();
+        }, 1000);
+      });
     },
     moveHandler: function moveHandler(data) {
       var index = data.index;
@@ -9046,9 +9046,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     },
     updateProjects: function updateProjects(projectArray) {
+      var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
       var formData = new FormData();
-      formData.append('projects', JSON.stringify(projectArray));
-      formData.append('resort', JSON.stringify(this.resort));
+      formData.append('projects', JSON.stringify(projectArray)); //formData.append('resort', JSON.stringify(this.resort));
+
       projectArray.forEach(function (project) {
         var projectId = project['id'];
 
@@ -9062,6 +9063,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }).then(function (response) {
         console.log(response);
+
+        if (typeof callback === 'function') {
+          callback();
+        }
       }).catch(function (error) {
         console.log('errors: ', error);
       });
@@ -9073,7 +9078,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   },
   mounted: function mounted() {
     this.getProjects();
-    this.initProjectLoading();
     this.getTags();
   }
 });
@@ -9319,7 +9323,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   props: ['project', 'index', 'allTags'],
   data: function data() {
     return {
-      expanded: true,
+      expanded: false,
       state: '',
       initialized: false,
       loading: false
