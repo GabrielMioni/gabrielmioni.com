@@ -79,9 +79,6 @@ class AdminController extends Controller
                     continue;
                 }
                 if (trim($value) === '') {
-                    $deleted = $this->deleteImage($project);
-                    $printDeleted = $deleted === true ? 'true' : 'false';
-                    file_put_contents(dirname(__FILE__) . '/log', print_r($printDeleted, true), FILE_APPEND);
                     $project->image_main = '';
                     $project->image_main_ext = '';
                 }
