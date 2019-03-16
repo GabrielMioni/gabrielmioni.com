@@ -41,6 +41,10 @@ trait saveImageTrait {
         $imageData['width_px']  = $img->width();
         $imageData['height_px'] = $img->height();
 
+        if (empty($imageData)) {
+            return false;
+        }
+
         return $imageData;
     }
 }
