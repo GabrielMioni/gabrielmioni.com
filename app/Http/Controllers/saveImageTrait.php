@@ -8,18 +8,18 @@ use Intervention\Image\ImageManagerStatic as Image;
 trait saveImageTrait {
     function saveImage(UploadedFile $image)
     {
-        $temp_path = $image->getRealPath();
-        $image_size = getimagesize($temp_path);
-        $original_width = $image_size[0];
-        $original_height = $image_size[1];
+        $tempPath = $image->getRealPath();
+        $imageSize = getimagesize($tempPath);
+        $originalWidth = $imageSize[0];
+        $originalHeight = $imageSize[1];
 
-        $file_name = str_replace('php', '', $image->getFilename());
+        $fileName = str_replace('php', '', $image->getFilename());
 
-        $path = public_path('images/' . $file_name . '.jpg');
+        $path = public_path('images/' . $fileName . '.jpg');
 
-        $img = Image::make($temp_path);
+        $img = Image::make($tempPath);
 
-        if ($original_width > $original_height)
+        if ($originalWidth > $originalHeight)
         {
             $img->resize(null, 400, function ($constraint) {
                 $constraint->aspectRatio();
@@ -34,13 +34,17 @@ trait saveImageTrait {
 
         $img->encode('jpg', 75)->save($path);
 
-        $image_data = [];
-        $image_data['file_name'] = $file_name;
-        $image_data['extension'] = $img->extension;
-        $image_data['size_kb']   = $img->filesize();
-        $image_data['width_px']  = $img->width();
-        $image_data['height_px'] = $img->height();
+        $imageData = [];
+        $imageData['file_name'] = $fileName;
+        $imageData['extension'] = $img->extension;
+        $imageData['size_kb']   = $img->filesize();
+        $imageData['width_px']  = $img->width();
+        $imageData['height_px'] = $img->height();
 
-        return $image_data;
+        if (empty($imageData)) {
+            return false;
+        }
+
+        return $imageData;
     }
 }

@@ -72,7 +72,20 @@ class AdminController extends Controller
         $project = $isNew === true ? new Project() : Project::find($id);
 
         foreach ($projectData as $innerKey => $value) {
-            if ($innerKey === 'id' || $innerKey === 'order_column' || $innerKey === 'image_main') {
+            if ($innerKey === 'id' || $innerKey === 'order_column' || $innerKey === 'image_main_ext') {
+                continue;
+            }
+            if ($innerKey === 'image_main') {
+                if (is_array($value)) {
+                    continue;
+                }
+                if (trim($value) === '') {
+                    $deleted = $this->deleteImage($project);
+                    $printDeleted = $deleted === true ? 'true' : 'false';
+                    file_put_contents(dirname(__FILE__) . '/log', print_r($printDeleted, true), FILE_APPEND);
+                    $project->image_main = '';
+                    $project->image_main_ext = '';
+                }
                 continue;
             }
             if ($innerKey === 'tags') {
@@ -103,12 +116,14 @@ class AdminController extends Controller
         }
     }
 
-    function deleteImage(Project $project) {
+    protected function deleteImage(Project $project) {
+        if ($project->image_main === '' || $project->image_main_ext === '') {
+            return false;
+        }
         $existingImage = $project->image_main . '.' . $project->image_main_ext;
         $imagePath = public_path('/images/' . $existingImage);
-        if(Storage::exists($imagePath)) {
-            file_put_contents(dirname(__FILE__) . '/log', print_r('File does exist' . "\n", true), FILE_APPEND);
-            Storage::delete($imagePath);
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
             return true;
         }
         return false;
