@@ -107,7 +107,6 @@ class AdminController extends Controller
         $existingImage = $project->image_main . '.' . $project->image_main_ext;
         $imagePath = public_path('/images/' . $existingImage);
         if(Storage::exists($imagePath)) {
-            file_put_contents(dirname(__FILE__) . '/log', print_r('File does exist' . "\n", true), FILE_APPEND);
             Storage::delete($imagePath);
             return true;
         }
