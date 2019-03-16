@@ -6,7 +6,6 @@ use App\Project;
 use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
-use Storage;
 
 class AdminController extends Controller
 {
