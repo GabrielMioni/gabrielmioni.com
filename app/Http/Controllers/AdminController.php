@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 use App\Project;
 use App\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+use Storage;
 
 class AdminController extends Controller
 {
+    use saveImageTrait;
+
     protected $existingTags = null;
 
     public function index() {
@@ -38,36 +42,37 @@ class AdminController extends Controller
         return $projectData;
     }
 
-    public function storeProject(Request $request) {
-        $projects   = json_decode($request->get('projects'), true);
-        $files      = $request->file('file');
-
-        foreach ($projects as $key => $projectData) {
-            $this->updateProject($projectData, !is_int($projectData['id']));
-        }
-    }
     public function storeNewSortOrder(Request $request) {
         $resortData = json_decode($request->get('resortData'), true);
-
-//        $currentId = $resortData['id'];
-//        $orderColumn = $resortData['orderColumn'];
 
         $ids = $resortData['ids'];
         $orderColumn = $resortData['orderColumn'];
 
         $afterIds = $this->getProjectOrderShiftIds($orderColumn, $ids);
 
-        //$ids = $this->getProjectOrderShiftIds($orderColumn, $currentId);
-
         Project::setNewOrder(array_merge($ids, $afterIds));
     }
-    public function updateProject(array $projectData, $isNew = false) {
-        $project = $isNew === true ? new Project() : Project::find($projectData['id']);
 
-        $resortData = [];
+    public function storeProject(Request $request) {
+        $projects   = json_decode($request->get('projects'), true);
+        $files      = $request->file('file');
+
+        foreach ($projects as $key => $projectData) {
+
+            $id = $projectData['id'];
+            $file = isset($files[$id]) ? $files[$id] : null;
+            $this->updateProject($projectData, $file, $id);
+        }
+    }
+
+    public function updateProject(array $projectData, $file, $id) {
+        /* New projects are given temp IDs appended with the string '-temp'.
+         * Existing project ids are always integers. */
+        $isNew = !is_int($id);
+        $project = $isNew === true ? new Project() : Project::find($id);
 
         foreach ($projectData as $innerKey => $value) {
-            if ($innerKey === 'id' || $innerKey === 'order_column') {
+            if ($innerKey === 'id' || $innerKey === 'order_column' || $innerKey === 'image_main') {
                 continue;
             }
             if ($innerKey === 'tags') {
@@ -78,6 +83,15 @@ class AdminController extends Controller
                 $project->$innerKey = $value;
             }
         }
+        if ($file instanceof UploadedFile) {
+            if (!$isNew && $project->image_main !== null && $project->image_main_ext !== null) {
+                $this->deleteImage($project);
+            }
+
+            $imageData = $this->saveImage($file);
+            $project->image_main = $imageData['file_name'];
+            $project->image_main_ext = $imageData['extension'];
+        }
         $project->save();
 
         if ($isNew === true) {
@@ -87,8 +101,17 @@ class AdminController extends Controller
 
             Project::setNewOrder($projectShiftIds, $projectData['order_column']);
         }
+    }
 
-        return $resortData;
+    function deleteImage(Project $project) {
+        $existingImage = $project->image_main . '.' . $project->image_main_ext;
+        $imagePath = public_path('/images/' . $existingImage);
+        if(Storage::exists($imagePath)) {
+            file_put_contents(dirname(__FILE__) . '/log', print_r('File does exist' . "\n", true), FILE_APPEND);
+            Storage::delete($imagePath);
+            return true;
+        }
+        return false;
     }
 
     protected function getProjectOrderShiftIds($order_column, $currentId) {
