@@ -6,7 +6,6 @@ use App\Project;
 use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
-use Storage;
 
 class AdminController extends Controller
 {
@@ -80,9 +79,6 @@ class AdminController extends Controller
                     continue;
                 }
                 if (trim($value) === '') {
-                    $deleted = $this->deleteImage($project);
-                    $printDeleted = $deleted === true ? 'true' : 'false';
-                    file_put_contents(dirname(__FILE__) . '/log', print_r($printDeleted, true), FILE_APPEND);
                     $project->image_main = '';
                     $project->image_main_ext = '';
                 }
