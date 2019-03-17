@@ -124,6 +124,15 @@ class AdminController extends Controller
         }
     }
 
+    public function removeProject(Request $request) {
+        $id = $request->get('id');
+
+        $projectBeingDeleted = Project::find($id);
+        $this->deleteImage($projectBeingDeleted);
+
+        $projectBeingDeleted->delete();
+    }
+
     protected function deleteImage(Project $project) {
         $imagePath = $this->getImagePath($project);
 

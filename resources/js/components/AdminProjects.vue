@@ -123,13 +123,23 @@
             projectRemove(data) {
                 let project = this.getProjectAtIndex(data.index);
                 const hasData = this.checkProjectData(project);
+                const self = this;
 
                 if (hasData === true) {
                     if (!confirm('You\'re about to delete this entire project. Are you sure you want to do that?')) {
                         return;
                     }
                 }
-                this.projects.splice(data.index, 1);
+                let formData = new FormData();
+                formData.append('id', project.id);
+
+                axios.post('/project-delete', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+                    .then((response) => {
+                        self.projects.splice(data.index, 1);
+                        console.log(response);
+                    }).catch( (error) => {
+                    console.log('errors: ', error);
+                });
             },
             checkProjectData(project) {
                 for (const property in project) {
