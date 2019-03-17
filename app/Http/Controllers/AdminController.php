@@ -41,6 +41,18 @@ class AdminController extends Controller
         return $projectData;
     }
 
+    public function allTags() {
+        $tags = Tag::select('tag')->get();
+
+        $out = [];
+
+        foreach ($tags as $tag) {
+            $out[] = $tag['tag'];
+        }
+
+        return $out;
+    }
+
     public function storeNewSortOrder(Request $request) {
         $resortData = json_decode($request->get('resortData'), true);
 
@@ -192,18 +204,6 @@ class AdminController extends Controller
         foreach ($tags as $tagData) {
             $tagId = $tagData['id'];
             $out[$tagId] = $tagData['tag'];
-        }
-
-        return $out;
-    }
-
-    public function allTags() {
-        $tags = Tag::select('tag')->get();
-
-        $out = [];
-
-        foreach ($tags as $tag) {
-            $out[] = $tag['tag'];
         }
 
         return $out;
