@@ -125,16 +125,21 @@ class AdminController extends Controller
     }
 
     protected function deleteImage(Project $project) {
-        if ($project->image_main === '' || $project->image_main_ext === '') {
-            return false;
-        }
-        $existingImage = $project->image_main . '.' . $project->image_main_ext;
-        $imagePath = public_path('/images/' . $existingImage);
+        $imagePath = $this->getImagePath($project);
+
         if (file_exists($imagePath)) {
             unlink($imagePath);
             return true;
         }
         return false;
+    }
+
+    protected function getImagePath(Project $project) {
+        if ($project->image_main === '' || $project->image_main_ext === '') {
+            return false;
+        }
+        $existingImage = $project->image_main . '.' . $project->image_main_ext;
+        return public_path('/images/' . $existingImage);
     }
 
     protected function getProjectOrderShiftIds($order_column, $currentId) {
