@@ -83,7 +83,7 @@ class AdminController extends Controller
         $project = $isNew === true ? new Project() : Project::find($id);
 
         foreach ($projectData as $innerKey => $value) {
-            if ($innerKey === 'id' || $innerKey === 'order_column' || $innerKey === 'image_main_ext') {
+            if ($innerKey === 'id' || $innerKey === 'order_column' || $innerKey === 'image_main_ext' || $innerKey === 'tags') {
                 continue;
             }
             if ($innerKey === 'image_main') {
@@ -114,6 +114,8 @@ class AdminController extends Controller
             $project->image_main_ext = $imageData['extension'];
         }
         $project->save();
+
+        $this->processTags($projectData['tags'], $project);
 
         if ($isNew === true) {
             $id = $project->id;
