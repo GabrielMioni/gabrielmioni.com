@@ -124,6 +124,8 @@ class AdminController extends Controller
 
             $projectShiftIds = $this->getProjectOrderShiftIds($projectData['order_column'], $id);
 
+            file_put_contents(dirname(__FILE__) . '/log', print_r($projectShiftIds, true), FILE_APPEND);
+
             Project::setNewOrder($projectShiftIds, $projectData['order_column']);
         }
     }
@@ -156,7 +158,7 @@ class AdminController extends Controller
     }
 
     protected function getProjectOrderShiftIds($order_column, $currentId) {
-        $projects = Project::where('order_column', '>=', $order_column)->orderBy('order_column', 'asc')->get();
+        $projects = Project::where('order_column', '>', $order_column)->orderBy('order_column', 'asc')->get();
 
         $ids = [];
 
