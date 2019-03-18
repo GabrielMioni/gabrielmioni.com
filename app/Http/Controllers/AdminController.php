@@ -82,8 +82,10 @@ class AdminController extends Controller
         $isNew = !is_int($id);
         $project = $isNew === true ? new Project() : Project::find($id);
 
+        $skip = ['id', 'order_column', 'image_main_ext', 'tags'];
+
         foreach ($projectData as $innerKey => $value) {
-            if ($innerKey === 'id' || $innerKey === 'order_column' || $innerKey === 'image_main_ext' || $innerKey === 'tags') {
+            if (in_array($innerKey, $skip)) {
                 continue;
             }
             if ($innerKey === 'image_main') {
