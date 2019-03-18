@@ -8919,6 +8919,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     projectRemove: function projectRemove(data) {
       var project = this.getProjectAtIndex(data.index);
       var hasData = this.checkProjectData(project);
+      var self = this;
 
       if (hasData === true) {
         if (!confirm('You\'re about to delete this entire project. Are you sure you want to do that?')) {
@@ -8926,7 +8927,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }
 
-      this.projects.splice(data.index, 1);
+      var formData = new FormData();
+      formData.append('id', project.id);
+      axios.post('/project-delete', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (response) {
+        self.projects.splice(data.index, 1);
+        console.log(response);
+      }).catch(function (error) {
+        console.log('errors: ', error);
+      });
     },
     checkProjectData: function checkProjectData(project) {
       for (var property in project) {

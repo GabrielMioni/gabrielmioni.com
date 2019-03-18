@@ -41,6 +41,18 @@ class AdminController extends Controller
         return $projectData;
     }
 
+    public function allTags() {
+        $tags = Tag::select('tag')->get();
+
+        $out = [];
+
+        foreach ($tags as $tag) {
+            $out[] = $tag['tag'];
+        }
+
+        return $out;
+    }
+
     public function storeNewSortOrder(Request $request) {
         $resortData = json_decode($request->get('resortData'), true);
 
@@ -70,8 +82,10 @@ class AdminController extends Controller
         $isNew = !is_int($id);
         $project = $isNew === true ? new Project() : Project::find($id);
 
+        $skip = ['id', 'order_column', 'image_main_ext', 'tags'];
+
         foreach ($projectData as $innerKey => $value) {
-            if ($innerKey === 'id' || $innerKey === 'order_column' || $innerKey === 'image_main_ext') {
+            if (in_array($innerKey, $skip)) {
                 continue;
             }
             if ($innerKey === 'image_main') {
@@ -103,21 +117,31 @@ class AdminController extends Controller
         }
         $project->save();
 
+        $this->processTags($projectData['tags'], $project);
+
         if ($isNew === true) {
             $id = $project->id;
 
             $projectShiftIds = $this->getProjectOrderShiftIds($projectData['order_column'], $id);
 
+            file_put_contents(dirname(__FILE__) . '/log', print_r($projectShiftIds, true), FILE_APPEND);
+
             Project::setNewOrder($projectShiftIds, $projectData['order_column']);
         }
     }
 
+    public function removeProject(Request $request) {
+        $id = $request->get('id');
+
+        $projectBeingDeleted = Project::find($id);
+        $this->deleteImage($projectBeingDeleted);
+
+        $projectBeingDeleted->delete();
+    }
+
     protected function deleteImage(Project $project) {
-        if ($project->image_main === '' || $project->image_main_ext === '') {
-            return false;
-        }
-        $existingImage = $project->image_main . '.' . $project->image_main_ext;
-        $imagePath = public_path('/images/' . $existingImage);
+        $imagePath = $this->getImagePath($project);
+
         if (file_exists($imagePath)) {
             unlink($imagePath);
             return true;
@@ -125,8 +149,16 @@ class AdminController extends Controller
         return false;
     }
 
+    protected function getImagePath(Project $project) {
+        if ($project->image_main === '' || $project->image_main_ext === '') {
+            return false;
+        }
+        $existingImage = $project->image_main . '.' . $project->image_main_ext;
+        return public_path('/images/' . $existingImage);
+    }
+
     protected function getProjectOrderShiftIds($order_column, $currentId) {
-        $projects = Project::where('order_column', '>=', $order_column)->orderBy('order_column', 'asc')->get();
+        $projects = Project::where('order_column', '>', $order_column)->orderBy('order_column', 'asc')->get();
 
         $ids = [];
 
@@ -192,18 +224,6 @@ class AdminController extends Controller
         foreach ($tags as $tagData) {
             $tagId = $tagData['id'];
             $out[$tagId] = $tagData['tag'];
-        }
-
-        return $out;
-    }
-
-    public function allTags() {
-        $tags = Tag::select('tag')->get();
-
-        $out = [];
-
-        foreach ($tags as $tag) {
-            $out[] = $tag['tag'];
         }
 
         return $out;
