@@ -152,6 +152,21 @@
     margin-right: 10px;
 }
 
+.draggable--over {
+    position: relative;
+    &::after {
+        content: '';
+        border-radius: 0.25rem;
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        background-color: $draggable-bg;
+        border: 1px dashed $draggable-border;
+    }
+}
+
 @keyframes bounce {
     10%, 90% {
         transform: translatey(5px);

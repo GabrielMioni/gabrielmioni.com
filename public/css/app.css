@@ -10666,6 +10666,22 @@ a.text-dark:focus {
   margin-right: 10px;
 }
 
+.draggable--over {
+  position: relative;
+}
+
+.draggable--over::after {
+  content: "";
+  border-radius: 0.25rem;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #d6d8d9;
+  border: 1px dashed #696969;
+}
+
 @-webkit-keyframes bounce {
   10%, 90% {
     -webkit-transform: translatey(5px);
