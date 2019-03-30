@@ -1,3 +1,5 @@
+// Baselines
+@import "rem";
 
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
@@ -17,8 +19,6 @@
 // Frontend
 @import 'navbar-frontend';
 
-// Mixins
-@import 'rem';
 
 .navbar-laravel {
   background-color: #fff;
