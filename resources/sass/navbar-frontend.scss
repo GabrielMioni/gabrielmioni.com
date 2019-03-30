@@ -1,6 +1,7 @@
 .navbar-frontend {
   background-color: $themeColor3;
   font-family: $themeFont0;
+  color: $themeColor0;
 
   .navbar-brand {
     h2 {
@@ -8,6 +9,26 @@
       font-size: rem(40px);
     }
   }
+
+  .navbar-toggler-icon {
+    background-image: url($hamburger);
+  }
+
+  ul {
+    li {
+      padding-right: rem(20px);
+      padding-bottom: rem(16px);
+      font-weight: 400;
+      font-size: rem(24px);
+      letter-spacing: rem(2px);
+
+      @media(min-width: map_get($grid-breakpoints,'md')) {
+        padding-bottom: 0;
+        font-size: rem(16px);
+      }
+    }
+  }
+
   a {
     color: $themeColor0;
   }
