@@ -1,5 +1,13 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);@import url(https://fonts.googleapis.com/css?family=Roboto:100,400);@charset "UTF-8";
 
+/*$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+) !default;*/
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
@@ -13,13 +21,11 @@
           transform: translateY(-50%);
 }
 
-/*$grid-breakpoints: (
-  xs: 0,
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px
-) !default;*/
+#app h2 {
+  font-weight: 100;
+  font-size: 2.5rem;
+  font-family: "Roboto", Helvetica, sans-serif;
+}
 
 /*!
  * Bootstrap v4.2.1 (https://getbootstrap.com/)
@@ -10807,8 +10813,6 @@ a.text-dark:focus {
 .front-end-hero .hero-cta h2 {
   color: inherit;
   font-family: inherit;
-  font-weight: 100;
-  font-size: 2.5rem;
   margin-bottom: 1.25rem;
 }
 
