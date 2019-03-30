@@ -1,5 +1,18 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);@import url(https://fonts.googleapis.com/css?family=Roboto:100,400);@charset "UTF-8";
 
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.center-vertical,
+.front-end-hero .hero-cta {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
 /*$grid-breakpoints: (
   xs: 0,
   sm: 576px,
@@ -5732,13 +5745,13 @@ a.badge-dark:focus {
   font-size: 1.35rem;
   font-weight: 700;
   line-height: 1;
-  color: #000;
+  color: #000000;
   text-shadow: 0 1px 0 #FFFFFF;
   opacity: 0.5;
 }
 
 .close:hover {
-  color: #000;
+  color: #000000;
   text-decoration: none;
 }
 
@@ -5888,7 +5901,7 @@ a.close.disabled {
   z-index: 1040;
   width: 100vw;
   height: 100vh;
-  background-color: #000;
+  background-color: #000000;
 }
 
 .modal-backdrop.fade {
@@ -6039,7 +6052,7 @@ a.close.disabled {
 .bs-tooltip-auto[x-placement^=top] .arrow::before {
   top: 0;
   border-width: 0.4rem 0.4rem 0;
-  border-top-color: #000;
+  border-top-color: #000000;
 }
 
 .bs-tooltip-right,
@@ -6058,7 +6071,7 @@ a.close.disabled {
 .bs-tooltip-auto[x-placement^=right] .arrow::before {
   right: 0;
   border-width: 0.4rem 0.4rem 0.4rem 0;
-  border-right-color: #000;
+  border-right-color: #000000;
 }
 
 .bs-tooltip-bottom,
@@ -6075,7 +6088,7 @@ a.close.disabled {
 .bs-tooltip-auto[x-placement^=bottom] .arrow::before {
   bottom: 0;
   border-width: 0 0.4rem 0.4rem;
-  border-bottom-color: #000;
+  border-bottom-color: #000000;
 }
 
 .bs-tooltip-left,
@@ -6094,7 +6107,7 @@ a.close.disabled {
 .bs-tooltip-auto[x-placement^=left] .arrow::before {
   left: 0;
   border-width: 0.4rem 0 0.4rem 0.4rem;
-  border-left-color: #000;
+  border-left-color: #000000;
 }
 
 .tooltip-inner {
@@ -6102,7 +6115,7 @@ a.close.disabled {
   padding: 0.25rem 0.5rem;
   color: #FFFFFF;
   text-align: center;
-  background-color: #000;
+  background-color: #000000;
   border-radius: 0.25rem;
 }
 
@@ -10465,7 +10478,7 @@ a.text-dark:focus {
   }
 
   .badge {
-    border: 1px solid #000;
+    border: 1px solid #000000;
   }
 
   .table {
@@ -10743,19 +10756,93 @@ a.text-dark:focus {
 .navbar-frontend {
   background-color: #47c6c2;
   font-family: "Roboto", Helvetica, sans-serif;
+  color: #FFFFFF;
 }
 
 .navbar-frontend .navbar-brand h2 {
   font-weight: 100;
-  font-size: rem(40px);
+  font-size: 2.5rem;
+}
+
+.navbar-frontend .navbar-toggler-icon {
+  background-image: url("/svg/front-end-hamburger.svg");
+}
+
+.navbar-frontend ul li {
+  padding-right: 1.25rem;
+  padding-bottom: 1rem;
+  font-weight: 400;
+  font-size: 1.5rem;
+  letter-spacing: 0.125rem;
+}
+
+@media (min-width: 768px) {
+  .navbar-frontend ul li {
+    padding-bottom: 0;
+    font-size: 1rem;
+  }
 }
 
 .navbar-frontend a {
   color: #FFFFFF;
 }
 
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+.front-end-hero {
+  height: 31.25rem;
+  background-image: url("/background/nature-forest-trees-fog.jpeg");
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+  color: #FFFFFF;
+  font-family: "Roboto", Helvetica, sans-serif;
+}
+
+.front-end-hero .hero-cta {
+  width: 100%;
+  text-align: center;
+  z-index: 1;
+}
+
+.front-end-hero .hero-cta h2 {
+  color: inherit;
+  font-family: inherit;
+  font-weight: 100;
+  font-size: 2.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.front-end-hero .hero-cta a {
+  display: inline-block;
+  color: inherit;
+  text-decoration: none;
+  font-family: inherit;
+  font-weight: 100;
+  border: 0.125rem solid #FFFFFF;
+  padding: 10px 20px;
+  font-size: 1.25rem;
+  margin-bottom: 1.25rem;
+  width: 9.375rem;
+  text-align: center;
+}
+
+@media (min-width: 576px) {
+  .front-end-hero .hero-cta div[class*=col-sm]:first-child {
+    text-align: right;
+  }
+
+  .front-end-hero .hero-cta div[class*=col-sm]:last-child {
+    text-align: left;
+  }
+}
+
+.front-end-hero:after {
+  content: "";
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
