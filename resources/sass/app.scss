@@ -1,6 +1,7 @@
 
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,400');
 
 // Variables
 @import 'variables';
@@ -13,6 +14,11 @@
 @import "expand-toggle";
 @import "sortable-hanlde";
 
+// Frontend
+@import 'navbar-frontend';
+
+// Mixins
+@import 'rem';
 
 .navbar-laravel {
   background-color: #fff;
