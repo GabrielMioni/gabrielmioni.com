@@ -18,5 +18,8 @@
             </div>
         </div>
     </div>
-    <div>I am the front-end place</div>
+    <div class="container projects py-4">
+        <h2>Projects</h2>
+        <front-end-projects></front-end-projects>
+    </div>
 @endsection
