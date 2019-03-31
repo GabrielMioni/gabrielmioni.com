@@ -18,6 +18,7 @@ body {
 }
 
 .center-vertical,
+.project-filter .filter-control i,
 .front-end-hero .hero-cta {
   position: absolute;
   top: 50%;
@@ -10859,23 +10860,88 @@ a.text-dark:focus {
   left: 0;
 }
 
+.project-filter {
+  font-family: "Roboto", Helvetica, sans-serif;
+}
+
+.project-filter .project-filter-inner {
+  border: 1px solid #3d3d3d;
+  padding: 10px 20px;
+}
+
+.project-filter .filter-control {
+  position: relative;
+  cursor: pointer;
+}
+
+.project-filter .filter-control h5 {
+  font-weight: 100;
+  display: inline-block;
+  margin: 0;
+}
+
+.project-filter .filter-control i {
+  right: 0;
+}
+
+.project-filter .project-tags {
+  transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+  max-height: 0;
+  overflow: hidden;
+}
+
+.project-filter.expanded .project-tags {
+  max-height: 500px;
+  transition: max-height 0.5s ease-in-out;
+}
+
+.project-filter.expanded .filter-control i {
+  -webkit-transform: translateY(-50%) rotate(180deg);
+          transform: translateY(-50%) rotate(180deg);
+}
+
 .project-filter ul {
   display: inline-block;
-  -webkit-column-count: 3;
-          column-count: 3;
+  -webkit-column-count: 2;
+          column-count: 2;
   -webkit-column-gap: 6.25rem;
           column-gap: 6.25rem;
   list-style: none;
   padding: 0;
 }
 
+@media (min-width: 992px) {
+  .project-filter ul {
+    -webkit-column-count: 3;
+            column-count: 3;
+  }
+}
+
+.project-filter ul label {
+  font-weight: 100;
+  font-size: 1.5625rem;
+}
+
 .project-filter ul label input {
   margin-right: 0.625rem;
+}
+
+@media (min-width: 768px) {
+  .project-filter ul label {
+    font-size: 1rem;
+  }
 }
 
 #app .project-display .project-image-wrap {
   text-align: center;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+  margin-bottom: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  #app .project-display .project-image-wrap {
+    margin-bottom: 0;
+  }
 }
 
 #app .project-display .project-links a {
@@ -10887,6 +10953,10 @@ a.text-dark:focus {
   font-size: 16px;
   text-decoration: none;
   max-width: 150px;
+}
+
+#app .project-display .project-links a i {
+  padding-right: 10px;
 }
 
 @media (min-width: 768px) {
