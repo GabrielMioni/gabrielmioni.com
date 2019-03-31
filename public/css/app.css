@@ -10873,3 +10873,35 @@ a.text-dark:focus {
   margin-right: 0.625rem;
 }
 
+#app .project-display .project-image-wrap {
+  text-align: center;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+}
+
+#app .project-display .project-links a {
+  display: block;
+  background-color: #47c6c2;
+  color: #FFFFFF;
+  padding: 5px 20px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  text-decoration: none;
+  max-width: 150px;
+}
+
+@media (min-width: 768px) {
+  #app .project-display .project-links a {
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 0;
+  }
+}
+
+#app .project-display h2 {
+  font-size: 2rem;
+}
+
+#app .project-display img {
+  max-width: 100%;
+}
+
