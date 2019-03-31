@@ -9318,19 +9318,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ProjectDisplay",
   props: ['project'],
@@ -9382,10 +9369,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ProjectFilter",
   props: ['allTags'],
+  data: function data() {
+    return {
+      expanded: false
+    };
+  },
   methods: {
+    toggleExpanded: function toggleExpanded() {
+      this.expanded = !this.expanded;
+    },
     checkboxUpdate: function checkboxUpdate(e) {
       var checkbox = e.target;
       var isChecked = checkbox.checked;
@@ -45307,7 +45310,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-md-6" }, [
-        _c("h2", [_vm._v(_vm._s(_vm.project.title))]),
+        _c("h2", { staticClass: "mb-3" }, [_vm._v(_vm._s(_vm.project.title))]),
         _vm._v(" "),
         _c("div", { staticClass: "project-description" }, [
           _vm._v(
@@ -45318,15 +45321,17 @@ var render = function() {
         ]),
         _vm._v(" "),
         _vm.checkLinks()
-          ? _c("div", { staticClass: "project-links" }, [
+          ? _c("div", { staticClass: "project-links mt-3" }, [
               _vm.checkLinks("github")
                 ? _c("a", { attrs: { href: _vm.project.github } }, [
+                    _c("i", { staticClass: "fab fa-github" }),
                     _vm._v("Github")
                   ])
                 : _vm._e(),
               _vm._v(" "),
               _vm.checkLinks("wordpress")
                 ? _c("a", { attrs: { href: _vm.project.wordpress } }, [
+                    _c("i", { staticClass: "fab fa-wordpress-simple" }),
                     _vm._v("Wordpress")
                   ])
                 : _vm._e()
@@ -45358,27 +45363,46 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "project-filter" }, [
-    _c("h3", [_vm._v("Filter Projects")]),
-    _vm._v(" "),
-    _c("div", { staticClass: "project-tags" }, [
-      _c(
-        "ul",
-        _vm._l(_vm.allTags, function(tag, index) {
-          return _c("li", { key: index }, [
-            _c("label", [
-              _c("input", {
-                attrs: { type: "checkbox", name: tag },
-                on: { change: _vm.checkboxUpdate }
+  return _c(
+    "div",
+    { staticClass: "project-filter mb-5", class: { expanded: _vm.expanded } },
+    [
+      _c("div", { staticClass: "col-sm-12" }, [
+        _c("div", { staticClass: "project-filter-inner" }, [
+          _c(
+            "div",
+            {
+              staticClass: "filter-control",
+              on: { click: _vm.toggleExpanded }
+            },
+            [
+              _c("h5", [_vm._v("Filter Projects")]),
+              _vm._v(" "),
+              _c("i", { staticClass: "fas fa-sort-down" })
+            ]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "project-tags" }, [
+            _c(
+              "ul",
+              _vm._l(_vm.allTags, function(tag, index) {
+                return _c("li", { key: index }, [
+                  _c("label", [
+                    _c("input", {
+                      attrs: { type: "checkbox", name: tag },
+                      on: { change: _vm.checkboxUpdate }
+                    }),
+                    _vm._v(_vm._s(tag))
+                  ])
+                ])
               }),
-              _vm._v(_vm._s(tag))
-            ])
+              0
+            )
           ])
-        }),
-        0
-      )
-    ])
-  ])
+        ])
+      ])
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
