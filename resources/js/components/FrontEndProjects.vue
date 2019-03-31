@@ -4,10 +4,13 @@
             :allTags = allTags
             v-on:updateFilter="updateFilter"
         ></ProjectFilter>
-        <div>
+        <!--<div>
             <div v-for="(tag, index) in filterTags" :key="index">
                 {{tag}}
             </div>
+        </div>-->
+        <div v-for="(project, index) in filteredProjects" :key="project.id">
+            {{ project.id }}
         </div>
     </div>
 </template>
@@ -28,9 +31,13 @@
         },
         methods: {
             getTags() {
-                const self = this;
-                callAxios(self.$options.tags_url, (data_obj) => {
-                    self.allTags = data_obj;
+                callAxios(this.$options.tags_url, (data_obj) => {
+                    this.allTags = data_obj;
+                });
+            },
+            getProjects() {
+                callAxios(this.$options.projects_url, (data_obj) => {
+                    this.projects = data_obj;
                 });
             },
             updateFilter(data) {
@@ -46,11 +53,36 @@
                 }
             }
         },
+        computed: {
+            filteredProjects() {
+                const self = this;
+
+                if (this.filterTags.length <= 0) {
+                    return this.projects;
+                }
+
+                return this.projects.filter((project)=>{
+
+                    let tagPresent = false;
+
+                    self.filterTags.forEach((tag)=>{
+                        const checkTags = project.tags.includes(tag);
+
+                        if (tagPresent === false && checkTags === true) {
+                            tagPresent = true;
+                        }
+                    });
+
+                    return tagPresent;
+                });
+            }
+        },
         created() {
             this.$options.projects_url = '/projects-json';
             this.$options.tags_url = '/all-tags';
         },
         mounted() {
+            this.getProjects();
             this.getTags();
         }
     }

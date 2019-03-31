@@ -9205,6 +9205,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -9221,9 +9224,17 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getTags: function getTags() {
-      var self = this;
-      Object(_call_axios__WEBPACK_IMPORTED_MODULE_0__["callAxios"])(self.$options.tags_url, function (data_obj) {
-        self.allTags = data_obj;
+      var _this = this;
+
+      Object(_call_axios__WEBPACK_IMPORTED_MODULE_0__["callAxios"])(this.$options.tags_url, function (data_obj) {
+        _this.allTags = data_obj;
+      });
+    },
+    getProjects: function getProjects() {
+      var _this2 = this;
+
+      Object(_call_axios__WEBPACK_IMPORTED_MODULE_0__["callAxios"])(this.$options.projects_url, function (data_obj) {
+        _this2.projects = data_obj;
       });
     },
     updateFilter: function updateFilter(data) {
@@ -9238,8 +9249,27 @@ __webpack_require__.r(__webpack_exports__);
         var index = this.filterTags.indexOf(tagName);
         this.filterTags.splice(index, 1);
       }
+    }
+  },
+  computed: {
+    filteredProjects: function filteredProjects() {
+      var self = this;
 
-      console.log(data);
+      if (this.filterTags.length <= 0) {
+        return this.projects;
+      }
+
+      return this.projects.filter(function (project) {
+        var tagPresent = false;
+        self.filterTags.forEach(function (tag) {
+          var checkTags = project.tags.includes(tag);
+
+          if (tagPresent === false && checkTags === true) {
+            tagPresent = true;
+          }
+        });
+        return tagPresent;
+      });
     }
   },
   created: function created() {
@@ -9247,6 +9277,7 @@ __webpack_require__.r(__webpack_exports__);
     this.$options.tags_url = '/all-tags';
   },
   mounted: function mounted() {
+    this.getProjects();
     this.getTags();
   }
 });
@@ -45160,17 +45191,13 @@ var render = function() {
         on: { updateFilter: _vm.updateFilter }
       }),
       _vm._v(" "),
-      _c(
-        "div",
-        _vm._l(_vm.filterTags, function(tag, index) {
-          return _c("div", { key: index }, [
-            _vm._v("\n            " + _vm._s(tag) + "\n        ")
-          ])
-        }),
-        0
-      )
+      _vm._l(_vm.filteredProjects, function(project, index) {
+        return _c("div", { key: project.id }, [
+          _vm._v("\n        " + _vm._s(project.id) + "\n    ")
+        ])
+      })
     ],
-    1
+    2
   )
 }
 var staticRenderFns = []
