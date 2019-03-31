@@ -1,0 +1,33 @@
+#app {
+  .project-display {
+    .project-image-wrap {
+      text-align: center;
+      box-shadow: 0 0 10px 0 rgba($black,.5);
+    }
+    .project-links {
+      a {
+        display: block;
+        background-color: $themeColor3;
+        color: $themeColor0;
+        padding: 5px 20px;
+        margin-bottom: 20px;
+        font-size: 16px;
+        text-decoration: none;
+        max-width: 150px;
+
+        @media(min-width: map_get($grid-breakpoints,'md')) {
+          display: inline-block;
+          margin-right: 10px;
+          margin-bottom: 0;
+        }
+      }
+    }
+    h2 {
+      font-size: rem(32px);
+    }
+    img {
+      max-width: 100%;
+    }
+  }
+
+}
