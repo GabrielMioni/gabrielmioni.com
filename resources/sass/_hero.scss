@@ -32,6 +32,11 @@
       margin-bottom: rem(20px);
       width: rem(150px);
       text-align: center;
+      transition: opacity .5s;
+
+      &:hover {
+        opacity: .7;
+      }
     }
 
     @media(min-width: map_get($grid-breakpoints,'sm')) {
