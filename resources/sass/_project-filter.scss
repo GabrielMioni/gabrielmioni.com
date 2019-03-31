@@ -1,0 +1,15 @@
+.project-filter {
+  ul {
+    display: inline-block;
+    column-count: 3;
+    column-gap: rem(100px);
+    list-style: none;
+    padding: 0;
+
+    label {
+      input {
+        margin-right: rem(10px);
+      }
+    }
+  }
+}
