@@ -1,16 +1,16 @@
 <template>
-    <div>
-        <ProjectFilter
-            :allTags = allTags
-            v-on:updateFilter="updateFilter"
-        ></ProjectFilter>
-        <!--<div>
-            <div v-for="(tag, index) in filterTags" :key="index">
-                {{tag}}
-            </div>
-        </div>-->
-        <div v-for="(project, index) in filteredProjects" :key="project.id">
-            {{ project.id }}
+    <div class="row">
+        <div class="col-sm-12">
+            <ProjectFilter
+                :allTags = allTags
+                v-on:updateFilter="updateFilter"
+            ></ProjectFilter>
+            <!--<div>
+                <div v-for="(tag, index) in filterTags" :key="index">
+                    {{tag}}
+                </div>
+            </div>-->
+            <ProjectDisplay v-for="(project, index) in filteredProjects" :project="project" :key="project.id"></ProjectDisplay>
         </div>
     </div>
 </template>
@@ -18,10 +18,11 @@
 <script>
     import { callAxios } from '../call-axios'
     import ProjectFilter from "./ProjectFilter";
+    import ProjectDisplay from "./ProjectDisplay";
 
     export default {
         name: "front-end-projects",
-        components: {ProjectFilter},
+        components: {ProjectDisplay, ProjectFilter},
         data() {
             return {
                 allTags: [],
