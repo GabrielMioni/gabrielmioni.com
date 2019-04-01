@@ -13,8 +13,8 @@
       margin: 0;
     }
     i {
+      position: absolute;
       right: 0;
-      @extend .center-vertical
     }
   }
   .project-tags {
@@ -29,7 +29,8 @@
     }
     .filter-control {
       i {
-        transform: translateY(-50%) rotate(180deg) ;
+        transform: rotate(180deg) ;
+        top: rem(5px);
       }
     }
   }

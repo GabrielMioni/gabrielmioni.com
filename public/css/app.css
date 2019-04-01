@@ -18,7 +18,6 @@ body {
 }
 
 .center-vertical,
-.project-filter .filter-control i,
 .front-end-hero .hero-cta {
   position: absolute;
   top: 50%;
@@ -10881,6 +10880,7 @@ a.text-dark:focus {
 }
 
 .project-filter .filter-control i {
+  position: absolute;
   right: 0;
 }
 
@@ -10896,8 +10896,9 @@ a.text-dark:focus {
 }
 
 .project-filter.expanded .filter-control i {
-  -webkit-transform: translateY(-50%) rotate(180deg);
-          transform: translateY(-50%) rotate(180deg);
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+  top: 0.3125rem;
 }
 
 .project-filter ul {
@@ -10949,20 +10950,20 @@ a.text-dark:focus {
   background-color: #47c6c2;
   color: #FFFFFF;
   padding: 5px 20px;
-  margin-bottom: 20px;
-  font-size: 16px;
+  margin-bottom: 1.25rem;
+  font-size: 1rem;
   text-decoration: none;
-  max-width: 150px;
+  max-width: 9.375rem;
 }
 
 #app .project-display .project-links a i {
-  padding-right: 10px;
+  padding-right: 0.625rem;
 }
 
 @media (min-width: 768px) {
   #app .project-display .project-links a {
     display: inline-block;
-    margin-right: 10px;
+    margin-right: 0.625rem;
     margin-bottom: 0;
   }
 }
