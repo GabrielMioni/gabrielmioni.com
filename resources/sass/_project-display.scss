@@ -4,10 +4,18 @@
       text-align: center;
       box-shadow: 0 0 10px 0 rgba($black,.5);
       margin-bottom: rem(20px);
+      min-height: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       @media(min-width: map_get($grid-breakpoints,'md')) {
         margin-bottom: 0;
       }
+    }
+    .project-description {
+      font-weight: 300;
     }
     .project-links {
       a {
