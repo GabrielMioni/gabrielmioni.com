@@ -9206,9 +9206,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 
 
@@ -9277,7 +9274,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.$options.projects_url = '/projects-json';
-    this.$options.tags_url = '/all-tags';
+    this.$options.tags_url = '/attached-tags';
   },
   mounted: function mounted() {
     this.getProjects();
@@ -45268,14 +45265,19 @@ var render = function() {
           on: { updateFilter: _vm.updateFilter }
         }),
         _vm._v(" "),
-        _vm._l(_vm.filteredProjects, function(project, index) {
-          return _c("ProjectDisplay", {
-            key: project.id,
-            attrs: { project: project }
-          })
-        })
+        _c(
+          "transition-group",
+          { attrs: { name: "projects" } },
+          _vm._l(_vm.filteredProjects, function(project, index) {
+            return _c("ProjectDisplay", {
+              key: project.id,
+              attrs: { project: project }
+            })
+          }),
+          1
+        )
       ],
-      2
+      1
     )
   ])
 }
