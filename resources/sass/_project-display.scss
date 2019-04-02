@@ -38,5 +38,10 @@
       max-width: 100%;
     }
   }
-
+  .projects-enter-active, .projects-leave-active {
+    transition: opacity .5s;
+  }
+  .projects-enter, .projects-leave-to {
+    opacity: 0;
+  }
 }

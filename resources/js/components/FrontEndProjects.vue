@@ -5,12 +5,9 @@
                 :allTags = allTags
                 v-on:updateFilter="updateFilter"
             ></ProjectFilter>
-            <!--<div>
-                <div v-for="(tag, index) in filterTags" :key="index">
-                    {{tag}}
-                </div>
-            </div>-->
-            <ProjectDisplay v-for="(project, index) in filteredProjects" :project="project" :key="project.id"></ProjectDisplay>
+            <transition-group name="projects">
+                <ProjectDisplay v-for="(project, index) in filteredProjects" :project="project" :key="project.id"></ProjectDisplay>
+            </transition-group>
         </div>
     </div>
 </template>
@@ -80,7 +77,7 @@
         },
         created() {
             this.$options.projects_url = '/projects-json';
-            this.$options.tags_url = '/all-tags';
+            this.$options.tags_url = '/attached-tags';
         },
         mounted() {
             this.getProjects();
