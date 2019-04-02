@@ -42,15 +42,15 @@ class AdminController extends Controller
     }
 
     public function allTags() {
-        $tags = Tag::select('tag')->get();
+        $tags = $this->getTags(false);
 
-        $out = [];
+        return $tags;
+    }
 
-        foreach ($tags as $tag) {
-            $out[] = $tag['tag'];
-        }
+    public function attachedTags() {
+        $tags = $this->getTags(true);
 
-        return $out;
+        return $tags;
     }
 
     public function storeNewSortOrder(Request $request) {
@@ -124,8 +124,6 @@ class AdminController extends Controller
 
             $projectShiftIds = $this->getProjectOrderShiftIds($projectData['order_column'], $id);
 
-            file_put_contents(dirname(__FILE__) . '/log', print_r($projectShiftIds, true), FILE_APPEND);
-
             Project::setNewOrder($projectShiftIds, $projectData['order_column']);
         }
     }
@@ -137,6 +135,23 @@ class AdminController extends Controller
         $this->deleteImage($projectBeingDeleted);
 
         $projectBeingDeleted->delete();
+    }
+
+    protected function getTags($onlyAttached = false) {
+        if ($onlyAttached === true) {
+            $tags = Tag::has('Projects')->get();
+        }
+        if ($onlyAttached === false) {
+            $tags = Tag::select('tag')->get();
+        }
+
+        $out = [];
+
+        foreach ($tags as $tag) {
+            $out[] = $tag['tag'];
+        }
+
+        return $out;
     }
 
     protected function deleteImage(Project $project) {
