@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito);@import url(https://fonts.googleapis.com/css?family=Roboto:100,400);@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Nunito);@import url(https://fonts.googleapis.com/css?family=Roboto:100,399,400);@charset "UTF-8";
 
 /*$grid-breakpoints: (
   xs: 0,
@@ -10937,12 +10937,21 @@ a.text-dark:focus {
   text-align: center;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
   margin-bottom: 1.25rem;
+  min-height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (min-width: 768px) {
   #app .project-display .project-image-wrap {
     margin-bottom: 0;
   }
+}
+
+#app .project-display .project-description {
+  font-weight: 300;
 }
 
 #app .project-display .project-links a {
