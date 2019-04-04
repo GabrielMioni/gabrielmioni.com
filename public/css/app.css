@@ -10945,6 +10945,11 @@ a.text-dark:focus {
   height: 100%;
 }
 
+#app .project-display .project-image-wrap img {
+  max-width: 100%;
+  flex-shrink: 0;
+}
+
 @media (min-width: 768px) {
   #app .project-display .project-image-wrap {
     margin-bottom: 0;
@@ -10982,11 +10987,6 @@ a.text-dark:focus {
   font-size: 2rem;
 }
 
-#app .project-display img {
-  max-width: 100%;
-  flex-shrink: 0;
-}
-
 #app .projects-enter-active,
 #app .projects-leave-active {
   transition: opacity 0.5s;
@@ -10999,5 +10999,21 @@ a.text-dark:focus {
 
 #app .projects {
   min-height: 62.5rem;
+}
+
+#app .front-end-footer {
+  padding: 3.125rem 0 0 0;
+  background-color: #036870;
+  color: #FFFFFF;
+  min-height: 100px;
+  font-weight: 100;
+}
+
+#app .front-end-footer .form-control {
+  border-radius: 0;
+}
+
+#app .front-end-footer form textarea {
+  min-height: 15.625rem;
 }
 

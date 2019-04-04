@@ -24,6 +24,7 @@ window.Vue = require('vue');
 //Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('admin-projects', require('./components/AdminProjects.vue').default);
 Vue.component('front-end-projects', require('./components/FrontEndProjects.vue').default);
+Vue.component('ContactForm', require('./components/ContactForm.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
