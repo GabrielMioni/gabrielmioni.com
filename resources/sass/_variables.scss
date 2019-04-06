@@ -3,8 +3,9 @@
 $body-bg: #f8fafc;
 
 // Typography
-$font-family-sans-serif: "Nunito", sans-serif;
-$font-size-base: 0.9rem;
+$roboto:                    'Roboto', Helvetica, sans-serif;
+$font-family-sans-serif:    $roboto;
+$font-size-base: 1rem;
 $line-height-base: 1.6;
 
 // Bootstrap Break-Points
@@ -28,3 +29,33 @@ $yellow: #ffed4a;
 $green: #38c172;
 $teal: #4dc0b5;
 $cyan: #6cb2eb;
+$draggable-bg: #d6d8d9;
+$draggable-border: #696969;
+
+// Frontend Colors:
+$aqua:          #47c6c2;
+$black:         #000000;
+$off-black:     #3d3d3d;
+$dark-green:    #036870;
+$burnt-orange:  #ed5c22;
+$light-pink:    #ffc0cb;
+
+// Fonts
+
+// Theme Colors
+$themeColor0:   $white;
+$themeColor1:   $off-black;
+$themeColor3:   $aqua;
+$themeColor4:   $dark-green;
+$themeColor5:   $burnt-orange;
+$themeColor6:   $light-pink;
+$themeColor7:   $red;
+
+// Theme Fonts:
+$themeFont0:    $roboto;
+
+// Icons
+$hamburger:         '/svg/front-end-hamburger.svg';
+
+// Background
+$hero-background:   '/background/nature-forest-trees-fog.jpeg';

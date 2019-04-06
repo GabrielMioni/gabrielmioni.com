@@ -1,0 +1,47 @@
+#app {
+  .contact-form {
+    .submit-row {
+
+    }
+    .spin-wrapper {
+      @extend .center-vertical;
+      display: inline-block;
+      height: rem(32px);
+      i {
+        color: $themeColor3;
+        font-size: rem(32px);
+        height: rem(32px);
+      }
+    }
+    input:focus,
+    textarea:focus,
+    .btn-cta:focus {
+      outline: none;
+      &:not(.error) {
+        border: 1px solid $themeColor5;
+        box-shadow: 0 0 10px $themeColor5;
+      }
+    }
+    input,
+    textarea {
+      &.error {
+        box-shadow: none;
+        border: 2px solid red;
+      }
+    }
+    label {
+      span {
+        min-width: rem(100px);
+        display: inline-block;
+        &.error-message {
+          margin: 0 0 0 rem(20px);
+          padding: 0 rem(20px);
+          //color: $themeColor5;
+          background-color: $themeColor6;
+          color: $themeColor7;
+          font-style: italic;
+        }
+      }
+    }
+  }
+}

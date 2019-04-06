@@ -1,9 +1,9 @@
-
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
-
 // Variables
 @import 'variables';
+
+// Baselines
+@import "rem";
+@import "base";
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
@@ -13,8 +13,12 @@
 @import "expand-toggle";
 @import "sortable-hanlde";
 
-
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-}
+// Frontend
+@import 'navbar-frontend';
+@import 'hero';
+@import 'project-filter';
+@import 'project-display';
+@import 'projects';
+@import 'footer';
+@import 'contact-form';
+@import 'btn-cta';

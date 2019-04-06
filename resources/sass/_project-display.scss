@@ -1,0 +1,42 @@
+#app {
+  .project-display {
+    .project-image-wrap {
+      text-align: center;
+      box-shadow: 0 0 10px 0 rgba($black,.5);
+      margin-bottom: rem(20px);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      // IE workaround for flex centering
+      min-height: 100px;
+      height: 100%;
+
+      img {
+        max-width: 100%;
+        flex-shrink: 0;
+      }
+
+      @media(min-width: map_get($grid-breakpoints,'md')) {
+        margin-bottom: 0;
+      }
+    }
+    .project-description {
+      font-weight: 300;
+    }
+    .project-links {
+      a {
+        @extend .btn-cta;
+      }
+    }
+    h2 {
+      font-size: rem(32px);
+    }
+  }
+  .projects-enter-active, .projects-leave-active {
+    transition: opacity .5s;
+  }
+  .projects-enter, .projects-leave-to {
+    opacity: 0;
+  }
+}

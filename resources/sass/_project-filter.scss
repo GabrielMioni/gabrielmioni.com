@@ -1,0 +1,59 @@
+.project-filter {
+  font-family: $themeFont0;
+  .project-filter-inner {
+    border: 1px solid $themeColor1;
+    padding: 10px 20px;
+  }
+  .filter-control {
+    position: relative;
+    cursor: pointer;
+    h5 {
+      font-weight: 100;
+      display: inline-block;
+      margin: 0;
+    }
+    i {
+      position: absolute;
+      right: 0;
+    }
+  }
+  .project-tags {
+    transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+    max-height: 0;
+    overflow: hidden;
+  }
+  &.expanded {
+    .project-tags {
+      max-height: 500px;
+      transition: max-height .5s ease-in-out;
+    }
+    .filter-control {
+      i {
+        transform: rotate(180deg) ;
+        top: rem(5px);
+      }
+    }
+  }
+  ul {
+    display: inline-block;
+    column-count: 2;
+    column-gap: rem(100px);
+    list-style: none;
+    padding: 0;
+
+    @media(min-width: map_get($grid-breakpoints,'lg')) {
+      column-count: 3;
+    }
+
+    label {
+      font-weight: 100;
+      font-size: rem(25px);
+      input {
+        margin-right: rem(10px);
+      }
+      @media(min-width: map_get($grid-breakpoints,'md')) {
+        font-size: rem(16px);
+      }
+    }
+  }
+}
