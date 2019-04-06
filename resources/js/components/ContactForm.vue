@@ -9,7 +9,7 @@
             <input
                 v-model="name"
                 v-bind:class="{ 'error' : checkError('name') }"
-                @input="clearErrors"
+                @input="checkInput"
                 type="text" class="form-control" id="name">
         </div>
         <div class="form-group">
@@ -20,7 +20,7 @@
             <input
                 v-model="email"
                 v-bind:class="{ 'error' : checkError('email') }"
-                @input="clearErrors"
+                @input="checkInput"
                 type="email" class="form-control" id="email">
         </div>
         <div class="form-group">
@@ -38,14 +38,17 @@
             <textarea
                 v-model="message"
                 v-bind:class="{ 'error' : checkError('message') }"
-                @input="clearErrors"
+                @input="checkInput"
                 class="form-control" id="message" name="message"></textarea>
         </div>
         <div class="row submit-row">
             <div class="col-sm-12">
-                <button @click="submitEmail" type="button" class="btn btn-cta">Submit</button>
-                <div class="spin-wrapper">
-                    <i v-if="submitting" class="fas fa-circle-notch fa-spin"></i>
+                <button
+                    @click="submitEmail"
+                    v-bind:class="{ 'disabled' : !fieldsValid }"
+                    type="button" class="btn btn-cta">Submit</button>
+                <div v-if="submitting" class="spin-wrapper">
+                    <i class="fas fa-circle-notch fa-spin"></i>
                 </div>
             </div>
         </div>
@@ -69,6 +72,7 @@
                     message: '',
                     name: ''
                 },
+                fieldsValid: false,
                 submitting: false,
             }
         },
@@ -88,11 +92,27 @@
                 if (check === false && message !== null) {
                     this.errors[type] = message;
                 }
+
+                return check;
             },
             checkError(type) {
                 return this.errors[type].trim().length > 0
             },
-            clearErrors(e) {
+            requireFieldsPresent() {
+                const checkEmail = this.validateEmail();
+                const checkName  = this.checkNotEmpty('name');
+                const checkMessage = this.checkNotEmpty('message');
+
+                let valid = false;
+
+                if (checkEmail === true && checkName === true && checkMessage === true) {
+                    valid = true;
+                }
+
+                if (this.fieldsValid === false && valid === true) this.fieldsValid = true;
+                if (this.fieldsValid === true && valid === false) this.fieldsValid = false;
+            },
+            checkInput(e) {
                 const type = e.target.id;
                 if (type === 'email') {
                     const check = this.validateEmail();
@@ -100,11 +120,13 @@
                     if (check === true && this.errors.email.trim().length > 0 ) {
                         this.errors.email = '';
                     }
-                    return;
                 }
-                if (this.errors[type].trim().length > 0) {
-                    this.errors[type] = '';
+                if (type !== email) {
+                    if (this.errors[type].trim().length > 0) {
+                        this.errors[type] = '';
+                    }
                 }
+                this.requireFieldsPresent();
             },
             submitEmail() {
                 const self = this;
