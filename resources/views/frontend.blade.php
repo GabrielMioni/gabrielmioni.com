@@ -26,14 +26,14 @@
         </div>
         <front-end-projects></front-end-projects>
     </div>
-    <div class="front-end-footer">
+    <div class="footer">
         <div class="container">
             <div class="col-sm-12">
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-lg-4">
 
                     </div>
-                    <div class="col-sm-8">
+                    <div class="col-lg-8">
                         <contact-form></contact-form>
                     </div>
                 </div>
