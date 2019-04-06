@@ -72,7 +72,8 @@
                     message: '',
                     name: ''
                 },
-                fieldsValid: false,
+                //fieldsValid: false,
+                fieldsValid: true,
                 submitting: false,
             }
         },
@@ -126,7 +127,7 @@
                         this.errors[type] = '';
                     }
                 }
-                this.requireFieldsPresent();
+                //this.requireFieldsPresent();
             },
             submitEmail() {
                 const self = this;
@@ -140,7 +141,9 @@
 
                 this.submitting = true;
 
-                callAxios(this.$options.emailController, ()=>{
+                callAxios(this.$options.emailController, (data)=>{
+                    console.log(data);
+                    console.log(typeof data);
                     setTimeout(()=>{
                         self.submitting = false;
                     },
