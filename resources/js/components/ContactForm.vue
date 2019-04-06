@@ -41,7 +41,15 @@
                 @input="clearErrors"
                 class="form-control" id="message" name="message"></textarea>
         </div>
-        <button @click="submitEmail" type="button" class="btn btn-cta">Submit</button>
+        <div class="row submit-row">
+            <div class="col-sm-12">
+                <button @click="submitEmail" type="button" class="btn btn-cta">Submit</button>
+                <div class="spin-wrapper">
+                    <i v-if="submitting" class="fas fa-circle-notch fa-spin"></i>
+                </div>
+            </div>
+        </div>
+
     </form>
 </template>
 
@@ -61,6 +69,7 @@
                     message: '',
                     name: ''
                 },
+                submitting: false,
             }
         },
         methods: {
@@ -98,6 +107,7 @@
                 }
             },
             submitEmail() {
+                const self = this;
                 const checkEmail = this.validateEmail('Please provide a valid email address');
                 const checkName  = this.checkNotEmpty('name', 'Please include your name');
                 const checkMessage = this.checkNotEmpty('message', 'Please include a message');
@@ -105,6 +115,18 @@
                 if (checkEmail === false || checkName === false || checkMessage === false) {
                     return;
                 }
+
+                this.submitting = true;
+
+                callAxios(this.$options.emailController, ()=>{
+                    setTimeout(()=>{
+                        self.submitting = false;
+                    },
+                    1000);
+                });
+            },
+            mounted() {
+                this.$options.emailController = 'unknown_api_endpoint';
             }
         }
     }
