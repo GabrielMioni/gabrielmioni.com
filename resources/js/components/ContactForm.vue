@@ -4,29 +4,42 @@
         <div class="form-group">
             <label for="name">
                 <span>Your Name *</span>
-                <span v-if="errors.message.length > 0" class="error-message">{{errors.message}}</span>
+                <span v-if="checkError('name')" class="error-message">{{errors.name}}</span>
             </label>
-            <input v-model="name" type="text" class="form-control" id="name">
+            <input
+                v-model="name"
+                v-bind:class="{ 'error' : checkError('name') }"
+                @input="clearErrors"
+                type="text" class="form-control" id="name">
         </div>
         <div class="form-group">
             <label for="name">
                 <span>Your Email *</span>
-                <span v-if="errors.email.length > 0" class="error-message">{{errors.email}}</span>
+                <span v-if="checkError('email')" class="error-message">{{errors.email}}</span>
             </label>
-            <input v-model="email" type="email" class="form-control" id="email">
+            <input
+                v-model="email"
+                v-bind:class="{ 'error' : checkError('email') }"
+                @input="clearErrors"
+                type="email" class="form-control" id="email">
         </div>
         <div class="form-group">
             <label for="company">
                 <span>Company</span>
             </label>
-            <input v-model="company" type="text" class="form-control" id="company">
+            <input
+                v-model="company" type="text" class="form-control" id="company">
         </div>
         <div class="form-group">
             <label for="message">
                 <span>Message *</span>
                 <span v-if="errors.message.length > 0" class="error-message">{{errors.message}}</span>
             </label>
-            <textarea v-model="message" class="form-control" id="message" name="message"></textarea>
+            <textarea
+                v-model="message"
+                v-bind:class="{ 'error' : checkError('message') }"
+                @input="clearErrors"
+                class="form-control" id="message" name="message"></textarea>
         </div>
         <button @click="submitEmail" type="button" class="btn btn-cta">Submit</button>
     </form>
@@ -51,25 +64,43 @@
             }
         },
         methods: {
-            validateEmail(message) {
+            validateEmail(message = null) {
                 const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 const check = re.test(String(this.email).toLowerCase());
-                if (check === false) {
+                if (check === false && message !== null) {
                     this.errors.email = message;
                 }
                 return check;
             },
-            checkEmpty(type, message) {
-                const check = this[type].trim().length > 0;
+            checkNotEmpty(type, message = null) {
+                const value = this[type].trim();
+                const check = value.length > 0;
 
-                if (check === false) {
+                if (check === false && message !== null) {
                     this.errors[type] = message;
+                }
+            },
+            checkError(type) {
+                return this.errors[type].trim().length > 0
+            },
+            clearErrors(e) {
+                const type = e.target.id;
+                if (type === 'email') {
+                    const check = this.validateEmail();
+
+                    if (check === true && this.errors.email.trim().length > 0 ) {
+                        this.errors.email = '';
+                    }
+                    return;
+                }
+                if (this.errors[type].trim().length > 0) {
+                    this.errors[type] = '';
                 }
             },
             submitEmail() {
                 const checkEmail = this.validateEmail('Please provide a valid email address');
-                const checkName  = this.checkEmpty('name', 'Please include your name');
-                const checkMessage = this.checkEmpty('message', 'Please include a message');
+                const checkName  = this.checkNotEmpty('name', 'Please include your name');
+                const checkMessage = this.checkNotEmpty('message', 'Please include a message');
 
                 if (checkEmail === false || checkName === false || checkMessage === false) {
                     return;
