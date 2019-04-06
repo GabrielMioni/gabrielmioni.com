@@ -6,6 +6,9 @@ module.exports = {
         if (typeof callback === 'function') {
           callback(data_obj)
         }
-      });
+      })
+      .catch((error)=>{
+        callback(error);
+      })
   },
 };
