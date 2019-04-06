@@ -52,14 +52,14 @@
         name: "ContactForm",
         data() {
             return {
-                name: '',
-                email: '',
                 company: '',
+                email: '',
                 message: '',
+                name: '',
                 errors: {
-                    name: '',
                     email: '',
                     message: '',
+                    name: ''
                 },
             }
         },
