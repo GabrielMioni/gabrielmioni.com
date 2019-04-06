@@ -26,24 +26,7 @@
     }
     .project-links {
       a {
-        display: block;
-        background-color: $themeColor3;
-        color: $themeColor0;
-        padding: 5px 20px;
-        margin-bottom: rem(20px);
-        font-size: rem(16px);
-        text-decoration: none;
-        max-width: rem(150px);
-
-        i {
-          padding-right: rem(10px);
-        }
-
-        @media(min-width: map_get($grid-breakpoints,'md')) {
-          display: inline-block;
-          margin-right: rem(10px);
-          margin-bottom: 0;
-        }
+        @extend .btn-cta;
       }
     }
     h2 {
