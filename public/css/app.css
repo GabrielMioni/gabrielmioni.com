@@ -10960,29 +10960,6 @@ a.text-dark:focus {
   font-weight: 300;
 }
 
-#app .project-display .project-links a {
-  display: block;
-  background-color: #47c6c2;
-  color: #FFFFFF;
-  padding: 5px 20px;
-  margin-bottom: 1.25rem;
-  font-size: 1rem;
-  text-decoration: none;
-  max-width: 9.375rem;
-}
-
-#app .project-display .project-links a i {
-  padding-right: 0.625rem;
-}
-
-@media (min-width: 768px) {
-  #app .project-display .project-links a {
-    display: inline-block;
-    margin-right: 0.625rem;
-    margin-bottom: 0;
-  }
-}
-
 #app .project-display h2 {
   font-size: 2rem;
 }
@@ -11001,19 +10978,82 @@ a.text-dark:focus {
   min-height: 62.5rem;
 }
 
-#app .front-end-footer {
-  padding: 3.125rem 0 0 0;
+#app .footer {
+  padding: 3.125rem 0;
   background-color: #036870;
   color: #FFFFFF;
   min-height: 100px;
   font-weight: 100;
 }
 
-#app .front-end-footer .form-control {
+#app .footer .form-control {
   border-radius: 0;
 }
 
-#app .front-end-footer form textarea {
+#app .footer form textarea {
   min-height: 15.625rem;
+}
+
+#app .contact-form input:focus,
+#app .contact-form textarea:focus,
+#app .contact-form .btn-cta:focus,
+#app .contact-form .project-display .project-links a:focus,
+#app .project-display .project-links .contact-form a:focus {
+  outline: none;
+}
+
+#app .contact-form input:focus:not(.error),
+#app .contact-form textarea:focus:not(.error),
+#app .contact-form .btn-cta:focus:not(.error),
+#app .contact-form .project-display .project-links a:focus:not(.error),
+#app .project-display .project-links .contact-form a:focus:not(.error) {
+  border: 1px solid #ed5c22;
+  box-shadow: 0 0 10px #ed5c22;
+}
+
+#app .contact-form input.error,
+#app .contact-form textarea.error {
+  box-shadow: none;
+  border: 2px solid red;
+}
+
+#app .contact-form label span {
+  min-width: 6.25rem;
+  display: inline-block;
+}
+
+#app .contact-form label span.error-message {
+  margin: 0 0 0 1.25rem;
+  padding: 0 1.25rem;
+  background-color: #ffc0cb;
+  color: #e3342f;
+  font-style: italic;
+}
+
+#app .btn-cta,
+#app .project-display .project-links a {
+  display: block;
+  background-color: #47c6c2;
+  color: #FFFFFF;
+  padding: 5px 20px;
+  margin-bottom: 1.25rem;
+  font-size: 1rem;
+  text-decoration: none;
+  max-width: 9.375rem;
+  border-radius: 0;
+}
+
+#app .btn-cta i,
+#app .project-display .project-links a i {
+  padding-right: 0.625rem;
+}
+
+@media (min-width: 768px) {
+  #app .btn-cta,
+  #app .project-display .project-links a {
+    display: inline-block;
+    margin-right: 0.625rem;
+    margin-bottom: 0;
+  }
 }
 
