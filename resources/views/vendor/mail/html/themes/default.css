@@ -100,6 +100,14 @@ img {
     -premailer-width: 100%;
 }
 
+.message-info span {
+    font-weight: bold;
+}
+
+.message-body {
+    margin-top: 20px;
+}
+
 /* Header */
 
 .header {
