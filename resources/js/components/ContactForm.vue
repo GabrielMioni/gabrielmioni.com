@@ -41,6 +41,7 @@
                 @input="checkInput"
                 class="form-control" id="message" name="message"></textarea>
         </div>
+        <input v-model="covfefe" type="hidden" value = ''>
         <div class="row submit-row">
             <div class="col-sm-12">
                 <button
@@ -64,6 +65,7 @@
         data() {
             return {
                 company: '',
+                covfefe: '',
                 email: '',
                 message: '',
                 name: '',
@@ -141,17 +143,31 @@
 
                 this.submitting = true;
 
-                callAxios(this.$options.emailController, (data)=>{
-                    console.log(data);
-                    console.log(typeof data);
-                    setTimeout(()=>{
-                        self.submitting = false;
-                    },
-                    1000);
+                let formData = new FormData();
+
+                let contactData = {};
+                contactData.company = this.company;
+                contactData.covfefe = this.covfefe;
+                contactData.email   = this.email;
+                contactData.message = this.message;
+                contactData.name    = this.name;
+
+                contactData = JSON.stringify(contactData);
+                formData.append('contactData', contactData);
+
+                axios.post('/contact-form', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+                    .then((response) => {
+                        console.log(response);
+                        setTimeout(()=>{
+                            self.submitting = false;
+                        },
+                        1000);
+                    }).catch( (error) => {
+                    console.log('errors: ', error);
                 });
             },
             mounted() {
-                this.$options.emailController = 'unknown_api_endpoint';
+                this.$options.emailController = '/contact-form';
             }
         }
     }
