@@ -10995,6 +10995,19 @@ a.text-dark:focus {
   min-height: 15.625rem;
 }
 
+#app .contact-me {
+  min-height: 41.25rem;
+}
+
+#app .contact-me .contact-enter-active {
+  transition: opacity 0.5s;
+}
+
+#app .contact-me .contact-enter,
+#app .contact-me .contact-leave-to {
+  opacity: 0;
+}
+
 #app .contact-form .spin-wrapper {
   display: inline-block;
   height: 2rem;
