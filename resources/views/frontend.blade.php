@@ -34,7 +34,7 @@
 
                     </div>
                     <div class="col-lg-8">
-                        <contact-form></contact-form>
+                        <contact-me></contact-me>
                     </div>
                 </div>
             </div>
