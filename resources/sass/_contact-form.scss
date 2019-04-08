@@ -1,4 +1,14 @@
 #app {
+  .contact-me {
+    min-height: rem(660px);
+
+    .contact-enter-active {
+      transition: opacity .5s;
+    }
+    .contact-enter, .contact-leave-to {
+      opacity: 0;
+    }
+  }
   .contact-form {
     .submit-row {
 

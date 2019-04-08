@@ -41,6 +41,25 @@ class SendContactForm extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.contact');
+        return $this->markdown('emails.contact')
+                    ->subject($this->buildSubjectString())
+                    ->with([
+                        'contactCompany' => $this->contactCompany,
+                        'contactEmail'   => $this->contactEmail,
+                        'contactMessage' => $this->contactMessage,
+                        'contactName'    => $this->contactName
+                    ]);
+    }
+
+    protected function buildSubjectString()
+    {
+        $subject = "Contact From ";
+        $subject .= $this->contactName . ' (' . $this->contactEmail . ')';
+
+        if (strlen($this->contactCompany) > 0) {
+            $subject .= ' with ' . $this->contactCompany;
+        }
+
+        return $subject;
     }
 }

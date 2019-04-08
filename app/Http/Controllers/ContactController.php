@@ -24,6 +24,6 @@ class ContactController extends Controller
             ], 200);
         }
 
-        Mail::to('gabriel.mioni@gmail.com')->queue(new SendContactForm($contactCompany, $contactEmail, $contactMessage, $contactName));
+        Mail::to(getenv('MAIL_TO'))->queue(new SendContactForm($contactCompany, $contactEmail, $contactMessage, $contactName));
     }
 }

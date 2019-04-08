@@ -131,6 +131,9 @@
                 }
                 //this.requireFieldsPresent();
             },
+            submitResponse(response) {
+                this.$emit('submitResponse', {'response' : response });
+            },
             submitEmail() {
                 const self = this;
                 const checkEmail = this.validateEmail('Please provide a valid email address');
@@ -160,14 +163,21 @@
                         console.log(response);
                         setTimeout(()=>{
                             self.submitting = false;
+                            self.submitResponse(true);
                         },
-                        1000);
+                        self.$options.timeoutSeconds);
                     }).catch( (error) => {
-                    console.log('errors: ', error);
+                        console.log(error);
+                        setTimeout(()=>{
+                            self.submitting = false;
+                            self.submitResponse(false);
+                        },
+                        self.$options.timeoutSeconds);
                 });
             },
             mounted() {
                 this.$options.emailController = '/contact-form';
+                this.$options.timeoutSeconds = 1000;
             }
         }
     }
