@@ -119,6 +119,8 @@ class AdminController extends Controller
 
         $this->processTags($projectData['tags'], $project);
 
+        $this->cleanOrderColumnDupes();
+
         if ($isNew === true) {
             $id = $project->id;
 
@@ -173,7 +175,7 @@ class AdminController extends Controller
     }
 
     protected function getProjectOrderShiftIds($order_column, $currentId) {
-        $projects = Project::where('order_column', '>', $order_column)->orderBy('order_column', 'asc')->get();
+        $projects = Project::where('order_column', '>=', $order_column)->orderBy('order_column', 'asc')->get();
 
         $ids = [];
 
@@ -193,6 +195,24 @@ class AdminController extends Controller
         }
 
         return $ids;
+    }
+
+    protected function cleanOrderColumnDupes() {
+        $results = Project::whereIn('order_column', function ( $query ) {
+            $query->select('order_column')->from('projects')->groupBy('order_column')->havingRaw('count(*) > 1');
+        })->get();
+
+        $count = count($results);
+
+        if ($count <= 0) {
+            return false;
+        }
+
+        $projectShiftIds = $this->getProjectOrderShiftIds(0,[]);
+
+        Project::setNewOrder($projectShiftIds, 1);
+
+        return true;
     }
 
     protected function processTags(array $tags, Project $project) {
