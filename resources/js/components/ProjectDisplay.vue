@@ -1,5 +1,5 @@
 <template>
-    <div class="col-sm-12 mb-5 project-display">
+    <div class="mb-5 project-display">
         <div class="row">
             <div class="col-md-6">
                 <div class="project-image-wrap">
