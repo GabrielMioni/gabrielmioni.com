@@ -29,7 +29,7 @@
                 if (this.project.image_main.trim() === '' || this.project.image_main_ext.trim() === '') {
                     return '';
                 }
-                return '/images/' + this.project.image_main + '.' + this.project.image_main_ext;
+                return '/project-images/' + this.project.image_main + '.' + this.project.image_main_ext;
             },
             checkLinks(type = null) {
                 if (type !== null) {

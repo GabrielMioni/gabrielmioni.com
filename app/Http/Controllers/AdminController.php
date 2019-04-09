@@ -169,7 +169,7 @@ class AdminController extends Controller
             return false;
         }
         $existingImage = $project->image_main . '.' . $project->image_main_ext;
-        return public_path('/images/' . $existingImage);
+        return public_path('/project-images/' . $existingImage);
     }
 
     protected function getProjectOrderShiftIds($order_column, $currentId) {
