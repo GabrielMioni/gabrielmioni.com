@@ -68,12 +68,19 @@ class AdminController extends Controller
         $projects   = json_decode($request->get('projects'), true);
         $files      = $request->file('file');
 
+        $newIds = [];
+
         foreach ($projects as $key => $projectData) {
 
             $id = $projectData['id'];
             $file = isset($files[$id]) ? $files[$id] : null;
-            $this->updateProject($projectData, $file, $id);
+            $newId = $this->updateProject($projectData, $file, $id);
+            if (is_int($newId)) {
+                $newIds[$id] = $newId;
+            }
         }
+
+        return $newIds;
     }
 
     public function updateProject(array $projectData, $file, $id) {
@@ -117,9 +124,10 @@ class AdminController extends Controller
         }
         $project->save();
 
+        $newId = $project->id;
+
         $this->processTags($projectData['tags'], $project);
 
-        $this->cleanOrderColumnDupes();
 
         if ($isNew === true) {
             $id = $project->id;
@@ -128,6 +136,16 @@ class AdminController extends Controller
 
             Project::setNewOrder($projectShiftIds, $projectData['order_column']);
         }
+
+        $this->cleanOrderColumnDupes();
+
+        if ($isNew) {
+            return $newId;
+        }
+        if (!$isNew) {
+            return true;
+        }
+
     }
 
     public function removeProject(Request $request) {

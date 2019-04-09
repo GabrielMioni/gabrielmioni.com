@@ -130,6 +130,11 @@
                         return;
                     }
                 }
+                if (project.id !== parseInt(project.id, 10)) {
+                    self.projects.splice(data.index, 1);
+                    return;
+                }
+
                 let formData = new FormData();
                 formData.append('id', project.id);
 
@@ -259,6 +264,7 @@
                 let formData = new FormData();
                 formData.append('projects', JSON.stringify(projectArray));
                 //formData.append('resort', JSON.stringify(this.resort));
+                const self = this;
 
                 projectArray.forEach( (project) => {
                     const projectId = project['id'];
@@ -271,13 +277,41 @@
                 axios.post('/project-store', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
                     .then((response) => {
                         console.log(response);
+                        self.checkNewProjectId(response.data);
                         if (typeof callback === 'function') {
                             callback();
                         }
                     }).catch( (error) => {
                     console.log('errors: ', error);
                 });
-            }
+            },
+            checkNewProjectId(data) {
+                const self = this;
+                if (data.length <= 0) {
+                    return;
+                }
+                for (const key in data){
+                    if (!data.hasOwnProperty(key)) {
+                        return;
+                    }
+                    self.updateNewProjectId(key, data[key]);
+                }
+            },
+            updateNewProjectId(oldId, newId) {
+                const self = this;
+                const BreakException = {};
+
+                try {
+                    this.projects.forEach((project, index)=> {
+                        if (project.id === oldId) {
+                            self.projects[index].id = newId;
+                            throw BreakException;
+                        }
+                    });
+                } catch(e) {
+                    if (e !== BreakException) throw e;
+                }
+            },
         },
         created() {
             this.$options.projects_url = '/projects-json';
