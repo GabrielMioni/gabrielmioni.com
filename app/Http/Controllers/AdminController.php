@@ -68,12 +68,19 @@ class AdminController extends Controller
         $projects   = json_decode($request->get('projects'), true);
         $files      = $request->file('file');
 
+        $newIds = [];
+
         foreach ($projects as $key => $projectData) {
 
             $id = $projectData['id'];
             $file = isset($files[$id]) ? $files[$id] : null;
-            $this->updateProject($projectData, $file, $id);
+            $newId = $this->updateProject($projectData, $file, $id);
+            if (is_int($newId)) {
+                $newIds[$id] = $newId;
+            }
         }
+
+        return $newIds;
     }
 
     public function updateProject(array $projectData, $file, $id) {
@@ -117,7 +124,10 @@ class AdminController extends Controller
         }
         $project->save();
 
+        $newId = $project->id;
+
         $this->processTags($projectData['tags'], $project);
+
 
         if ($isNew === true) {
             $id = $project->id;
@@ -126,6 +136,16 @@ class AdminController extends Controller
 
             Project::setNewOrder($projectShiftIds, $projectData['order_column']);
         }
+
+        $this->cleanOrderColumnDupes();
+
+        if ($isNew) {
+            return $newId;
+        }
+        if (!$isNew) {
+            return true;
+        }
+
     }
 
     public function removeProject(Request $request) {
@@ -169,11 +189,11 @@ class AdminController extends Controller
             return false;
         }
         $existingImage = $project->image_main . '.' . $project->image_main_ext;
-        return public_path('/images/' . $existingImage);
+        return public_path('/project-images/' . $existingImage);
     }
 
     protected function getProjectOrderShiftIds($order_column, $currentId) {
-        $projects = Project::where('order_column', '>', $order_column)->orderBy('order_column', 'asc')->get();
+        $projects = Project::where('order_column', '>=', $order_column)->orderBy('order_column', 'asc')->get();
 
         $ids = [];
 
@@ -193,6 +213,24 @@ class AdminController extends Controller
         }
 
         return $ids;
+    }
+
+    protected function cleanOrderColumnDupes() {
+        $results = Project::whereIn('order_column', function ( $query ) {
+            $query->select('order_column')->from('projects')->groupBy('order_column')->havingRaw('count(*) > 1');
+        })->get();
+
+        $count = count($results);
+
+        if ($count <= 0) {
+            return false;
+        }
+
+        $projectShiftIds = $this->getProjectOrderShiftIds(0,[]);
+
+        Project::setNewOrder($projectShiftIds, 1);
+
+        return true;
     }
 
     protected function processTags(array $tags, Project $project) {

@@ -147,7 +147,7 @@
                     return imgData['fileUrl'];
                 }
                 if (typeof imgData === 'string') {
-                    return '/images/' + imgData + '.' + this.project['image_main_ext'];
+                    return '/project-images/' + imgData + '.' + this.project['image_main_ext'];
                 }
             },
             checkIfImageIsPresent() {

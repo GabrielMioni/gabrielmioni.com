@@ -15,7 +15,7 @@ trait saveImageTrait {
 
         $fileName = str_replace('php', '', $image->getFilename());
 
-        $path = public_path('images/' . $fileName . '.jpg');
+        $path = public_path('project-images/' . $fileName . '.jpg');
 
         $img = Image::make($tempPath);
 
