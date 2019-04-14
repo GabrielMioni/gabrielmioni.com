@@ -1,0 +1,17 @@
+#app {
+  .profile-image {
+    label {
+      width: 100%;
+      text-align: center;
+    }
+  }
+  .profile-image-uploader {
+    height: rem(200px);
+    width: rem(200px);
+    border-radius: 50%;
+    background-position: center;
+    //background-color: $themeColor0;
+    margin: 0 auto;
+    cursor: pointer;
+  }
+}

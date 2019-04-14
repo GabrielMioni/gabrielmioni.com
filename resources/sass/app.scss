@@ -9,11 +9,14 @@
 @import '~bootstrap/scss/bootstrap';
 
 // Components
-@import "proj";
 @import "expand-toggle";
 @import "sortable-hanlde";
 @import 'loading-spinner';
 @import 'btn-cta';
+
+// Backend
+@import "proj";
+@import 'profile';
 
 // Frontend
 @import 'navbar-frontend';

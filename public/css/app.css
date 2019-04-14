@@ -10530,6 +10530,58 @@ a.text-dark:focus {
   }
 }
 
+.expand-toggle {
+  height: 25px;
+  width: 25px;
+  margin: 0;
+  padding: 0;
+}
+
+.project-handle.sortable-list-handle {
+  text-align: left;
+  display: inline-block;
+  float: left;
+  cursor: pointer;
+}
+
+.loading-spinner {
+  display: inline-block;
+  height: 2rem;
+}
+
+.loading-spinner i {
+  color: #47c6c2;
+  font-size: 2rem;
+  height: 2rem;
+}
+
+#app .btn-cta,
+#app .project-display .project-links a {
+  display: block;
+  background-color: #47c6c2;
+  color: #FFFFFF;
+  padding: 5px 20px;
+  margin-bottom: 1.25rem;
+  font-size: 1rem;
+  text-decoration: none;
+  max-width: 9.375rem;
+  border-radius: 0;
+}
+
+#app .btn-cta i,
+#app .project-display .project-links a i {
+  padding-right: 0.625rem;
+}
+
+@media (min-width: 768px) {
+  #app .btn-cta,
+  #app .project-display .project-links a {
+    display: inline-block;
+    margin-right: 0.625rem;
+    margin-bottom: 0;
+  }
+}
+
 .project .admin-edit textarea {
   height: 115px;
 }
@@ -10757,56 +10809,18 @@ a.text-dark:focus {
   }
 }
 
-.expand-toggle {
-  height: 25px;
-  width: 25px;
-  margin: 0;
-  padding: 0;
+#app .profile-image label {
+  width: 100%;
+  text-align: center;
 }
 
-.project-handle.sortable-list-handle {
-  text-align: left;
-  display: inline-block;
-  float: left;
+#app .profile-image-uploader {
+  height: 12.5rem;
+  width: 12.5rem;
+  border-radius: 50%;
+  background-position: center;
+  margin: 0 auto;
   cursor: pointer;
-}
-
-.loading-spinner {
-  display: inline-block;
-  height: 2rem;
-}
-
-.loading-spinner i {
-  color: #47c6c2;
-  font-size: 2rem;
-  height: 2rem;
-}
-
-#app .btn-cta,
-#app .project-display .project-links a {
-  display: block;
-  background-color: #47c6c2;
-  color: #FFFFFF;
-  padding: 5px 20px;
-  margin-bottom: 1.25rem;
-  font-size: 1rem;
-  text-decoration: none;
-  max-width: 9.375rem;
-  border-radius: 0;
-}
-
-#app .btn-cta i,
-#app .project-display .project-links a i {
-  padding-right: 0.625rem;
-}
-
-@media (min-width: 768px) {
-  #app .btn-cta,
-  #app .project-display .project-links a {
-    display: inline-block;
-    margin-right: 0.625rem;
-    margin-bottom: 0;
-  }
 }
 
 .navbar-frontend {
@@ -11051,19 +11065,6 @@ a.text-dark:focus {
 #app .contact-me .contact-enter,
 #app .contact-me .contact-leave-to {
   opacity: 0;
-}
-
-#app .contact-form {
-  /*.spin-wrapper {
-    @extend .center-vertical;
-    display: inline-block;
-    height: rem(32px);
-    i {
-      color: $themeColor3;
-      font-size: rem(32px);
-      height: rem(32px);
-    }
-  }*/
 }
 
 #app .contact-form input:focus,
