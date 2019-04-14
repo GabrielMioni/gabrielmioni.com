@@ -18,8 +18,8 @@ body {
 }
 
 .center-vertical,
-#app .contact-form .spin-wrapper,
-.front-end-hero .hero-cta {
+.front-end-hero .hero-cta,
+.loading-spinner {
   position: absolute;
   top: 50%;
   -webkit-transform: translateY(-50%);
@@ -10771,6 +10771,44 @@ a.text-dark:focus {
   cursor: pointer;
 }
 
+.loading-spinner {
+  display: inline-block;
+  height: 2rem;
+}
+
+.loading-spinner i {
+  color: #47c6c2;
+  font-size: 2rem;
+  height: 2rem;
+}
+
+#app .btn-cta,
+#app .project-display .project-links a {
+  display: block;
+  background-color: #47c6c2;
+  color: #FFFFFF;
+  padding: 5px 20px;
+  margin-bottom: 1.25rem;
+  font-size: 1rem;
+  text-decoration: none;
+  max-width: 9.375rem;
+  border-radius: 0;
+}
+
+#app .btn-cta i,
+#app .project-display .project-links a i {
+  padding-right: 0.625rem;
+}
+
+@media (min-width: 768px) {
+  #app .btn-cta,
+  #app .project-display .project-links a {
+    display: inline-block;
+    margin-right: 0.625rem;
+    margin-bottom: 0;
+  }
+}
+
 .navbar-frontend {
   background-color: #47c6c2;
   font-family: "Roboto", Helvetica, sans-serif;
@@ -11015,15 +11053,17 @@ a.text-dark:focus {
   opacity: 0;
 }
 
-#app .contact-form .spin-wrapper {
-  display: inline-block;
-  height: 2rem;
-}
-
-#app .contact-form .spin-wrapper i {
-  color: #47c6c2;
-  font-size: 2rem;
-  height: 2rem;
+#app .contact-form {
+  /*.spin-wrapper {
+    @extend .center-vertical;
+    display: inline-block;
+    height: rem(32px);
+    i {
+      color: $themeColor3;
+      font-size: rem(32px);
+      height: rem(32px);
+    }
+  }*/
 }
 
 #app .contact-form input:focus,
@@ -11060,33 +11100,6 @@ a.text-dark:focus {
   background-color: #ffc0cb;
   color: #e3342f;
   font-style: italic;
-}
-
-#app .btn-cta,
-#app .project-display .project-links a {
-  display: block;
-  background-color: #47c6c2;
-  color: #FFFFFF;
-  padding: 5px 20px;
-  margin-bottom: 1.25rem;
-  font-size: 1rem;
-  text-decoration: none;
-  max-width: 9.375rem;
-  border-radius: 0;
-}
-
-#app .btn-cta i,
-#app .project-display .project-links a i {
-  padding-right: 0.625rem;
-}
-
-@media (min-width: 768px) {
-  #app .btn-cta,
-  #app .project-display .project-links a {
-    display: inline-block;
-    margin-right: 0.625rem;
-    margin-bottom: 0;
-  }
 }
 
 #app .about {
