@@ -1,6 +1,5 @@
 <template>
     <form class="contact-form">
-        <h2>Contact me</h2>
         <div class="form-group">
             <label for="name">
                 <span>Your Name *</span>
@@ -47,7 +46,7 @@
                 <button
                     @click="submitEmail"
                     v-bind:class="{ 'disabled' : !fieldsValid }"
-                    type="button" class="btn btn-cta">Submit</button>
+                    type="button" class="btn btn-cta">Send</button>
                 <div v-if="submitting" class="spin-wrapper">
                     <i class="fas fa-circle-notch fa-spin"></i>
                 </div>
