@@ -42,7 +42,6 @@
                         </div>
                     </div>
                     <div class="col-lg-8">
-                        <h3>Contact me</h3>
                         <contact-me></contact-me>
                     </div>
                 </div>
