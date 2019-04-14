@@ -25,6 +25,14 @@
                     v-model="contactEmail"
                     type="email" class="form-control" id="contact-email">
             </div>
+            <div class="form-group">
+                <label for="about-me">
+                    <span>About Me</span>
+                </label>
+                <textarea
+                    v-model="aboutMe"
+                    class="form-control" id="about-me"></textarea>
+            </div>
         </form>
     </div>
 </template>
