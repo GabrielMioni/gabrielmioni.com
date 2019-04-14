@@ -1,13 +1,14 @@
 #app {
   .about {
+    text-align: center;
     .about-content {
       .about-image {
-        background-image: url(https://www.placecage.com/300/200);
+        background-image: url(https://www.placecage.com/200/200);
         background-position: center;
-        height: 200px;
-        width: 200px;
+        height: rem(150px);
+        width: rem(150px);
         border-radius: 50%;
-        margin: 0 auto;
+        margin: rem(20px) auto;
       }
     }
   }
