@@ -10,19 +10,6 @@
     }
   }
   .contact-form {
-    .submit-row {
-
-    }
-    .spin-wrapper {
-      @extend .center-vertical;
-      display: inline-block;
-      height: rem(32px);
-      i {
-        color: $themeColor3;
-        font-size: rem(32px);
-        height: rem(32px);
-      }
-    }
     input:focus,
     textarea:focus,
     .btn-cta:focus {

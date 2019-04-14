@@ -1,0 +1,10 @@
+.loading-spinner {
+  @extend .center-vertical;
+  display: inline-block;
+  height: rem(32px);
+  i {
+    color: $themeColor3;
+    font-size: rem(32px);
+    height: rem(32px);
+  }
+}

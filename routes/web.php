@@ -25,6 +25,7 @@ Auth::routes();
 //Route::group(['middleware' => 'role:admin'], function () {
 Route::group(['middleware' => ['auth']], function() {
     Route::get('/admin', 'AdminController@index')->name('admin');
+    Route::get('/profile', 'ProfileController@index')->name('profile');
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/all-tags', 'AdminController@allTags')->name('all_tags');
     Route::post('/project-store', 'AdminController@storeProject')->name('store_project');

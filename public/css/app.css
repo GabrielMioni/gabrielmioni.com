@@ -18,18 +18,25 @@ body {
 }
 
 .center-vertical,
-#app .contact-form .spin-wrapper,
-.front-end-hero .hero-cta {
+.front-end-hero .hero-cta,
+.loading-spinner {
   position: absolute;
   top: 50%;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
 }
 
-#app h2 {
+#app h1,
+#app h2,
+#app h3,
+#app h4,
+#app h5 {
   font-weight: 100;
-  font-size: 2.5rem;
   font-family: "Roboto", Helvetica, sans-serif;
+}
+
+#app h2 {
+  font-size: 2.5rem;
 }
 
 /*!
@@ -10523,6 +10530,58 @@ a.text-dark:focus {
   }
 }
 
+.expand-toggle {
+  height: 25px;
+  width: 25px;
+  margin: 0;
+  padding: 0;
+}
+
+.project-handle.sortable-list-handle {
+  text-align: left;
+  display: inline-block;
+  float: left;
+  cursor: pointer;
+}
+
+.loading-spinner {
+  display: inline-block;
+  height: 2rem;
+}
+
+.loading-spinner i {
+  color: #47c6c2;
+  font-size: 2rem;
+  height: 2rem;
+}
+
+#app .btn-cta,
+#app .project-display .project-links a {
+  display: block;
+  background-color: #47c6c2;
+  color: #FFFFFF;
+  padding: 5px 20px;
+  margin-bottom: 1.25rem;
+  font-size: 1rem;
+  text-decoration: none;
+  max-width: 9.375rem;
+  border-radius: 0;
+}
+
+#app .btn-cta i,
+#app .project-display .project-links a i {
+  padding-right: 0.625rem;
+}
+
+@media (min-width: 768px) {
+  #app .btn-cta,
+  #app .project-display .project-links a {
+    display: inline-block;
+    margin-right: 0.625rem;
+    margin-bottom: 0;
+  }
+}
+
 .project .admin-edit textarea {
   height: 115px;
 }
@@ -10750,17 +10809,17 @@ a.text-dark:focus {
   }
 }
 
-.expand-toggle {
-  height: 25px;
-  width: 25px;
-  margin: 0;
-  padding: 0;
+#app .profile-image label {
+  width: 100%;
+  text-align: center;
 }
 
-.project-handle.sortable-list-handle {
-  text-align: left;
-  display: inline-block;
-  float: left;
+#app .profile-image-uploader {
+  height: 12.5rem;
+  width: 12.5rem;
+  border-radius: 50%;
+  background-position: center;
+  margin: 0 auto;
   cursor: pointer;
 }
 
@@ -11008,17 +11067,6 @@ a.text-dark:focus {
   opacity: 0;
 }
 
-#app .contact-form .spin-wrapper {
-  display: inline-block;
-  height: 2rem;
-}
-
-#app .contact-form .spin-wrapper i {
-  color: #47c6c2;
-  font-size: 2rem;
-  height: 2rem;
-}
-
 #app .contact-form input:focus,
 #app .contact-form textarea:focus,
 #app .contact-form .btn-cta:focus,
@@ -11055,30 +11103,16 @@ a.text-dark:focus {
   font-style: italic;
 }
 
-#app .btn-cta,
-#app .project-display .project-links a {
-  display: block;
-  background-color: #47c6c2;
-  color: #FFFFFF;
-  padding: 5px 20px;
-  margin-bottom: 1.25rem;
-  font-size: 1rem;
-  text-decoration: none;
-  max-width: 9.375rem;
-  border-radius: 0;
+#app .about {
+  text-align: center;
 }
 
-#app .btn-cta i,
-#app .project-display .project-links a i {
-  padding-right: 0.625rem;
-}
-
-@media (min-width: 768px) {
-  #app .btn-cta,
-  #app .project-display .project-links a {
-    display: inline-block;
-    margin-right: 0.625rem;
-    margin-bottom: 0;
-  }
+#app .about .about-content .about-image {
+  background-image: url(https://www.placecage.com/200/200);
+  background-position: center;
+  height: 9.375rem;
+  width: 9.375rem;
+  border-radius: 50%;
+  margin: 1.25rem auto;
 }
 
