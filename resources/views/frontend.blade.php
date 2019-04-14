@@ -33,9 +33,8 @@
                     <div class="col-lg-4">
                         <div class="about">
                             <div class="about-content">
-                                <div class="me-image">
-
-                                </div>
+                                <h3>About me</h3>
+                                <div class="about-image"></div>
                                 <div class="about-text">
                                     Aptent class venenatis arcu curabitur luctus phasellus eleifend aliquam, dictumst fermentum finibus vivamus conubia nunc ante aliquet, mauris quam in cubilia et taciti nulla.
                                 </div>
@@ -43,6 +42,7 @@
                         </div>
                     </div>
                     <div class="col-lg-8">
+                        <h3>Contact me</h3>
                         <contact-me></contact-me>
                     </div>
                 </div>
