@@ -1,5 +1,6 @@
 <template>
     <form class="contact-form">
+        <h3>Contact me</h3>
         <div class="form-group">
             <label for="name">
                 <span>Your Name *</span>
@@ -43,13 +44,14 @@
         <input v-model="covfefe" type="hidden" value = ''>
         <div class="row submit-row">
             <div class="col-sm-12">
-                <button
-                    @click="submitEmail"
-                    v-bind:class="{ 'disabled' : !fieldsValid }"
-                    type="button" class="btn btn-cta">Send</button>
-                <div v-if="submitting" class="spin-wrapper">
-                    <i class="fas fa-circle-notch fa-spin"></i>
-                </div>
+                <submit-button
+                    :buttonText="'Send'"
+                    :disabled="submitting"
+                    v-on:buttonClick="submitEmail"
+                ></submit-button>
+                <loading-spinner
+                    :loading="submitting"
+                ></loading-spinner>
             </div>
         </div>
 
@@ -58,9 +60,12 @@
 
 <script>
     import { callAxios } from '../call-axios';
+    import SubmitButton from "./SubmitButton";
+    import LoadingSpinner from "./LoadingSpinner";
 
     export default {
         name: "ContactForm",
+        components: {LoadingSpinner, SubmitButton},
         data() {
             return {
                 company: '',
@@ -173,6 +178,9 @@
                         },
                         self.$options.timeoutSeconds);
                 });
+            },
+            submitClick() {
+                console.log('bringo');
             },
             mounted() {
                 this.$options.emailController = '/contact-form';
