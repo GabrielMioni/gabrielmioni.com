@@ -33,13 +33,28 @@
                     v-model="aboutMe"
                     class="form-control" id="about-me"></textarea>
             </div>
+            <div class="row submit-row">
+                <div class="col-sm-12">
+                    <submit-button
+                        :buttonText="'Update Profile'"
+                        :disabled="submitting"
+                        v-on:buttonClick="submit"
+                    ></submit-button>
+                    <loading-spinner
+                        :loading="submitting"
+                    ></loading-spinner>
+                </div>
+            </div>
         </form>
     </div>
 </template>
 
 <script>
+    import SubmitButton from "./SubmitButton";
+    import LoadingSpinner from "./LoadingSpinner";
     export default {
         name: "Profile",
+        components: {LoadingSpinner, SubmitButton},
         data() {
             return {
                 aboutMe: '',
@@ -48,6 +63,12 @@
                 gitHub: '',
                 linkedIn: '',
                 name: '',
+                submitting: false,
+            }
+        },
+        methods: {
+            submit() {
+                console.log('click');
             }
         }
     }
