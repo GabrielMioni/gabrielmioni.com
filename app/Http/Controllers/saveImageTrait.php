@@ -8,7 +8,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 trait saveImageTrait {
     function saveImage(UploadedFile $image, $path = null)
     {
-        $path = $path === null ? 'project-images' : trim($path);
+        $path = $path === null ? 'project-images/' : trim($path);
 
         if (substr($path, -1) !== '/') {
             $path .= '/';
