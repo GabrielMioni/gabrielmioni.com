@@ -31,8 +31,8 @@
         <div class="container">
             <div class="col-sm-12">
                 <div class="row">
-                    <div class="col-lg-4">
-                        @if (checkBladeData($avatar) || checkBladeData($about_me))
+                    @if (checkBladeData($avatar) || checkBladeData($about_me))
+                        <div class="col-lg-4">
                             <div class="about">
                                 <div class="about-content">
                                     <h3>About me</h3>
@@ -46,11 +46,16 @@
                                     @endif
                                 </div>
                             </div>
-                        @endif
-                    </div>
-                    <div class="col-lg-8">
-                        <contact-me></contact-me>
-                    </div>
+                        </div>
+                    @endif
+                    @if (!(checkBladeData($avatar) || checkBladeData($about_me)))
+                        <div class="col-lg-12">
+                    @endif
+                    @if (checkBladeData($avatar) || checkBladeData($about_me))
+                        <div class="col-lg-8">
+                            <contact-me></contact-me>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
