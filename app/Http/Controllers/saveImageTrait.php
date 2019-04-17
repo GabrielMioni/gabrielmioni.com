@@ -6,8 +6,14 @@ use Illuminate\Http\UploadedFile;
 use Intervention\Image\ImageManagerStatic as Image;
 
 trait saveImageTrait {
-    function saveImage(UploadedFile $image)
+    function saveImage(UploadedFile $image, $path = null)
     {
+        $path = $path === null ? 'project-images/' : trim($path);
+
+        if (substr($path, -1) !== '/') {
+            $path .= '/';
+        }
+
         $tempPath = $image->getRealPath();
         $imageSize = getimagesize($tempPath);
         $originalWidth = $imageSize[0];
@@ -15,7 +21,7 @@ trait saveImageTrait {
 
         $fileName = str_replace('php', '', $image->getFilename());
 
-        $path = public_path('project-images/' . $fileName . '.jpg');
+        $path = public_path($path . $fileName . '.jpg');
 
         $img = Image::make($tempPath);
 

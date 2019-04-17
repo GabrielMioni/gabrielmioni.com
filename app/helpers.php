@@ -6,3 +6,7 @@ if (! function_exists('sqlFormatDate')) {
         return date(getenv('SITE_DATE_FORMAT'), $set_date);
     }
 }
+
+function checkBladeData($data) {
+    return trim($data) !== '';
+}
