@@ -4,10 +4,11 @@
 @section('content')
     <div class="container-fluid front-end-hero">
         <div class="hero-cta">
-            <h2>
-                Web Developer<br>
-                Available for hire
-            </h2>
+            @if (checkBladeData($tag_line))
+                <h2>
+                    {{$tag_line}}
+                </h2>
+            @endif
             <div class="row">
                 <div class="col-sm-6">
                     <a href="">My Projects</a>
@@ -31,15 +32,21 @@
             <div class="col-sm-12">
                 <div class="row">
                     <div class="col-lg-4">
-                        <div class="about">
-                            <div class="about-content">
-                                <h3>About me</h3>
-                                <div class="about-image"></div>
-                                <div class="about-text">
-                                    Aptent class venenatis arcu curabitur luctus phasellus eleifend aliquam, dictumst fermentum finibus vivamus conubia nunc ante aliquet, mauris quam in cubilia et taciti nulla.
+                        @if (checkBladeData($avatar) || checkBladeData($about_me))
+                            <div class="about">
+                                <div class="about-content">
+                                    <h3>About me</h3>
+                                    @if (checkBladeData($avatar))
+                                        <div class="about-image"></div>
+                                    @endif
+                                    @if (checkBladeData($about_me))
+                                        <div class="about-text">
+                                            {!! $about_me !!}
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
                     <div class="col-lg-8">
                         <contact-me></contact-me>
