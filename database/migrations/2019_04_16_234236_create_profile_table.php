@@ -17,6 +17,7 @@ class CreateProfileTable extends Migration
             Schema::create('profile', function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('about_me')->nullable()->default(null);
+                $table->string('avatar')->nullable()->default(null);
                 $table->string('contact_email')->nullable()->default(null);
                 $table->string('email')->nullable()->default(null);
                 $table->string('github')->nullable()->default(null);
