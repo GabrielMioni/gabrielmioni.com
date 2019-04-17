@@ -22,6 +22,7 @@ class CreateProfileTable extends Migration
                 $table->string('email')->nullable()->default(null);
                 $table->string('github')->nullable()->default(null);
                 $table->string('linkedin')->nullable()->default(null);
+                $table->string('tag_line')->nullable()->default(null);
                 $table->timestamps();
             });
         }
