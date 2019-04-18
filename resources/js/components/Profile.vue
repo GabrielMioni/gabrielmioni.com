@@ -12,22 +12,6 @@
                             type="text" class="form-control" id="name">
                     </div>
                     <div class="form-group">
-                        <label for="email">
-                            <span>Email</span>
-                        </label>
-                        <input
-                            v-model="email"
-                            type="email" class="form-control" id="email">
-                    </div>
-                    <div class="form-group">
-                        <label for="contact-email">
-                            <span>Contact Email</span>
-                        </label>
-                        <input
-                            v-model="contactEmail"
-                            type="email" class="form-control" id="contact-email">
-                    </div>
-                    <div class="form-group">
                         <label for="about-me">
                             <span>Tag Line</span>
                         </label>
@@ -89,8 +73,6 @@
         data() {
             return {
                 aboutMe: '',
-                contactEmail: '',
-                email: '',
                 gitHub: '',
                 linkedIn: '',
                 name: '',

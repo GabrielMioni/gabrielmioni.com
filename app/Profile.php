@@ -10,16 +10,12 @@ class Profile extends Model
 
     protected $fillable = [
         'about_me',
-        'contact_email',
-        'email',
         'github',
         'linkedin',
     ];
 
     protected $casts = [
         'about_me' => 'string',
-        'contact_email' => 'string',
-        'email' => 'string',
         'github' => 'string',
         'linkedin' => 'string',
     ];

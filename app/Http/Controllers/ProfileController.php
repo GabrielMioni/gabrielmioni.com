@@ -13,7 +13,7 @@ class ProfileController extends Controller
         return view('profile');
     }
     public function getPrivateProfileData($returnQueryObject = false) {
-        $publicProfileData = Profile::select('aboutMe', 'avatar', 'contactEmail', 'email', 'github', 'linkedIn', 'name', 'tagLine')->where('id', '>', 0)->first();
+        $publicProfileData = Profile::select('aboutMe', 'avatar', 'github', 'linkedIn', 'name', 'tagLine')->where('id', '>', 0)->first();
 
         return $returnQueryObject === true ? $publicProfileData : $publicProfileData->toArray();
     }
@@ -21,7 +21,7 @@ class ProfileController extends Controller
     public function store(Request $request) {
 
         $newProfileData = json_decode($request->get('profileData'), true);
-        $allowed = ['aboutMe', 'contactEmail', 'email', 'github', 'linkedIn', 'name', 'tagLine'];
+        $allowed = ['aboutMe', 'github', 'linkedIn', 'name', 'tagLine'];
         $profile = Profile::first();
 
         if ($profile === null) $profile = new Profile();
