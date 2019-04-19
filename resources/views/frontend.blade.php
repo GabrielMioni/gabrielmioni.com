@@ -1,6 +1,14 @@
 @extends('layouts.app')
 @include('layouts.nav-frontend')
 
+@section('page-style')
+    <style>
+        #app .about .about-content .about-image {
+            background-image: url({{ bgImage($avatar) }});
+        }
+    </style>
+@stop
+
 @section('content')
     <div class="container-fluid front-end-hero">
         <div class="hero-cta">
