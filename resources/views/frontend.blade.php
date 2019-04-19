@@ -12,9 +12,9 @@
 @section('content')
     <div class="container-fluid front-end-hero">
         <div class="hero-cta">
-            @if (checkBladeData($tag_line))
+            @if (checkBladeData($tagLine))
                 <h2>
-                    {{$tag_line}}
+                    {{$tagLine}}
                 </h2>
             @endif
             <div class="row">
@@ -39,7 +39,7 @@
         <div class="container">
             <div class="col-sm-12">
                 <div class="row">
-                    @if (checkBladeData($avatar) || checkBladeData($about_me))
+                    @if (checkBladeData($avatar) || checkBladeData($aboutMe))
                         <div class="col-lg-4">
                             <div class="about">
                                 <div class="about-content">
@@ -47,19 +47,19 @@
                                     @if (checkBladeData($avatar))
                                         <div class="about-image"></div>
                                     @endif
-                                    @if (checkBladeData($about_me))
+                                    @if (checkBladeData($aboutMe))
                                         <div class="about-text">
-                                            {!! $about_me !!}
+                                            {!! $aboutMe !!}
                                         </div>
                                     @endif
                                 </div>
                             </div>
                         </div>
                     @endif
-                    @if (!(checkBladeData($avatar) || checkBladeData($about_me)))
+                    @if (!(checkBladeData($avatar) || checkBladeData($aboutMe)))
                         <div class="col-lg-12">
                     @endif
-                    @if (checkBladeData($avatar) || checkBladeData($about_me))
+                    @if (checkBladeData($avatar) || checkBladeData($aboutMe))
                         <div class="col-lg-8">
                             <contact-me></contact-me>
                         </div>
