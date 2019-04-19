@@ -10,7 +10,8 @@
     width: rem(200px);
     border-radius: 50%;
     background-position: center;
-    //background-color: $themeColor0;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
     margin: 0 auto;
     cursor: pointer;
   }
