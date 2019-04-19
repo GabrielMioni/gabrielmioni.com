@@ -43,6 +43,7 @@
                         </label>
                         <div
                             @click="clickProfileImage"
+                            v-bind:style="{ backgroundImage: 'url(' + setUrl() + ')' }"
                             class="profile-image-uploader form-control"></div>
                         <input type="file" accept="image/x-png,image/jpg,image/jpeg"
                                v-on:input="updateFile"
@@ -68,6 +69,8 @@
 </template>
 
 <script>
+    import { callAxios } from '../call-axios';
+    import { setImageUrl } from '../set-image-url';
     import SubmitButton from "./SubmitButton";
     import LoadingSpinner from "./LoadingSpinner";
     export default {
@@ -82,10 +85,8 @@
                 linkedIn: '',
                 name: '',
                 submitting: false,
-                profileImage: {
-                    filename: '',
-                    fileObj: null
-                }
+                avatar: '',
+                tagLine: ''
             }
         },
         methods: {
@@ -97,7 +98,25 @@
             },
             clickProfileImage() {
                 this.$refs.file.click();
+            },
+            setUrl() {
+                const self = this;
+                return setImageUrl('images', self.avatar, 'jpg');
             }
+        },
+        mounted() {
+            const self = this;
+            callAxios(this.$options.proifleDataEndpoint, (dataObj) => {
+                for (const property in dataObj) {
+                    if (!dataObj.hasOwnProperty(property)) {
+                        return;
+                    }
+                    self[property] = dataObj[property];
+                }
+            });
+        },
+        created() {
+            this.$options.proifleDataEndpoint = '/profile-data'
         }
     }
 </script>
