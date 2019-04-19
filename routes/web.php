@@ -18,6 +18,7 @@
 Route::get('/', 'FrontendController@index')->name('frontend');
 Route::get('/projects-json', 'AdminController@getProjects')->name('projects_json');
 Route::get('/attached-tags', 'AdminController@attachedTags')->name('attached-tags');
+Route::get('/public-profile', 'ProfileController@getPublicProfileData')->name('public_profile_data');
 Route::post('/contact-form', 'ContactController@sendContactFormEmail')->name('contact-form');
 
 Auth::routes();
