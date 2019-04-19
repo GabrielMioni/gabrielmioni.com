@@ -10,3 +10,7 @@ if (! function_exists('sqlFormatDate')) {
 function checkBladeData($data) {
     return trim($data) !== '';
 }
+
+function bgImage($avatar) {
+    return '/images/' . $avatar . '.jpg';
+}
