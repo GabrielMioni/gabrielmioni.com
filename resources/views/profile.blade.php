@@ -9,9 +9,3 @@
         </div>
     </div>
 @endsection
-<script>
-    import Profile from "../js/components/Profile";
-    export default {
-        components: {Profile}
-    }
-</script>
