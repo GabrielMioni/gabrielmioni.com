@@ -36,15 +36,17 @@
                             class="form-control" id="about-me"></textarea>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="form-group profile-image">
+                <div class="col-md-3 about">
+                    <div class="form-group about-content">
                         <label for="profile-image-uploader">
                             <span>Profile Image</span>
                         </label>
-                        <div
-                            @click="clickProfileImage"
-                            v-bind:style="{ backgroundImage: 'url(' + setUrl() + ')' }"
-                            class="profile-image-uploader form-control"></div>
+                        <div class="about-image-container">
+                            <div
+                                @click="clickProfileImage"
+                                v-bind:style="{ backgroundImage: 'url(' + setUrl() + ')' }"
+                                class="about-image form-control"></div>
+                        </div>
                         <input type="file" accept="image/x-png,image/jpg,image/jpeg"
                                v-on:input="updateFile"
                                :name="'file'"
@@ -93,8 +95,21 @@
             submit() {
                 console.log('click');
             },
-            updateFile() {
-                console.log('oh \'s cloberin time');
+            updateFile(e) {
+                console.log(e);
+                let file = e.target.files[0];
+                console.log(file);
+                let file_url;
+                if (typeof file === 'undefined') {
+                    file = '';
+                    file_url = '';
+                } else {
+                    let imgData = {};
+                    imgData.fileObj = file;
+                    imgData.fileUrl = URL.createObjectURL(file);
+                    console.log(imgData);
+                    this.avatar = imgData
+                }
             },
             clickProfileImage() {
                 this.$refs.file.click();
