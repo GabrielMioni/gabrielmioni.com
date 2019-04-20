@@ -39,13 +39,16 @@ class ProfileController extends Controller
         }
 
         $profileAvatar = $request->file('file');
-        $oldImageName = $profile->avatar;
-        $newImageData = $this->processImage('images', $oldImageName, 'jpg', $profileAvatar);
 
-        if (is_array($newImageData)) {
-            $profile->avatar = $newImageData['fileName'];
+        if ($profileAvatar !== null) {
+            $oldImageName = $profile->avatar;
+            $newImageData = $this->processImage('images', $oldImageName, 'jpg', $profileAvatar);
 
-            if ($updated === false) $updated = true;
+            if (is_array($newImageData)) {
+                $profile->avatar = $newImageData['fileName'];
+
+                if ($updated === false) $updated = true;
+            }
         }
 
         if ($updated === true) {
