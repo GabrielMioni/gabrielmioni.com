@@ -2,12 +2,21 @@
   .about {
     text-align: center;
     .about-content {
+      .about-image-container {
+        label {
+          width: 100%;
+          text-align: center;
+        }
+      }
       .about-image {
-        background-position: center;
-        height: rem(150px);
-        width: rem(150px);
+        height: rem(200px);
+        width: rem(200px);
         border-radius: 50%;
-        margin: rem(20px) auto;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: auto 100%;
+        margin: 0 auto;
+        cursor: pointer;
       }
     }
   }
