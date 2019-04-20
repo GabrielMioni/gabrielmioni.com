@@ -39,6 +39,17 @@ class ProfileController extends Controller
             if ($updated === false) $updated = true;
         }
 
+        $profileAvatar = $request->file('file');
+        $oldImageName = $profile->avatar;
+        $newImageData = $this->processImage('images', $oldImageName, 'jpg', $profileAvatar);
+
+        if (is_array($newImageData)) {
+            file_put_contents(dirname(__FILE__) . '/log', print_r($newImageData['fileName'], true), FILE_APPEND);
+            $profile->avatar = $newImageData['fileName'];
+
+            if ($updated === false) $updated = true;
+        }
+
         if ($updated === true) {
             $profile->save();
         }
