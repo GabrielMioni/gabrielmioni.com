@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <input type="file" accept="image/x-png,image/jpg,image/jpeg"
-                           v-on:input="updateFile"
+                           v-on:change="updateFile"
                            :class="['hidden-file-' + index]"
                            :name="'file-' + index"
                            ref="file" style="display: none">
@@ -190,6 +190,7 @@
                 } else {
                     file_url = URL.createObjectURL(file);
                 }
+                this.$refs.file.value = '';
                 this.$emit('updateFile', {'index': this.index, 'fileUrl': file_url, 'fileObj': file});
             },
             copyObject(obj, deleteOrderColumn = false) {
