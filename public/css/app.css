@@ -10809,18 +10809,18 @@ a.text-dark:focus {
   }
 }
 
-#app .profile-image label {
+#app .about-image-container label {
   width: 100%;
   text-align: center;
 }
 
-#app .profile-image-uploader {
+#app .about-image {
   height: 12.5rem;
   width: 12.5rem;
   border-radius: 50%;
   background-position: center;
-  background-size: auto 100%;
   background-repeat: no-repeat;
+  background-size: auto 100%;
   margin: 0 auto;
   cursor: pointer;
 }
@@ -11109,11 +11109,29 @@ a.text-dark:focus {
   text-align: center;
 }
 
+#app .about .about-content {
+  /*.about-image {
+    background-position: center;
+    height: rem(150px);
+    width: rem(150px);
+    border-radius: 50%;
+    margin: rem(20px) auto;
+  }*/
+}
+
+#app .about .about-content .about-image-container label {
+  width: 100%;
+  text-align: center;
+}
+
 #app .about .about-content .about-image {
-  background-position: center;
-  height: 9.375rem;
-  width: 9.375rem;
+  height: 12.5rem;
+  width: 12.5rem;
   border-radius: 50%;
-  margin: 1.25rem auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+  margin: 0 auto;
+  cursor: pointer;
 }
 
