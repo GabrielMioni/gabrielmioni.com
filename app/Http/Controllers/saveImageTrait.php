@@ -6,7 +6,44 @@ use Illuminate\Http\UploadedFile;
 use Intervention\Image\ImageManagerStatic as Image;
 
 trait saveImageTrait {
-    function saveImage(UploadedFile $image, $path = null)
+
+    protected function processImage($path, $oldImageName, $oldImageExt, UploadedFile $newFile) {
+        $oldImagePath = $this->getImagePath($path, $oldImageName, $oldImageExt);
+
+        if ($oldImagePath !== false) {
+            $this->deleteImage($oldImagePath);
+        }
+
+        $imageData = $this->saveImage($newFile, $path);
+
+        if ($imageData === false) return false;
+
+        return ['fileName' => $imageData['file_name'], 'fileExt'=>$imageData['extension']];
+    }
+
+    protected function deleteImage($imagePath) {
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
+            return true;
+        }
+        return false;
+    }
+
+    protected function getImagePath($path, $imageName, $imageExt) {
+        if ($imageName === '' || $imageExt === '') {
+            return false;
+        }
+        $existingImage = $imageName . '.' . $imageExt;
+        $imagePath = public_path('/'. $path .'/' . $existingImage);
+
+        if (file_exists($imagePath)) {
+            return $imagePath;
+        }
+
+        return false;
+    }
+
+    protected function saveImage(UploadedFile $image, $path = null)
     {
         $path = $path === null ? 'project-images/' : trim($path);
 
