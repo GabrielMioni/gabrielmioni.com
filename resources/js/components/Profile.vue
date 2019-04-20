@@ -44,7 +44,7 @@
                         <div class="about-image-container">
                             <div
                                 @click="clickProfileImage"
-                                v-bind:style="{ backgroundImage: 'url(' + setUrl() + ')' }"
+                                v-bind:style="[avatar !== null ? {'backgroundImage': 'url(' + setUrl() + ')'} : {'backgroundImage': 'url()'}]"
                                 class="about-image form-control"></div>
                         </div>
                         <input type="file" accept="image/x-png,image/jpg,image/jpeg"
@@ -93,7 +93,37 @@
         },
         methods: {
             submit() {
-                console.log('click');
+                const self = this;
+                let profileData = {};
+
+                const restricted = ['submitting', 'avatar'];
+
+                for (const property in this.$data) {
+                    if (this.$data.hasOwnProperty(property) && !restricted.includes(property)) {
+                        console.log(self.$data[property]);
+                        profileData[property] = self.$data[property];
+                    }
+                }
+                console.log(profileData);
+
+                let formData = new FormData();
+                formData.append('profileData', JSON.stringify(profileData));
+
+                if (typeof this.avatar === 'object') {
+                    formData.append('file', this.avatar.fileObj);
+                }
+
+                this.submitting = true;
+
+                axios.post(this.$options.profileUpdateEndpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+                    .then((response) => {
+                        console.log(response);
+                        setTimeout(()=>{
+                            self.submitting = false;
+                        }, 1000);
+                    }).catch( (error) => {
+                    console.log('errors: ', error);
+                });
             },
             updateFile(e) {
                 console.log(e);
@@ -131,7 +161,8 @@
             });
         },
         created() {
-            this.$options.proifleDataEndpoint = '/profile-data'
+            this.$options.proifleDataEndpoint = '/profile-data';
+            this.$options.profileUpdateEndpoint = '/profile-update';
         }
     }
 </script>
