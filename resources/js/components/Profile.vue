@@ -100,16 +100,13 @@
 
                 for (const property in this.$data) {
                     if (this.$data.hasOwnProperty(property) && !restricted.includes(property)) {
-                        console.log(self.$data[property]);
                         profileData[property] = self.$data[property];
                     }
                 }
-                console.log(profileData);
-
                 let formData = new FormData();
                 formData.append('profileData', JSON.stringify(profileData));
 
-                if (typeof this.avatar === 'object') {
+                if (this.avatar !== null) {
                     formData.append('file', this.avatar.fileObj);
                 }
 
