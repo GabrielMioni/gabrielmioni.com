@@ -162,7 +162,7 @@
         },
         created() {
             this.$options.proifleDataEndpoint = '/profile-data';
-            this.$options.profileUpdateEndpoint = '/profile-update';
+            this.$options.profileUpdateEndpoint = '/profile-store';
         }
     }
 </script>
