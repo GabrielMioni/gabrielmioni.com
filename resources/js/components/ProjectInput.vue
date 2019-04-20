@@ -119,6 +119,7 @@
 </template>
 
 <script>
+    import { setImageUrl } from '../set-image-url';
     import FormTextInput from "./FormTextInput";
     import ExpandToggle from "./expandToggle";
     import SortableHandle from "./SortableHandle";
@@ -139,16 +140,7 @@
         },
         methods: {
             setUrl() {
-                const imgData = this.project['image_main'];
-                if (imgData === '') {
-                    return;
-                }
-                if (typeof imgData === 'object') {
-                    return imgData['fileUrl'];
-                }
-                if (typeof imgData === 'string') {
-                    return '/project-images/' + imgData + '.' + this.project['image_main_ext'];
-                }
+                return setImageUrl('project-images', this.project['image_main'], this.project['image_main_ext']);
             },
             checkIfImageIsPresent() {
                 const imgData = this.project['image_main'];
