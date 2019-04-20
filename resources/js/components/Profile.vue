@@ -29,6 +29,14 @@
                     </div>
                     <div class="form-group">
                         <label for="about-me">
+                            <span>Tag Line</span>
+                        </label>
+                        <textarea
+                            v-model="tagLine"
+                            class="form-control" id="tagLine"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="about-me">
                             <span>About Me</span>
                         </label>
                         <textarea
