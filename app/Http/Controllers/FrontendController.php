@@ -17,7 +17,7 @@ class FrontendController extends Controller
     }
 
     protected function getPublicProfileData() {
-        $publicProfileData = Profile::select('about_me', 'avatar', 'github', 'linkedin', 'tag_line')->where('id', '=', 1)->first()->toArray();
+        $publicProfileData = Profile::select('aboutMe', 'avatar', 'github', 'linkedIn', 'tagLine')->where('id', '=', 1)->first()->toArray();
 
         return $publicProfileData;
     }

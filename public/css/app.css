@@ -10809,20 +10809,6 @@ a.text-dark:focus {
   }
 }
 
-#app .profile-image label {
-  width: 100%;
-  text-align: center;
-}
-
-#app .profile-image-uploader {
-  height: 12.5rem;
-  width: 12.5rem;
-  border-radius: 50%;
-  background-position: center;
-  margin: 0 auto;
-  cursor: pointer;
-}
-
 .navbar-frontend {
   background-color: #47c6c2;
   font-family: "Roboto", Helvetica, sans-serif;
@@ -11107,12 +11093,19 @@ a.text-dark:focus {
   text-align: center;
 }
 
+#app .about .about-content .about-image-container label {
+  width: 100%;
+  text-align: center;
+}
+
 #app .about .about-content .about-image {
-  background-image: url(https://www.placecage.com/200/200);
-  background-position: center;
-  height: 9.375rem;
-  width: 9.375rem;
+  height: 12.5rem;
+  width: 12.5rem;
   border-radius: 50%;
-  margin: 1.25rem auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+  margin: 0 auto;
+  cursor: pointer;
 }
 

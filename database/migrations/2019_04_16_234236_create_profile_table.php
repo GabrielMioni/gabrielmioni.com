@@ -16,13 +16,14 @@ class CreateProfileTable extends Migration
         if(!Schema::hasTable('profile')) {
             Schema::create('profile', function (Blueprint $table) {
                 $table->increments('id');
-                $table->string('about_me')->nullable()->default(null);
+                $table->string('aboutMe')->nullable()->default(null);
                 $table->string('avatar')->nullable()->default(null);
-                $table->string('contact_email')->nullable()->default(null);
+                $table->string('contactEmail')->nullable()->default(null);
                 $table->string('email')->nullable()->default(null);
                 $table->string('github')->nullable()->default(null);
-                $table->string('linkedin')->nullable()->default(null);
-                $table->string('tag_line')->nullable()->default(null);
+                $table->string('linkedIn')->nullable()->default(null);
+                $table->string('name')->nullable()->default(null);
+                $table->string('tagLine')->nullable()->default(null);
                 $table->timestamps();
             });
         }

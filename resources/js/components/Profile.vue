@@ -29,6 +29,14 @@
                     </div>
                     <div class="form-group">
                         <label for="about-me">
+                            <span>Tag Line</span>
+                        </label>
+                        <textarea
+                            v-model="tagLine"
+                            class="form-control" id="tagLine"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="about-me">
                             <span>About Me</span>
                         </label>
                         <textarea
@@ -36,14 +44,17 @@
                             class="form-control" id="about-me"></textarea>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="form-group profile-image">
+                <div class="col-md-3 about">
+                    <div class="form-group about-content">
                         <label for="profile-image-uploader">
                             <span>Profile Image</span>
                         </label>
-                        <div
-                            @click="clickProfileImage"
-                            class="profile-image-uploader form-control"></div>
+                        <div class="about-image-container">
+                            <div
+                                @click="clickProfileImage"
+                                v-bind:style="[avatar !== null ? {'backgroundImage': 'url(' + setUrl() + ')'} : {'backgroundImage': 'url()'}]"
+                                class="about-image form-control"></div>
+                        </div>
                         <input type="file" accept="image/x-png,image/jpg,image/jpeg"
                                v-on:input="updateFile"
                                :name="'file'"
@@ -68,6 +79,8 @@
 </template>
 
 <script>
+    import { callAxios } from '../call-axios';
+    import { setImageUrl } from '../set-image-url';
     import SubmitButton from "./SubmitButton";
     import LoadingSpinner from "./LoadingSpinner";
     export default {
@@ -82,22 +95,79 @@
                 linkedIn: '',
                 name: '',
                 submitting: false,
-                profileImage: {
-                    filename: '',
-                    fileObj: null
-                }
+                avatar: '',
+                tagLine: ''
             }
         },
         methods: {
             submit() {
-                console.log('click');
+                const self = this;
+                let profileData = {};
+
+                const restricted = ['submitting', 'avatar'];
+
+                for (const property in this.$data) {
+                    if (this.$data.hasOwnProperty(property) && !restricted.includes(property)) {
+                        profileData[property] = self.$data[property];
+                    }
+                }
+                let formData = new FormData();
+                formData.append('profileData', JSON.stringify(profileData));
+
+                if (this.avatar !== null) {
+                    formData.append('file', this.avatar.fileObj);
+                }
+
+                this.submitting = true;
+
+                axios.post(this.$options.profileUpdateEndpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+                    .then((response) => {
+                        console.log(response);
+                        setTimeout(()=>{
+                            self.submitting = false;
+                        }, 1000);
+                    }).catch( (error) => {
+                    console.log('errors: ', error);
+                });
             },
-            updateFile() {
-                console.log('oh \'s cloberin time');
+            updateFile(e) {
+                console.log(e);
+                let file = e.target.files[0];
+                console.log(file);
+                let file_url;
+                if (typeof file === 'undefined') {
+                    file = '';
+                    file_url = '';
+                } else {
+                    let imgData = {};
+                    imgData.fileObj = file;
+                    imgData.fileUrl = URL.createObjectURL(file);
+                    console.log(imgData);
+                    this.avatar = imgData
+                }
             },
             clickProfileImage() {
                 this.$refs.file.click();
+            },
+            setUrl() {
+                const self = this;
+                return setImageUrl('images', self.avatar, 'jpg');
             }
+        },
+        mounted() {
+            const self = this;
+            callAxios(this.$options.proifleDataEndpoint, (dataObj) => {
+                for (const property in dataObj) {
+                    if (!dataObj.hasOwnProperty(property)) {
+                        return;
+                    }
+                    self[property] = dataObj[property];
+                }
+            });
+        },
+        created() {
+            this.$options.proifleDataEndpoint = '/profile-data';
+            this.$options.profileUpdateEndpoint = '/profile-store';
         }
     }
 </script>
