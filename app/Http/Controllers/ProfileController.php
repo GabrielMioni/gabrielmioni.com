@@ -44,7 +44,6 @@ class ProfileController extends Controller
         $newImageData = $this->processImage('images', $oldImageName, 'jpg', $profileAvatar);
 
         if (is_array($newImageData)) {
-            file_put_contents(dirname(__FILE__) . '/log', print_r($newImageData['fileName'], true), FILE_APPEND);
             $profile->avatar = $newImageData['fileName'];
 
             if ($updated === false) $updated = true;
