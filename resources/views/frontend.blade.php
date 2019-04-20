@@ -14,7 +14,7 @@
         <div class="hero-cta">
             @if (checkBladeData($tagLine))
                 <h2>
-                    {{$tagLine}}
+                    {!! nl2br($tagLine) !!}
                 </h2>
             @endif
             <div class="row">
