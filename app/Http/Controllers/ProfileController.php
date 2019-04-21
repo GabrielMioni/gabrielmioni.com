@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Profile;
 
 class ProfileController extends Controller
@@ -14,6 +15,13 @@ class ProfileController extends Controller
     }
     public function getPrivateProfileData($returnQueryObject = false) {
         $publicProfileData = Profile::select('aboutMe', 'avatar', 'github', 'linkedIn', 'name', 'tagLine')->where('id', '>', 0)->first();
+
+        if ($publicProfileData === null) {
+            return response()->json([
+                'code'  => 204,
+                'error' => 'No profile data exists. But you can make some. I believe in you.'
+            ], Response::HTTP_NO_CONTENT);
+        }
 
         return $returnQueryObject === true ? $publicProfileData : $publicProfileData->toArray();
     }
