@@ -19,7 +19,7 @@ class ProfileController extends Controller
         if ($publicProfileData === null) {
             return response()->json([
                 'code'  => 204,
-                'error' => 'No profile data exists. But you can make some. I believe in you.'
+                'message' => 'No profile data exists. But you can make some. I believe in you.'
             ], Response::HTTP_NO_CONTENT);
         }
 
