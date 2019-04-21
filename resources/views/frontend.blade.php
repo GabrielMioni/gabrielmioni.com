@@ -3,16 +3,18 @@
 
 @section('page-style')
     <style>
-        #app .about .about-content .about-image {
-            background-image: url({{ bgImage($avatar) }});
-        }
+        @if (isset($avatar) && trim($avatar) !== '')
+            #app .about .about-content .about-image {
+                background-image: url({{ bgImage($avatar) }});
+            }
+        @endif
     </style>
 @stop
 
 @section('content')
     <div class="container-fluid front-end-hero">
         <div class="hero-cta">
-            @if (checkBladeData($tagLine))
+            @if (isset($tagLine) && trim($tagLine) !== '')
                 <h2>
                     {!! nl2br($tagLine) !!}
                 </h2>
@@ -39,7 +41,7 @@
         <div class="container">
             <div class="col-sm-12">
                 <div class="row">
-                    @if (checkBladeData($avatar) || checkBladeData($aboutMe))
+                    @if (isset($avatar) && trim($avatar) !== '' || isset($aboutMe) && trim($aboutMe) !== '')
                         <div class="col-lg-4">
                             <div class="about">
                                 <div class="about-content">
@@ -56,14 +58,13 @@
                             </div>
                         </div>
                     @endif
-                    @if (!(checkBladeData($avatar) || checkBladeData($aboutMe)))
+                    @if (isset($avatar) && trim($avatar) !== '' || isset($aboutme) && trim($aboutme) !== '')
                         <div class="col-lg-12">
-                    @endif
-                    @if (checkBladeData($avatar) || checkBladeData($aboutMe))
+                    @else
                         <div class="col-lg-8">
+                    @endif
                             <contact-me></contact-me>
                         </div>
-                    @endif
                 </div>
             </div>
         </div>
