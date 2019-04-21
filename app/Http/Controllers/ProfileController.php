@@ -63,4 +63,35 @@ class ProfileController extends Controller
             $profile->save();
         }
     }
+
+    public function profileImage(Request $request) {
+        $file = $request->file('file');
+
+        if ($file === null) {
+            $this->deleteProfileImage();
+        }
+    }
+
+    protected function deleteProfileImage() {
+        $profile = Profile::select('avatar')->where('id', '>', 0)->first();
+
+        if ($profile === null) {
+            return false;
+        }
+
+        $imageName = $profile->avatar;
+        $imagePath = $this->getImagePath('images', $imageName, 'jpg');
+        $deleted = $this->deleteImage($imagePath);
+
+        if ($deleted === false) {
+            return response()->json([
+                'code'  => 400,
+                'error' => 'Unable to delete image'
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $profileUpdate = Profile::first();
+        $profileUpdate->avatar = '';
+        $profileUpdate->save();
+    }
 }

@@ -36,9 +36,14 @@
                         <div class="about-image-container">
                             <div
                                 @click="clickProfileImage"
-                                v-bind:style="[avatar !== null ? {'backgroundImage': 'url(' + setUrl() + ')'} : {'backgroundImage': 'url()'}]"
+                                v-bind:style="[avatar !== null ? {'backgroundImage': 'url(' + setUrl() + ')'} : {'backgroundImage': ''}]"
                                 class="about-image form-control"></div>
                         </div>
+                        <button
+                            @click="deleteImage"
+                            v-if="avatar.toString() !== ''"
+                            ref="deleteButton"
+                            type="button" class="btn btn-danger mt-3">Delete Image</button>
                         <input type="file" accept="image/x-png,image/jpg,image/jpeg"
                                v-on:input="updateFile"
                                :name="'file'"
@@ -131,6 +136,40 @@
             clickProfileImage() {
                 this.$refs.file.click();
             },
+            deleteImage() {
+                const self = this;
+                if (!confirm('You\'re about to delete this profile image. Are you sure?')) {
+                    return;
+                }
+
+                const sendDelete = typeof this.avatar !== 'object';
+
+                const deleteButton = this.$refs.deleteButton;
+                const buttonText = deleteButton.textContent || deleteButton.innerText;
+
+                deleteButton.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i>';
+
+                if (sendDelete === false) {
+                    setTimeout(()=>{
+                        deleteButton.innerHTML = buttonText;
+                    },1000);
+                    return;
+                }
+
+                let formData = new FormData();
+                formData.append('file', null);
+
+                axios.post(this.$options.profileImageEndpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+                    .then((response) => {
+                        console.log(response);
+                        setTimeout(()=>{
+                            deleteButton.innerHTML = buttonText;
+                            self.avatar = '';
+                        },1000);
+                    }).catch( (error) => {
+                    console.log('errors: ', error);
+                });
+            },
             setUrl() {
                 const self = this;
                 return setImageUrl('images', self.avatar, 'jpg');
@@ -139,6 +178,7 @@
         mounted() {
             const self = this;
             callAxios(this.$options.proifleDataEndpoint, (dataObj) => {
+                console.log(dataObj);
                 for (const property in dataObj) {
                     if (!dataObj.hasOwnProperty(property)) {
                         return;
@@ -149,6 +189,7 @@
         },
         created() {
             this.$options.proifleDataEndpoint = '/profile-data';
+            this.$options.profileImageEndpoint = '/profile-image';
             this.$options.profileUpdateEndpoint = '/profile-store';
         }
     }

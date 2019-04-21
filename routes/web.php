@@ -33,5 +33,6 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/project-store', 'AdminController@storeProject')->name('store_project');
     Route::post('/project-store-sort-order', 'AdminController@storeNewSortOrder')->name('store_sort_order');
     Route::post('/project-delete', 'AdminController@removeProject')->name('delete_project');
+    Route::post('/profile-image', 'ProfileController@profileImage')->name('profile-image');
     Route::post('/profile-store', 'ProfileController@store')->name('profile-store');
 });
