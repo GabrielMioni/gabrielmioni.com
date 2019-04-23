@@ -47,12 +47,14 @@ class ProfileController extends Controller
         }
 
         $profileAvatar = $request->file('file');
+        $newImage = false;
 
         if ($profileAvatar !== null) {
             $oldImageName = $profile->avatar;
             $newImageData = $this->processImage('images', $oldImageName, 'jpg', $profileAvatar);
 
             if (is_array($newImageData)) {
+                $newImage = $newImageData['fileName'];
                 $profile->avatar = $newImageData['fileName'];
 
                 if ($updated === false) $updated = true;
@@ -62,6 +64,8 @@ class ProfileController extends Controller
         if ($updated === true) {
             $profile->save();
         }
+
+        return ['image'=>$newImage];
     }
 
     public function profileImage(Request $request) {
