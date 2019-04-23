@@ -41,9 +41,14 @@
                         </div>
                         <button
                             @click="deleteImage"
-                            v-if="avatar.toString() !== ''"
+                            v-if="avatar.toString() !== '' && typeof avatar !== 'object'"
                             ref="deleteButton"
                             type="button" class="btn btn-danger mt-3">Delete Image</button>
+                        <button
+                            @click="undoImage"
+                            v-if="typeof avatar === 'object'"
+                            ref="undoImageButton"
+                            type="button" class="btn btn-primary mt-3">Undo</button>
                         <input type="file" accept="image/x-png,image/jpg,image/jpeg"
                                v-on:input="updateFile"
                                :name="'file'"
@@ -83,6 +88,7 @@
                 name: '',
                 submitting: false,
                 avatar: '',
+                avatarOriginal: '',
                 tagLine: ''
             }
         },
@@ -111,6 +117,10 @@
                     .then((response) => {
                         console.log(response);
                         setTimeout(()=>{
+                            const imageData = response.data.image;
+                            if (imageData !== false) {
+                                self.avatar = imageData;
+                            }
                             self.submitting = false;
                         }, 1000);
                     }).catch( (error) => {
@@ -118,6 +128,7 @@
                 });
             },
             updateFile(e) {
+                const originalAvatar = this.avatar;
                 console.log(e);
                 let file = e.target.files[0];
                 console.log(file);
@@ -131,6 +142,7 @@
                     imgData.fileUrl = URL.createObjectURL(file);
                     console.log(imgData);
                     this.avatar = imgData
+                    this.avatarOriginal = originalAvatar;
                 }
             },
             clickProfileImage() {
@@ -169,6 +181,10 @@
                     }).catch( (error) => {
                     console.log('errors: ', error);
                 });
+            },
+            undoImage() {
+                this.avatar = this.avatarOriginal;
+                this.avatarOriginal = '';
             },
             setUrl() {
                 const self = this;
