@@ -27,6 +27,22 @@
                             v-model="aboutMe"
                             class="form-control" id="about-me"></textarea>
                     </div>
+                    <div class="form-group">
+                        <label for="linkedin">
+                            <span>LinkedIn</span>
+                        </label>
+                        <input
+                            v-model="linkedIn"
+                            type="url" class="form-control" id="linkedin">
+                    </div>
+                    <div class="form-group">
+                        <label for="github">
+                            <span>GitHub</span>
+                        </label>
+                        <input
+                            v-model="github"
+                            type="url" class="form-control" id="github">
+                    </div>
                 </div>
                 <div class="col-md-3 about">
                     <div class="form-group about-content">
@@ -83,7 +99,7 @@
         data() {
             return {
                 aboutMe: '',
-                gitHub: '',
+                github: '',
                 linkedIn: '',
                 name: '',
                 submitting: false,
