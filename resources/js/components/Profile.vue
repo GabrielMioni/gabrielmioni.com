@@ -12,22 +12,6 @@
                             type="text" class="form-control" id="name">
                     </div>
                     <div class="form-group">
-                        <label for="email">
-                            <span>Email</span>
-                        </label>
-                        <input
-                            v-model="email"
-                            type="email" class="form-control" id="email">
-                    </div>
-                    <div class="form-group">
-                        <label for="contact-email">
-                            <span>Contact Email</span>
-                        </label>
-                        <input
-                            v-model="contactEmail"
-                            type="email" class="form-control" id="contact-email">
-                    </div>
-                    <div class="form-group">
                         <label for="about-me">
                             <span>Tag Line</span>
                         </label>
@@ -43,6 +27,22 @@
                             v-model="aboutMe"
                             class="form-control" id="about-me"></textarea>
                     </div>
+                    <div class="form-group">
+                        <label for="linkedin">
+                            <span>LinkedIn</span>
+                        </label>
+                        <input
+                            v-model="linkedIn"
+                            type="url" class="form-control" id="linkedin">
+                    </div>
+                    <div class="form-group">
+                        <label for="github">
+                            <span>GitHub</span>
+                        </label>
+                        <input
+                            v-model="github"
+                            type="url" class="form-control" id="github">
+                    </div>
                 </div>
                 <div class="col-md-3 about">
                     <div class="form-group about-content">
@@ -52,9 +52,19 @@
                         <div class="about-image-container">
                             <div
                                 @click="clickProfileImage"
-                                v-bind:style="[avatar !== null ? {'backgroundImage': 'url(' + setUrl() + ')'} : {'backgroundImage': 'url()'}]"
+                                v-bind:style="[avatar !== null ? {'backgroundImage': 'url(' + setUrl() + ')'} : {'backgroundImage': ''}]"
                                 class="about-image form-control"></div>
                         </div>
+                        <button
+                            @click="deleteImage"
+                            v-if="avatar.toString() !== '' && typeof avatar !== 'object'"
+                            ref="deleteButton"
+                            type="button" class="btn btn-danger mt-3">Delete Image</button>
+                        <button
+                            @click="undoImage"
+                            v-if="typeof avatar === 'object'"
+                            ref="undoImageButton"
+                            type="button" class="btn btn-primary mt-3">Undo</button>
                         <input type="file" accept="image/x-png,image/jpg,image/jpeg"
                                v-on:input="updateFile"
                                :name="'file'"
@@ -89,13 +99,12 @@
         data() {
             return {
                 aboutMe: '',
-                contactEmail: '',
-                email: '',
-                gitHub: '',
+                github: '',
                 linkedIn: '',
                 name: '',
                 submitting: false,
                 avatar: '',
+                avatarOriginal: '',
                 tagLine: ''
             }
         },
@@ -124,6 +133,10 @@
                     .then((response) => {
                         console.log(response);
                         setTimeout(()=>{
+                            const imageData = response.data.image;
+                            if (imageData !== false) {
+                                self.avatar = imageData;
+                            }
                             self.submitting = false;
                         }, 1000);
                     }).catch( (error) => {
@@ -131,6 +144,7 @@
                 });
             },
             updateFile(e) {
+                const originalAvatar = this.avatar;
                 console.log(e);
                 let file = e.target.files[0];
                 console.log(file);
@@ -144,10 +158,50 @@
                     imgData.fileUrl = URL.createObjectURL(file);
                     console.log(imgData);
                     this.avatar = imgData
+                    this.avatarOriginal = originalAvatar;
                 }
+                this.$refs.file.value = '';
             },
             clickProfileImage() {
                 this.$refs.file.click();
+            },
+            deleteImage() {
+                const self = this;
+                if (!confirm('You\'re about to delete this profile image. Are you sure?')) {
+                    return;
+                }
+
+                const sendDelete = typeof this.avatar !== 'object';
+
+                const deleteButton = this.$refs.deleteButton;
+                const buttonText = deleteButton.textContent || deleteButton.innerText;
+
+                deleteButton.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i>';
+
+                if (sendDelete === false) {
+                    setTimeout(()=>{
+                        deleteButton.innerHTML = buttonText;
+                    },1000);
+                    return;
+                }
+
+                let formData = new FormData();
+                formData.append('file', null);
+
+                axios.post(this.$options.profileImageEndpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+                    .then((response) => {
+                        console.log(response);
+                        setTimeout(()=>{
+                            deleteButton.innerHTML = buttonText;
+                            self.avatar = '';
+                        },1000);
+                    }).catch( (error) => {
+                    console.log('errors: ', error);
+                });
+            },
+            undoImage() {
+                this.avatar = this.avatarOriginal;
+                this.avatarOriginal = '';
             },
             setUrl() {
                 const self = this;
@@ -157,6 +211,7 @@
         mounted() {
             const self = this;
             callAxios(this.$options.proifleDataEndpoint, (dataObj) => {
+                console.log(dataObj);
                 for (const property in dataObj) {
                     if (!dataObj.hasOwnProperty(property)) {
                         return;
@@ -167,6 +222,7 @@
         },
         created() {
             this.$options.proifleDataEndpoint = '/profile-data';
+            this.$options.profileImageEndpoint = '/profile-image';
             this.$options.profileUpdateEndpoint = '/profile-store';
         }
     }

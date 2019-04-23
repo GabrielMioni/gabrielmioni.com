@@ -11109,3 +11109,7 @@ a.text-dark:focus {
   cursor: pointer;
 }
 
+#app .about button {
+  width: 8.125rem;
+}
+

@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Project;
-use App\Tag;
-use Illuminate\Http\Request;
 use App\Profile;
 
 class FrontendController extends Controller
@@ -17,8 +14,14 @@ class FrontendController extends Controller
     }
 
     protected function getPublicProfileData() {
-        $publicProfileData = Profile::select('aboutMe', 'avatar', 'github', 'linkedIn', 'tagLine')->where('id', '=', 1)->first()->toArray();
+        $columns = ['aboutMe', 'avatar', 'github', 'linkedIn', 'tagLine'];
 
-        return $publicProfileData;
+        $publicProfileData = Profile::select($columns)->where('id', '=', 1)->first();
+
+        if ($publicProfileData !== null) {
+            return $publicProfileData->toArray();
+        }
+
+        return [];
     }
 }
