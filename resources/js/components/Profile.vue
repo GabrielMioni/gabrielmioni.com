@@ -144,6 +144,7 @@
                     this.avatar = imgData
                     this.avatarOriginal = originalAvatar;
                 }
+                this.$refs.file.value = '';
             },
             clickProfileImage() {
                 this.$refs.file.click();
