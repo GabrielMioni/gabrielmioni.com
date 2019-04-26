@@ -265,6 +265,7 @@ class AdminController extends Controller
                 foreach ($allTheTags as $tagData) {
                     if ($tagData['tag'] === $tag) {
                         $tagId = $tagData['id'];
+                        break;
                     }
                 }
             }
