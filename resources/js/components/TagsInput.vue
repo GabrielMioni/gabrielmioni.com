@@ -48,7 +48,7 @@
         computed: {
             filteredAllTags() {
                 return this.allTags.filter(allTags =>
-                    allTags.toLowerCase().startsWith(this.search.toLowerCase())
+                    allTags.startsWith(this.search)
                 );
             }
         },
