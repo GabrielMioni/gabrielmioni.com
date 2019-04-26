@@ -11,6 +11,18 @@ function checkBladeData($data) {
     return trim($data) !== '';
 }
 
+function setBladeClass(bool $conditional, $classOne, $classTwo) {
+    $out = '';
+    if ($conditional === true) {
+        $out = $classOne;
+    }
+    if ($conditional === false) {
+        $out = $classTwo;
+    }
+
+    return 'class='.$out;
+}
+
 function bgImage($avatar) {
     return '/images/' . $avatar . '.jpg';
 }
