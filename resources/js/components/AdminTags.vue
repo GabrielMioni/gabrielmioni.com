@@ -1,9 +1,8 @@
 <template>
     <div>
         <div v-for="tag in tagsProjects" :key="tag.id" class="tag-row">
-            <div class="tag-name"></div>
+            <div class="tag-name">{{tag.tag}}</div>
             <div class="tag-created">{{tag.created | dateFormat }}</div>
-            {{tag.tag}}
         </div>
     </div>
 </template>
