@@ -1,9 +1,21 @@
 <template>
-    <div>
-        <div v-for="tag in tagsProjects" :key="tag.id" class="tag-row">
-            <div class="tag-name">{{tag.tag}}</div>
-            <div class="tag-created">{{tag.created | dateFormat }}</div>
-        </div>
+    <div class="col-sm-12">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Tag Name</th>
+                    <th>Created</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="tag in tagsProjects" :key="tag.id" class="tag-row">
+                    <td class="tag-name">{{tag.tag}}</td>
+                    <td class="tag-created">{{tag.created | dateFormat }}</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </template>
 
