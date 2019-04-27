@@ -1,13 +1,16 @@
 <template>
     <div>
         <div v-for="tag in tagsProjects" :key="tag.id" class="tag-row">
+            <div class="tag-name"></div>
+            <div class="tag-created">{{tag.created | dateFormat }}</div>
             {{tag.tag}}
         </div>
     </div>
 </template>
 
 <script>
-    import { callAxios } from '../call-axios'
+    import { callAxios } from '../call-axios';
+    import moment from 'moment';
 
     export default {
         name: "AdminTags",
@@ -22,6 +25,11 @@
                     console.log(dataObj);
                     this.tagsProjects = dataObj;
                 });
+            }
+        },
+        filters: {
+            dateFormat: function (date) {
+                return moment(date).format('MMMM Do YYYY, H:mm a');
             }
         },
         mounted() {
