@@ -58,13 +58,9 @@
                             </div>
                         </div>
                     @endif
-                    @if (isset($avatar) && trim($avatar) !== '' || isset($aboutme) && trim($aboutme) !== '')
-                        <div class="col-lg-12">
-                    @else
-                        <div class="col-lg-8">
-                    @endif
-                            <contact-me></contact-me>
-                        </div>
+                    <div {{setBladeClass((isset($avatar) && trim($avatar) !== '' || isset($aboutme) && trim($aboutme) !== ''), 'col-lg-8', 'col-lg-12')}}>
+                        <contact-me></contact-me>
+                    </div>
                 </div>
             </div>
         </div>

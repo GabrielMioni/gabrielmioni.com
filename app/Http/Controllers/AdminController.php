@@ -260,7 +260,14 @@ class AdminController extends Controller
                 $tagId = $newTag->id;
             }
             else {
-                $tagId = Tag::where('tag', $tag)->first()->id;
+                $allTheTags = Tag::where('tag', '=', $tag)->get()->toArray();
+
+                foreach ($allTheTags as $tagData) {
+                    if ($tagData['tag'] === $tag) {
+                        $tagId = $tagData['id'];
+                        break;
+                    }
+                }
             }
             if ($tagId !== null && !$project->tags->contains($tagId)) {
                 $project->tags()->attach($tagId);
