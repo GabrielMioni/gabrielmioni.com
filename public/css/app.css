@@ -10996,13 +10996,33 @@ a.text-dark:focus {
   transition: max-height 0.3s ease-in;
 }
 
-#app .project-table-container tr.projects-row td.project-td-container {
-  padding: 0;
+#app .project-table-container .td-control {
+  text-align: center;
 }
 
-#app .project-table-container tr.projects-row td.project-td-container table.table th {
-  padding: 0.75rem 1rem;
+#app .project-table-container .th-description {
+  width: 25rem;
+}
+
+#app .project-table-container th,
+#app .project-table-container td {
+  padding: 0.75rem 0 0.75rem 1.5rem;
   border-top: none;
+}
+
+#app .tags-project-toggle {
+  position: relative;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+}
+
+#app .tags-project-toggle i {
+  position: absolute;
+  top: 50%;
+  left: 51%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 
 .navbar-frontend {

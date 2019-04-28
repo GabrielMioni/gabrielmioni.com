@@ -12,17 +12,30 @@
       max-height: 500px;
       transition:max-height 0.3s ease-in;
     }
-    tr.projects-row {
-      td.project-td-container {
-        padding: 0;
+    .td-control {
+      text-align: center;
+    }
+    .th-description {
+      width: rem(400px);
+    }
+    th, td {
+      padding: .75rem 0 .75rem 1.5rem;
+      border-top: none;
+    }
+  }
+  .tags-project-toggle {
+    position: relative;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    //background-color: $themeColor3;
+    //color: $themeColor0;
 
-        table.table {
-          th {
-            padding: .75rem 1rem;
-            border-top: none;
-          }
-        }
-      }
+    i {
+      position: absolute;
+      top: 50%;
+      left: 51%;
+      transform: translate(-50%, -50%);
     }
   }
 }
