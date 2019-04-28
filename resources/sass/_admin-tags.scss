@@ -1,0 +1,28 @@
+#app {
+  .project-td-container {
+    padding: 0;
+    border: none;
+  }
+  .project-table-container {
+    max-height: 0;
+    overflow: hidden;
+    transition:max-height 0.3s ease-out;
+
+    &.open {
+      max-height: 500px;
+      transition:max-height 0.3s ease-in;
+    }
+    tr.projects-row {
+      td.project-td-container {
+        padding: 0;
+
+        table.table {
+          th {
+            padding: .75rem 1rem;
+            border-top: none;
+          }
+        }
+      }
+    }
+  }
+}

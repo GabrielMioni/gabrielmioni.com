@@ -10980,6 +10980,31 @@ a.text-dark:focus {
   }
 }
 
+#app .project-td-container {
+  padding: 0;
+  border: none;
+}
+
+#app .project-table-container {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+#app .project-table-container.open {
+  max-height: 500px;
+  transition: max-height 0.3s ease-in;
+}
+
+#app .project-table-container tr.projects-row td.project-td-container {
+  padding: 0;
+}
+
+#app .project-table-container tr.projects-row td.project-td-container table.table th {
+  padding: 0.75rem 1rem;
+  border-top: none;
+}
+
 .navbar-frontend {
   background-color: #47c6c2;
   font-family: "Roboto", Helvetica, sans-serif;
