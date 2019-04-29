@@ -10980,7 +10980,35 @@ a.text-dark:focus {
   }
 }
 
-#app .project-td-container {
+#app .tags-table thead.thead-empty {
+  display: none;
+}
+
+#app .tags-table th,
+#app .tags-table td {
+  border-top: none;
+  width: 25rem;
+}
+
+#app .tags-table th,
+#app .tags-table td:not(.td-tag-delete),
+#app .tags-table td:not(.td-tag-name) {
+  padding: 0.75rem 0 0.75rem 1.5rem;
+}
+
+#app .tags-table td .btn.btn-dark,
+#app .tags-table td .btn.btn-danger {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  #app .tags-table td .btn.btn-dark,
+  #app .tags-table td .btn.btn-danger {
+    width: 50%;
+  }
+}
+
+#app .tags-table td.project-td-container {
   padding: 0;
   border: none;
 }
@@ -11000,14 +11028,8 @@ a.text-dark:focus {
   text-align: center;
 }
 
-#app .project-table-container .th-description {
-  width: 25rem;
-}
-
-#app .project-table-container th,
-#app .project-table-container td {
-  padding: 0.75rem 0 0.75rem 1.5rem;
-  border-top: none;
+#app .button-container {
+  text-align: center;
 }
 
 #app .tags-project-toggle {

@@ -1,6 +1,6 @@
 <template>
     <div class="col-sm-12">
-        <table class="table">
+        <table class="table tags-table">
             <thead>
                 <tr>
                     <th>Tag Name</th>

@@ -1,7 +1,27 @@
 #app {
-  .project-td-container {
-    padding: 0;
-    border: none;
+  .tags-table {
+    thead.thead-empty {
+      display: none;
+    }
+    th, td {
+      border-top: none;
+      width: rem(400px);
+    }
+    th, td:not(.td-tag-delete), td:not(.td-tag-name) {
+      padding: .75rem 0 .75rem 1.5rem;
+    }
+    td {
+      .btn.btn-dark, .btn.btn-danger {
+        width: 100%;
+        @media(min-width: map_get($grid-breakpoints,'md')) {
+          width: 50%;
+        }
+      }
+    }
+    td.project-td-container {
+      padding: 0;
+      border: none;
+    }
   }
   .project-table-container {
     max-height: 0;
@@ -15,22 +35,15 @@
     .td-control {
       text-align: center;
     }
-    .th-description {
-      width: rem(400px);
-    }
-    th, td {
-      padding: .75rem 0 .75rem 1.5rem;
-      border-top: none;
-    }
+  }
+  .button-container {
+    text-align: center;
   }
   .tags-project-toggle {
     position: relative;
     border-radius: 50%;
     height: 30px;
     width: 30px;
-    //background-color: $themeColor3;
-    //color: $themeColor0;
-
     i {
       position: absolute;
       top: 50%;

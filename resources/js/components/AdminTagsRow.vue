@@ -1,43 +1,59 @@
 <template>
     <tbody>
         <tr>
-            <td>
+            <td class="td-tag-name">
                 <input
                     v-model="tag.tag"
                     v-bind:name="'tag-name-'+tag.id"
                     type="text" class="form-control">
             </td>
             <td class="tag-created align-middle">{{tag.created | dateFormat }}</td>
-            <td>
-                <button v-if="tag.projects.length > 0"
-                    class="tags-project-toggle btn btn-primary"
+            <td class="button-container">
+                <button
                     @click="toggleOpen"
-                    type="button">
-                    <!--<i class="fas fa-plus"></i>-->
+                    type="button" class="tags-project-toggle btn btn-primary">
                     <i class="fas" v-bind:class="{ 'fa-plus': projectsOpen === false, 'fa-minus': projectsOpen === true }"></i>
                 </button>
             </td>
         </tr>
-        <tr
-            v-if="tag.projects.length > 0"
-            class="projects-row">
+        <tr class="projects-row">
             <td class="project-td-container" colspan="3">
                 <div class="project-table-container" v-bind:class="{ 'open' : projectsOpen === true }">
                     <table class="table">
-                        <thead class="thead-light">
+                        <template v-if="tag.projects.length > 0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Project</th>
+                                    <th class="th-description">Description</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tr
+                                v-for="project in tag.projects">
+                                <td>{{ project.title }}</td>
+                                <td>{{ project.description }}</td>
+                                <td class="td-control button-container">
+                                    <button type="button" class="btn btn-dark">
+                                        Detach Project
+                                    </button>
+                                </td>
+                            </tr>
+                        </template>
+                        <template v-if="tag.projects.length <= 0">
+                            <thead class="thead-empty">
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                        </template>
                         <tr>
-                            <th>Project</th>
-                            <th class="th-description">Description</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tr
-                            v-for="project in tag.projects">
-                            <td>{{ project.title }}</td>
-                            <td>{{ project.description }}</td>
-                            <td class="td-control">
-                                <button type="button">
-                                    Detach Project
+                            <td></td>
+                            <td></td>
+                            <td class="td-tag-delete button-container">
+                                <button type="button" class="btn btn-danger">
+                                    Delete Tag
                                 </button>
                             </td>
                         </tr>
