@@ -27,6 +27,8 @@ Auth::routes();
 Route::group(['middleware' => ['auth']], function() {
     Route::get('/admin', 'AdminController@index')->name('admin');
     Route::get('/profile', 'ProfileController@index')->name('profile');
+    Route::get('/tags', 'TagAdminController@index')->name('tag-admin');
+    Route::get('/tags-projects', 'TagAdminController@getTagsData')->name('tags-projects');
     Route::get('/profile-data', 'ProfileController@getPrivateProfileData')->name('profile-data');
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/all-tags', 'AdminController@allTags')->name('all_tags');

@@ -26,6 +26,7 @@ Vue.component('admin-projects', require('./components/AdminProjects.vue').defaul
 Vue.component('front-end-projects', require('./components/FrontEndProjects.vue').default);
 Vue.component('ContactMe', require('./components/ContactMe.vue').default);
 Vue.component('profile', require('./components/Profile').default);
+Vue.component('admin-tags', require('./components/AdminTags').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
