@@ -1,5 +1,5 @@
 <template>
-    <tbody>
+    <tbody v-bind:class="{ 'is-updated': tag.tag !== original}">
         <tr>
             <td class="td-tag-name">
                 <input
@@ -75,11 +75,16 @@
         data() {
             return {
                 projectsOpen: false,
+                original: ''
+                //original: Vue.util.extend({}, this.tag.tag)
             }
         },
         methods: {
             toggleOpen() {
                 this.projectsOpen = !this.projectsOpen;
+            },
+            copyTag() {
+                this.original = this.tag.tag.slice(0, this.tag.tag.length);
             }
         },
         filters: {
@@ -87,5 +92,8 @@
                 return moment(date).format('MMMM Do YYYY, h:mm a');
             }
         },
+        mounted() {
+            this.copyTag();
+        }
     }
 </script>

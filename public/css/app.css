@@ -10753,6 +10753,10 @@ a.text-dark:focus {
   }
 }
 
+#app .is-updated {
+  box-shadow: 0 0 0 2px #3490dc;
+}
+
 .project .admin-edit textarea {
   height: 115px;
 }
