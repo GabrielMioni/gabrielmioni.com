@@ -46,7 +46,9 @@
                             <td></td>
                             <td></td>
                             <td class="td-tag-delete button-container">
-                                <button type="button" class="btn btn-danger">
+                                <button
+                                    @click="deleteTag()"
+                                    type="button" class="btn btn-danger">
                                     Delete Tag
                                 </button>
                                 <button
@@ -96,6 +98,9 @@
             },
             isUpdated() {
                 return this.tag.tag.trim() !== this.original.trim()
+            },
+            deleteTag() {
+                this.$emit('deleteTag', {'tagId':this.tag.id});
             },
             detachProject(projectId) {
                 this.$emit('detachProject', {'projectId': projectId, 'tagId':this.tag.id});

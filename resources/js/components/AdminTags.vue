@@ -14,6 +14,7 @@
                     :index="index"
                     v-on:undo="undoHandler"
                     v-on:detachProject="detachProjectHandler"
+                    v-on:deleteTag="deleteTagHandler"
                     ></AdminTagsRow>
             </template>
         </table>
@@ -38,6 +39,9 @@
                     console.log(dataObj);
                     this.tagsProjects = dataObj;
                 });
+            },
+            deleteTagHandler(data) {
+                console.log(data);
             },
             detachProjectHandler(data) {
                 console.log(data);
