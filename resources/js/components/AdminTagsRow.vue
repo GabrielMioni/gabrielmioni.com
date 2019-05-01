@@ -1,5 +1,5 @@
 <template>
-    <tbody v-bind:class="{ 'is-updated': tag.tag !== original}">
+    <tbody v-bind:class="{ 'is-updated': isUpdated() }">
         <tr>
             <td class="td-tag-name">
                 <input
@@ -11,8 +11,8 @@
             <td class="button-container">
                 <button
                     @click="toggleOpen"
+                    v-html="showOrHide()"
                     type="button" class="tags-project-toggle btn btn-primary">
-                    <i class="fas" v-bind:class="{ 'fa-plus': projectsOpen === false, 'fa-minus': projectsOpen === true }"></i>
                 </button>
             </td>
         </tr>
@@ -20,40 +20,37 @@
             <td class="project-td-container" colspan="3">
                 <div class="project-table-container" v-bind:class="{ 'open' : projectsOpen === true }">
                     <table class="table">
-                        <template v-if="tag.projects.length > 0">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>Project</th>
-                                    <th class="th-description">Description</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tr
-                                v-for="project in tag.projects">
-                                <td>{{ project.title }}</td>
-                                <td>{{ project.description }}</td>
-                                <td class="td-control button-container">
-                                    <button type="button" class="btn btn-dark">
-                                        Detach Project
-                                    </button>
-                                </td>
-                            </tr>
-                        </template>
-                        <template v-if="tag.projects.length <= 0">
-                            <thead class="thead-empty">
-                                <tr>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                        </template>
+                        <thead class="thead-light">
+                        <tr>
+                            <th>Project</th>
+                            <th class="th-description">Description</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tr
+                            v-for="project in tag.projects">
+                            <td>{{ project.title }}</td>
+                            <td>{{ project.description }}</td>
+                            <td class="td-control button-container">
+                                <button type="button" class="btn btn-dark">
+                                    Detach Project
+                                </button>
+                            </td>
+                        </tr>
+                        <tr v-if="tag.projects.length <= 0">
+                            <td colspan="3">This tag has no attached projects</td>
+                        </tr>
                         <tr>
                             <td></td>
                             <td></td>
                             <td class="td-tag-delete button-container">
                                 <button type="button" class="btn btn-danger">
                                     Delete Tag
+                                </button>
+                                <button
+                                    v-bind:class="{ 'button-hidden': isUpdated() === false }"
+                                    type="button" class="btn btn-secondary button-undo">
+                                    Undo
                                 </button>
                             </td>
                         </tr>
@@ -85,6 +82,17 @@
             },
             copyTag() {
                 this.original = this.tag.tag.slice(0, this.tag.tag.length);
+            },
+            showOrHide() {
+                const faClass = this.projectsOpen === false ? 'fa-plus': 'fa-minus';
+                let out = this.projectsOpen === true ? 'Hide ' : 'Show ';
+                out += '<br> Details';
+                out += `<i class="fas ${faClass}"></i>`;
+
+                return out;
+            },
+            isUpdated() {
+                return this.tag.tag.trim() !== this.original.trim()
             }
         },
         filters: {
