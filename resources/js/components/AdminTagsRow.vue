@@ -28,11 +28,13 @@
                         </tr>
                         </thead>
                         <tr
-                            v-for="project in tag.projects">
+                            v-for="(project, projectIndex) in tag.projects">
                             <td>{{ project.title }}</td>
                             <td>{{ project.description }}</td>
                             <td class="td-control button-container">
-                                <button type="button" class="btn btn-dark">
+                                <button
+                                    @click="detachProject(project.id)"
+                                    type="button" class="btn btn-dark">
                                     Detach Project
                                 </button>
                             </td>
@@ -94,6 +96,9 @@
             },
             isUpdated() {
                 return this.tag.tag.trim() !== this.original.trim()
+            },
+            detachProject(projectId) {
+                this.$emit('detachProject', {'projectId': projectId, 'tagId':this.tag.id});
             },
             undo() {
                 this.$emit('undo', {'index': this.index, 'original':this.original});
