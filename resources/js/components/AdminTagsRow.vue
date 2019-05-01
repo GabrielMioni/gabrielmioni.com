@@ -49,6 +49,7 @@
                                 </button>
                                 <button
                                     v-bind:class="{ 'button-hidden': isUpdated() === false }"
+                                    @click="undo"
                                     type="button" class="btn btn-secondary button-undo">
                                     Undo
                                 </button>
@@ -65,7 +66,7 @@
     import moment from 'moment';
     export default {
         name: "AdminTagsRow",
-        props: ['tag'],
+        props: ['tag', 'index'],
         model: {
             prop: "tag",
         },
@@ -93,6 +94,9 @@
             },
             isUpdated() {
                 return this.tag.tag.trim() !== this.original.trim()
+            },
+            undo() {
+                this.$emit('undo', {'index': this.index, 'original':this.original});
             }
         },
         filters: {

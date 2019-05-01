@@ -8,8 +8,12 @@
                     <th></th>
                 </tr>
             </thead>
-            <template v-for="tag in tagsProjects">
-                <AdminTagsRow :tag="tag"></AdminTagsRow>
+            <template v-for="(tag, index) in tagsProjects">
+                <AdminTagsRow
+                    :tag="tag"
+                    :index="index"
+                    v-on:undo="undoHandler"
+                    ></AdminTagsRow>
             </template>
         </table>
     </div>
@@ -33,6 +37,9 @@
                     console.log(dataObj);
                     this.tagsProjects = dataObj;
                 });
+            },
+            undoHandler(data) {
+                this.tagsProjects[data.index].tag = data.original;
             }
         },
         mounted() {
