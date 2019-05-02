@@ -1,17 +1,19 @@
 #app {
   .tags-table {
+    table-layout: fixed;
     thead.thead-empty {
       display: none;
     }
     th, td {
       border-top: none;
-      width: rem(400px);
+      width: 33.333333333%
     }
-    th, td:not(.td-tag-delete), td:not(.td-tag-name) {
+    th, td:not(.button-container) {
       padding: .75rem 0 .75rem 1.5rem;
     }
     td {
-      .btn.btn-dark, .btn.btn-danger {
+      //.btn.btn-dark, .btn.btn-danger, .btn.btn-primary {
+      .btn {
         width: 100%;
         @media(min-width: map_get($grid-breakpoints,'md')) {
           width: 50%;
@@ -38,17 +40,43 @@
   }
   .button-container {
     text-align: center;
+
+    .btn.button-undo {
+      margin-top: 1rem;
+      border: none;
+
+      &.button-hidden {
+        background: transparent;
+        cursor: auto;
+        color: transparent;
+
+        &:focus {
+          box-shadow: none;
+        }
+      }
+    }
   }
   .tags-project-toggle {
+    height: rem(65px);
     position: relative;
-    border-radius: 50%;
-    height: 30px;
-    width: 30px;
     i {
       position: absolute;
       top: 50%;
-      left: 51%;
-      transform: translate(-50%, -50%);
+      transform: translateY(-50%);
+      right: 15%;
+      display: none;
+    }
+    @media(min-width: map_get($grid-breakpoints,'xl')) {
+      padding-right: 10%;
+      i {
+        display: inline-block;
+      }
+    }
+    @media(min-width: map_get($grid-breakpoints,'md')) {
+      height: auto;
+      br {
+        display: none;
+      }
     }
   }
 }

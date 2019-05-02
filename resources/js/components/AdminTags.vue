@@ -8,8 +8,16 @@
                     <th></th>
                 </tr>
             </thead>
-            <template v-for="tag in tagsProjects">
-                <AdminTagsRow :tag="tag"></AdminTagsRow>
+            <template v-for="(tag, index) in tagsProjects">
+                <AdminTagsRow
+                    :tag="tag"
+                    :index="index"
+                    :ref="'tagRef-'+tag.id"
+                    :key="tag.id"
+                    v-on:undo="undoHandler"
+                    v-on:detachProject="detachProjectHandler"
+                    v-on:deleteTag="deleteTagHandler"
+                    ></AdminTagsRow>
             </template>
         </table>
     </div>
@@ -33,6 +41,37 @@
                     console.log(dataObj);
                     this.tagsProjects = dataObj;
                 });
+            },
+            deleteTagHandler(data) {
+                const self = this;
+                console.log(data);
+
+                const tagId = data.tagId;
+                const tagIndex = data.index;
+                let formData = new FormData();
+                formData.append('tagId', tagId);
+
+                axios.post(self.$options.deleteTagEndpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+                    .then((response) => {
+                        const deleted = response.data === 1;
+                        const adminRowComponent = self.$refs['tagRef-'+tagId][0];
+                        adminRowComponent.setDeleteStatus(true);
+                        setTimeout(()=>{
+                            if (deleted === true) {
+                                self.tagsProjects.splice(tagIndex, 1);
+                            }
+                            adminRowComponent.setDeleteStatus(false);
+                        }, 1000);
+                        console.log(response);
+                    }).catch( (error) => {
+                    console.log('errors: ', error);
+                });
+            },
+            detachProjectHandler(data) {
+                console.log(data);
+            },
+            undoHandler(data) {
+                this.tagsProjects[data.index].tag = data.original;
             }
         },
         mounted() {
@@ -40,6 +79,7 @@
         },
         created() {
             this.$options.tagsProjectsData = '/tags-projects';
+            this.$options.deleteTagEndpoint = '/tag-delete';
         }
     }
 </script>
