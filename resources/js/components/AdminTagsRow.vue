@@ -40,7 +40,9 @@
                             </td>
                         </tr>
                         <tr v-if="tag.projects.length <= 0">
-                            <td class="no-projects" colspan="3">This tag has no attached projects</td>
+                            <td class="no-projects" colspan="3">
+                                <div class="alert alert-danger">This tag has no attached projects</div>
+                            </td>
                         </tr>
                         <tr>
                             <td></td>

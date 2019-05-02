@@ -8,7 +8,7 @@
       border-top: none;
       width: 33.333333333%
     }
-    th, td:not(.button-container) {
+    th, td:not(.button-container, .no-projects) {
       padding: .75rem 0 .75rem 1.5rem;
     }
     td {
@@ -34,6 +34,32 @@
       max-height: 500px;
       transition:max-height 0.3s ease-in;
     }
+    .table th:first-child,
+    .table th:last-child {
+      position: relative;
+      padding: 0.75rem 1.5rem;
+
+      &:after {
+        content: '';
+        height: 104%;
+        width: .75rem;
+        border: 1px solid #f8fafc;
+        position: absolute;
+        top: 0;
+        background-color: #f8fafc;
+      }
+    }
+    .table th:first-child {
+      &:after {
+        left: 0;
+      }
+    }
+    .table th:last-child {
+      &:after {
+        right: 0;
+      }
+    }
+
     .no-projects {
       font-style: italic;
     }

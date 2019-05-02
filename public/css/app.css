@@ -10999,7 +10999,7 @@ a.text-dark:focus {
 }
 
 #app .tags-table th,
-#app .tags-table td:not(.button-container) {
+#app .tags-table td:not(.button-container, .no-projects) {
   padding: 0.75rem 0 0.75rem 1.5rem;
 }
 
@@ -11027,6 +11027,31 @@ a.text-dark:focus {
 #app .project-table-container.open {
   max-height: 500px;
   transition: max-height 0.3s ease-in;
+}
+
+#app .project-table-container .table th:first-child,
+#app .project-table-container .table th:last-child {
+  position: relative;
+  padding: 0.75rem 1.5rem;
+}
+
+#app .project-table-container .table th:first-child:after,
+#app .project-table-container .table th:last-child:after {
+  content: "";
+  height: 104%;
+  width: 0.75rem;
+  border: 1px solid #f8fafc;
+  position: absolute;
+  top: 0;
+  background-color: #f8fafc;
+}
+
+#app .project-table-container .table th:first-child:after {
+  left: 0;
+}
+
+#app .project-table-container .table th:last-child:after {
+  right: 0;
 }
 
 #app .project-table-container .no-projects {
