@@ -34,6 +34,9 @@
       max-height: 500px;
       transition:max-height 0.3s ease-in;
     }
+    .no-projects {
+      font-style: italic;
+    }
     .td-control {
       text-align: center;
     }
@@ -79,4 +82,15 @@
       }
     }
   }
+}
+
+.span-transition-group {
+  display: contents;
+}
+
+.tags-enter-active, .tags-leave-active {
+  transition: opacity .5s;
+}
+.tags-enter, .tags-leave-to {
+  opacity: 0;
 }

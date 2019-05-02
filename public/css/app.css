@@ -11029,6 +11029,10 @@ a.text-dark:focus {
   transition: max-height 0.3s ease-in;
 }
 
+#app .project-table-container .no-projects {
+  font-style: italic;
+}
+
 #app .project-table-container .td-control {
   text-align: center;
 }
@@ -11084,6 +11088,20 @@ a.text-dark:focus {
   #app .tags-project-toggle br {
     display: none;
   }
+}
+
+.span-transition-group {
+  display: contents;
+}
+
+.tags-enter-active,
+.tags-leave-active {
+  transition: opacity 0.5s;
+}
+
+.tags-enter,
+.tags-leave-to {
+  opacity: 0;
 }
 
 .navbar-frontend {

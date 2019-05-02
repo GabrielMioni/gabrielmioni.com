@@ -40,7 +40,7 @@
                             </td>
                         </tr>
                         <tr v-if="tag.projects.length <= 0">
-                            <td colspan="3">This tag has no attached projects</td>
+                            <td class="no-projects" colspan="3">This tag has no attached projects</td>
                         </tr>
                         <tr>
                             <td></td>
@@ -48,7 +48,7 @@
                             <td class="td-tag-delete button-container">
                                 <button
                                     @click="deleteTag()"
-                                    v-html="showDeleteStatus()"
+                                    v-html="showButtonStatus('Delete Tag')"
                                     type="button" class="btn btn-danger">
                                     <!--Delete Tag-->
 
@@ -102,8 +102,8 @@
             isUpdated() {
                 return this.tag.tag.trim() !== this.original.trim()
             },
-            showDeleteStatus() {
-                return this.deleting === false ? 'Delete Tag' : '<i class="fas fa-circle-notch fa-spin"></i>';
+            showButtonStatus(defaultString) {
+                return this.deleting === false ? defaultString : this.$options.spinner;
             },
             setDeleteStatus(status) {
                 this.deleting = status;
@@ -128,6 +128,9 @@
         },
         mounted() {
             this.copyTag();
-        }
+        },
+        created() {
+            this.$options.spinner = '<i class="fas fa-circle-notch fa-spin"></i>';
+        },
     }
 </script>
