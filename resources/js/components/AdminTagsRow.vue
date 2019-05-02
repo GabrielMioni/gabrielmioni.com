@@ -48,8 +48,10 @@
                             <td class="td-tag-delete button-container">
                                 <button
                                     @click="deleteTag()"
+                                    v-html="showDeleteStatus()"
                                     type="button" class="btn btn-danger">
-                                    Delete Tag
+                                    <!--Delete Tag-->
+
                                 </button>
                                 <button
                                     v-bind:class="{ 'button-hidden': isUpdated() === false }"
@@ -77,7 +79,8 @@
         data() {
             return {
                 projectsOpen: false,
-                original: ''
+                original: '',
+                deleting: false,
                 //original: Vue.util.extend({}, this.tag.tag)
             }
         },
@@ -99,8 +102,17 @@
             isUpdated() {
                 return this.tag.tag.trim() !== this.original.trim()
             },
+            showDeleteStatus() {
+                return this.deleting === false ? 'Delete Tag' : '<i class="fas fa-circle-notch fa-spin"></i>';
+            },
+            setDeleteStatus(status) {
+                this.deleting = status;
+            },
             deleteTag() {
-                this.$emit('deleteTag', {'tagId':this.tag.id});
+                if (!confirm('You\'re about to delete this tag. Are you sure you want to do that?')) {
+                    return;
+                }
+                this.$emit('deleteTag', {'index': this.index, 'tagId':this.tag.id});
             },
             detachProject(projectId) {
                 this.$emit('detachProject', {'projectId': projectId, 'tagId':this.tag.id});

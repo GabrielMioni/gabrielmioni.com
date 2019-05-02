@@ -17,4 +17,11 @@ class TagAdminController extends Controller
 
         return $tags;
     }
+    public function deleteTag(Request $request) {
+        $tagId = $request->get('tagId');
+
+        $tagBeingDeleted = Tag::find($tagId);
+        $deleted = $tagBeingDeleted->delete();
+        return $deleted === true ? 1 : 0;
+    }
 }
