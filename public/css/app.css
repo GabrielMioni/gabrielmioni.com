@@ -10986,18 +10986,6 @@ a.text-dark:focus {
 
 #app .tags-table {
   table-layout: fixed;
-  /*thead.thead-empty {
-    display: none;
-  }*/
-  /*td {
-    //.btn.btn-dark, .btn.btn-danger, .btn.btn-primary {
-    .btn {
-      width: 100%;
-      @media(min-width: map_get($grid-breakpoints,'md')) {
-        width: 50%;
-      }
-    }
-  }*/
 }
 
 #app .tags-table thead.thead-empty {
@@ -11006,7 +10994,7 @@ a.text-dark:focus {
 
 #app .tags-table thead:first-child tr th {
   border-bottom: none;
-  padding: 0;
+  padding: 0 0.75rem;
 }
 
 #app .tags-table th,
