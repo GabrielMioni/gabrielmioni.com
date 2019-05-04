@@ -26,11 +26,12 @@ class TagAdminController extends Controller
     }
     public function detachTag(Request $request)
     {
-        $projectId = $request->get('projectId');
+        /*$projectId = $request->get('projectId');
         $tagId = $request->get('tagId');
 
         $project = Project::find($projectId);
 
-        $project->tags()->detach($tagId);
+        $project->tags()->detach($tagId);*/
+        return 1;
     }
 }

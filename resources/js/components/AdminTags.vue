@@ -69,7 +69,33 @@
                 });
             },
             detachProjectHandler(data) {
-                console.log(data);
+                const self = this;
+                const tagIndex = data.tagIndex;
+                const projectIndex = data.projectIndex;
+
+                const tagObject = this.tagsProjects[tagIndex];
+                const tagId = tagObject.id;
+                const projectId = tagObject.projects[projectIndex].id;
+
+                let formData = new FormData();
+                formData.append('projectId', projectId);
+                formData.append('tagId', tagId);
+
+                axios.post(self.$options.detachTagEndpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+                    .then((response) => {
+                        const detached = response.data === 1;
+                        const adminRowComponent = self.$refs['tagRef-'+tagId][0];
+                        adminRowComponent.setDetachStatus(projectId);
+                        setTimeout(()=>{
+                            if (detached === true) {
+                                self.tagsProjects[tagIndex].projects.splice(projectIndex, 1);
+                            }
+                            adminRowComponent.setDetachStatus(projectId);
+                        }, 1000);
+                        console.log(response);
+                    }).catch( (error) => {
+                    console.log('errors: ', error);
+                });
             },
             undoHandler(data) {
                 this.tagsProjects[data.index].tag = data.original;
@@ -81,6 +107,7 @@
         created() {
             this.$options.tagsProjectsData = '/tags-projects';
             this.$options.deleteTagEndpoint = '/tag-delete';
+            this.$options.detachTagEndpoint = '/tag-detach';
         }
     }
 </script>

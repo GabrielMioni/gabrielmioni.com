@@ -27,15 +27,15 @@
                             <th></th>
                         </tr>
                         </thead>
-                        <tr
-                            v-for="(project, projectIndex) in tag.projects">
+                        <tr v-for="(project, projectIndex) in tag.projects">
                             <td>{{ project.title }}</td>
                             <td>{{ project.description }}</td>
                             <td class="td-control button-container">
                                 <button
-                                    @click="detachProject(project.id)"
+                                    @click="detachProject(project.id, projectIndex)"
+                                    v-html="showButtonStatus('Detach Project', project.id)"
                                     type="button" class="btn btn-dark">
-                                    Detach Project
+                                    <!--Detach Project-->
                                 </button>
                             </td>
                         </tr>
@@ -83,6 +83,7 @@
                 projectsOpen: false,
                 original: '',
                 deleting: false,
+                detachIds: [],
                 //original: Vue.util.extend({}, this.tag.tag)
             }
         },
@@ -104,11 +105,34 @@
             isUpdated() {
                 return this.tag.tag.trim() !== this.original.trim()
             },
-            showButtonStatus(defaultString) {
-                return this.deleting === false ? defaultString : this.$options.spinner;
+            showButtonStatus(defaultString, check = null) {
+                if (check === null) {
+                    return this.deleting === false ? defaultString : this.$options.spinner;
+                }
+                if (Number.isInteger(check)) {
+                    return !this.detachIds.includes(check) ? defaultString : this.$options.spinner;
+                }
             },
             setDeleteStatus(status) {
                 this.deleting = status;
+            },
+            /*setDetachStatus(id, push) {
+                if (push === true) {
+                    this.detachIds.push(id);
+                }
+                if (push === false) {
+                    const index = this.detachIds.indexOf(id);
+                    this.detachIds.splice(index, id);
+                }
+            },*/
+            setDetachStatus(id) {
+                const index = this.detachIds.indexOf(id);
+                if (index === -1) {
+                    this.detachIds.push(id);
+                    return;
+                }
+                this.detachIds.splice(index, id);
+
             },
             deleteTag() {
                 if (!confirm('You\'re about to delete this tag. Are you sure you want to do that?')) {
@@ -116,8 +140,9 @@
                 }
                 this.$emit('deleteTag', {'index': this.index, 'tagId':this.tag.id});
             },
-            detachProject(projectId) {
-                this.$emit('detachProject', {'projectId': projectId, 'tagId':this.tag.id});
+            detachProject(projectId, projectIndex) {
+                //this.$emit('detachProject', {'tagIndex': this.index, 'projectIndex': projectIndex, 'tagId':this.tag.id, 'projectId': projectId});
+                this.$emit('detachProject', {'tagIndex': this.index, 'projectIndex': projectIndex});
             },
             undo() {
                 this.$emit('undo', {'index': this.index, 'original':this.original});
