@@ -8,8 +8,9 @@
                     <th></th>
                 </tr>
             </thead>
-            <template v-for="(tag, index) in tagsProjects">
+            <transition-group name="tags" v-bind:class="'span-transition-group'">
                 <AdminTagsRow
+                    v-for="(tag, index) in tagsProjects"
                     :tag="tag"
                     :index="index"
                     :ref="'tagRef-'+tag.id"
@@ -17,8 +18,8 @@
                     v-on:undo="undoHandler"
                     v-on:detachProject="detachProjectHandler"
                     v-on:deleteTag="deleteTagHandler"
-                    ></AdminTagsRow>
-            </template>
+                ></AdminTagsRow>
+            </transition-group>
         </table>
     </div>
 </template>

@@ -38,4 +38,5 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/profile-image', 'ProfileController@profileImage')->name('profile-image');
     Route::post('/profile-store', 'ProfileController@store')->name('profile-store');
     Route::post('/tag-delete', 'TagAdminController@deleteTag')->name('tag-delete');
+    Route::post('/tag-detach', 'TagAdminController@detachTag')->name('tag-detach');
 });
