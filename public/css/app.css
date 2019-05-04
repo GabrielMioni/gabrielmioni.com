@@ -10986,10 +10986,27 @@ a.text-dark:focus {
 
 #app .tags-table {
   table-layout: fixed;
+  /*thead.thead-empty {
+    display: none;
+  }*/
+  /*td {
+    //.btn.btn-dark, .btn.btn-danger, .btn.btn-primary {
+    .btn {
+      width: 100%;
+      @media(min-width: map_get($grid-breakpoints,'md')) {
+        width: 50%;
+      }
+    }
+  }*/
 }
 
 #app .tags-table thead.thead-empty {
   display: none;
+}
+
+#app .tags-table thead:first-child tr th {
+  border-bottom: none;
+  padding: 0;
 }
 
 #app .tags-table th,
@@ -10998,19 +11015,21 @@ a.text-dark:focus {
   width: 33.333333333%;
 }
 
-#app .tags-table th,
-#app .tags-table td:not(.button-container, .no-projects) {
-  padding: 0.75rem 0 0.75rem 1.5rem;
-}
-
+#app .tags-table th .btn,
 #app .tags-table td .btn {
   width: 100%;
 }
 
 @media (min-width: 768px) {
+  #app .tags-table th .btn,
   #app .tags-table td .btn {
     width: 50%;
   }
+}
+
+#app .tags-table th,
+#app .tags-table td:not(.button-container, .no-projects) {
+  padding: 0.75rem 0 0.75rem 1.5rem;
 }
 
 #app .tags-table td.project-td-container {

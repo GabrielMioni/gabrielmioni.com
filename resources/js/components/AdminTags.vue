@@ -3,6 +3,17 @@
         <table class="table tags-table">
             <thead>
                 <tr>
+                    <th></th>
+                    <th></th>
+                    <th class="button-container">
+                        <button class="btn btn-primary" type="button">
+                            Update Tags
+                        </button>
+                    </th>
+                </tr>
+            </thead>
+            <thead>
+                <tr>
                     <th>Tag Name</th>
                     <th>Created</th>
                     <th></th>
