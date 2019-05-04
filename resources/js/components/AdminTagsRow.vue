@@ -27,18 +27,22 @@
                             <th></th>
                         </tr>
                         </thead>
-                        <tr v-for="(project, projectIndex) in tag.projects">
-                            <td>{{ project.title }}</td>
-                            <td>{{ project.description }}</td>
-                            <td class="td-control button-container">
-                                <button
-                                    @click="detachProject(project.id, projectIndex)"
-                                    v-html="showButtonStatus('Detach Project', project.id)"
-                                    type="button" class="btn btn-dark">
-                                    <!--Detach Project-->
-                                </button>
-                            </td>
-                        </tr>
+                        <transition-group name="tagProjects" v-bind:class="'span-transition-group'">
+                            <tr
+                                v-for="(project, projectIndex) in tag.projects"
+                                :key="project.id">
+                                <td>{{ project.title }}</td>
+                                <td>{{ project.description }}</td>
+                                <td class="td-control button-container">
+                                    <button
+                                        @click="detachProject(project.id, projectIndex)"
+                                        v-html="showButtonStatus('Detach Project', project.id)"
+                                        type="button" class="btn btn-dark">
+                                        <!--Detach Project-->
+                                    </button>
+                                </td>
+                            </tr>
+                        </transition-group>
                         <tr v-if="tag.projects.length <= 0">
                             <td class="no-projects" colspan="3">
                                 <div class="alert alert-danger">This tag has no attached projects</div>

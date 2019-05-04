@@ -11120,12 +11120,16 @@ a.text-dark:focus {
 }
 
 .tags-enter-active,
-.tags-leave-active {
+.tags-leave-active,
+.tagProjects-enter-active,
+.tagProjects-leave-active {
   transition: opacity 0.5s;
 }
 
 .tags-enter,
-.tags-leave-to {
+.tags-leave-to,
+.tagProjects-enter,
+.tagProjects-leave-to {
   opacity: 0;
 }
 

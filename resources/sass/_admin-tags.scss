@@ -115,9 +115,13 @@
   display: contents;
 }
 
-.tags-enter-active, .tags-leave-active {
+.tags-enter-active,
+.tags-leave-active,
+.tagProjects-enter-active,
+.tagProjects-leave-active {
   transition: opacity .5s;
 }
-.tags-enter, .tags-leave-to {
+.tags-enter, .tags-leave-to,
+.tagProjects-enter, .tagProjects-leave-to{
   opacity: 0;
 }
