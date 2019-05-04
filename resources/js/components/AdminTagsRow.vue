@@ -88,7 +88,6 @@
                 original: '',
                 deleting: false,
                 detachIds: [],
-                //original: Vue.util.extend({}, this.tag.tag)
             }
         },
         methods: {
@@ -109,26 +108,17 @@
             isUpdated() {
                 return this.tag.tag.trim() !== this.original.trim()
             },
-            showButtonStatus(defaultString, check = null) {
-                if (check === null) {
+            showButtonStatus(defaultString, projectId = null) {
+                if (projectId === null) {
                     return this.deleting === false ? defaultString : this.$options.spinner;
                 }
-                if (Number.isInteger(check)) {
-                    return !this.detachIds.includes(check) ? defaultString : this.$options.spinner;
+                if (Number.isInteger(projectId)) {
+                    return !this.detachIds.includes(projectId) ? defaultString : this.$options.spinner;
                 }
             },
             setDeleteStatus(status) {
                 this.deleting = status;
             },
-            /*setDetachStatus(id, push) {
-                if (push === true) {
-                    this.detachIds.push(id);
-                }
-                if (push === false) {
-                    const index = this.detachIds.indexOf(id);
-                    this.detachIds.splice(index, id);
-                }
-            },*/
             setDetachStatus(id) {
                 const index = this.detachIds.indexOf(id);
                 if (index === -1) {
@@ -145,7 +135,6 @@
                 this.$emit('deleteTag', {'index': this.index, 'tagId':this.tag.id});
             },
             detachProject(projectId, projectIndex) {
-                //this.$emit('detachProject', {'tagIndex': this.index, 'projectIndex': projectIndex, 'tagId':this.tag.id, 'projectId': projectId});
                 this.$emit('detachProject', {'tagIndex': this.index, 'projectIndex': projectIndex});
             },
             undo() {
