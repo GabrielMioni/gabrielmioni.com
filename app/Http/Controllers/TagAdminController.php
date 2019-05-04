@@ -24,4 +24,13 @@ class TagAdminController extends Controller
         $deleted = $tagBeingDeleted->delete();
         return $deleted === true ? 1 : 0;
     }
+    public function detachTag(Request $request)
+    {
+        $projectId = $request->get('projectId');
+        $tagId = $request->get('tagId');
+
+        $project = Project::find($projectId);
+
+        $project->tags()->detach($tagId);
+    }
 }
