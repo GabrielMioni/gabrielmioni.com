@@ -43,10 +43,10 @@
           content: '';
           height: 104%;
           width: .75rem;
-          border: 1px solid #f8fafc;
+          border: 1px solid $body-bg;
           position: absolute;
           top: 0;
-          background-color: #f8fafc;
+          background-color: $body-bg;
         }
       }
       &:first-child {
