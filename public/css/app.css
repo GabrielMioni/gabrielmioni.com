@@ -11139,12 +11139,42 @@ a.text-dark:focus {
   position: fixed;
   z-index: 1;
   width: 60%;
-  height: 80%;
+  height: 600px;
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
   background-color: #FFFFFF;
+}
+
+#app .admin-tags-projects .admin-tags-projects-module .available-projects {
+  position: relative;
+  overflow-y: scroll;
+  height: 500px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+#app .admin-tags-projects .admin-tags-projects-module .available-projects .project-option {
+  padding: 0.75rem;
+  display: grid;
+  grid-template-columns: 50px 11fr;
+}
+
+#app .admin-tags-projects .admin-tags-projects-module .available-projects .project-option:nth-child(odd) {
+  background-color: #e9ecef;
+}
+
+#app .admin-tags-projects .admin-tags-projects-module .available-projects .project-option .checkbox-container {
+  grid-row: 1;
+  grid-column: 1;
+  display: inline-block;
+}
+
+#app .admin-tags-projects .admin-tags-projects-module .available-projects .project-option label {
+  grid-row: 1;
+  grid-column: 2;
+  margin-bottom: 0;
 }
 
 #app .admin-tags-projects .admin-tags-projects-backdrop {
