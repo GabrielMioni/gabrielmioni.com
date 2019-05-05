@@ -37,6 +37,7 @@
                                 <td class="td-control button-container">
                                     <button
                                         @click="detachProject(project.id, projectIndex)"
+                                        :tabindex="setTabIndex()"
                                         v-html="showButtonStatus('Detach Project', project.id)"
                                         type="button" class="btn btn-dark">
                                         <!--Detach Project-->
@@ -56,12 +57,13 @@
                                 <button
                                     @click="deleteTag()"
                                     v-html="showButtonStatus('Delete Tag')"
+                                    :tabindex="setTabIndex()"
                                     type="button" class="btn btn-danger">
-                                    <!--Delete Tag-->
                                 </button>
                                 <button
                                     v-bind:class="{ 'button-hidden': isUpdated() === false }"
                                     @click="undo"
+                                    :tabindex="setTabIndex()"
                                     type="button" class="btn btn-secondary button-undo">
                                     Undo
                                 </button>
@@ -143,6 +145,12 @@
             },
             undo() {
                 this.$emit('undo', {'index': this.index, 'original':this.original});
+            },
+            setTabIndex() {
+                if (this.projectsOpen === true) {
+                    return '0';
+                }
+                return '-1';
             }
         },
         filters: {
