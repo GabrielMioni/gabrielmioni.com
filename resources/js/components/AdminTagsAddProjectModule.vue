@@ -19,9 +19,11 @@
             <div class="col-md-12">
                 <div class="button-container">
                     <button
+                        v-bind:class="{'button-hidden' : !projectIdsAreUpdated()}"
                         @click="copyProjectIdsToUpdateProjectIds"
-                        class="btn btn-secondary" type="button">Undo</button>
-                    <button v-bind:class="{'disabled': !projectIdsAreUpdated()}"
+                        class="btn btn-secondary button-undo" type="button">Undo</button>
+                    <button
+                        v-bind:class="{'disabled': !projectIdsAreUpdated()}"
                         class="btn btn-primary" type="button">Update Tagged Projects</button>
                 </div>
             </div>
