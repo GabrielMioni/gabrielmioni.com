@@ -10988,17 +10988,6 @@ a.text-dark:focus {
   table-layout: fixed;
 }
 
-#app .tags-table thead {
-  /*&:first-child {
-    tr {
-      th {
-        border-bottom: none;
-        padding: 0 .75rem;
-      }
-    }
-  }*/
-}
-
 #app .tags-table thead.thead-empty {
   display: none;
 }
@@ -11131,6 +11120,40 @@ a.text-dark:focus {
   #app .tags-project-toggle br {
     display: none;
   }
+}
+
+#app .admin-tags-projects {
+  position: fixed;
+  display: none;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+#app .admin-tags-projects.show {
+  display: inline-block;
+}
+
+#app .admin-tags-projects .admin-tags-projects-module {
+  position: fixed;
+  z-index: 1;
+  width: 60%;
+  height: 80%;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  background-color: #FFFFFF;
+}
+
+#app .admin-tags-projects .admin-tags-projects-backdrop {
+  position: absolute;
+  height: inherit;
+  width: inherit;
+  top: inherit;
+  left: inherit;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .span-transition-group {

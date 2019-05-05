@@ -1,26 +1,26 @@
 <template>
-    <div class="col-sm-12">
+    <div>
         <table class="table tags-table">
             <thead class="thead-control-container">
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th class="button-container">
-                        <button
-                            v-bind:class="{ 'disabled': updatedTagIndexes.length <= 0 }"
-                            v-html="showUpdatingStatus()"
-                            @click="updateTags"
-                            class="btn btn-primary" type="button">
-                        </button>
-                    </th>
-                </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th class="button-container">
+                    <button
+                        v-bind:class="{ 'disabled': updatedTagIndexes.length <= 0 }"
+                        v-html="showUpdatingStatus()"
+                        @click="updateTags"
+                        class="btn btn-primary" type="button">
+                    </button>
+                </th>
+            </tr>
             </thead>
             <thead>
-                <tr>
-                    <th>Tag Name</th>
-                    <th>Created</th>
-                    <th></th>
-                </tr>
+            <tr>
+                <th>Tag Name</th>
+                <th>Created</th>
+                <th></th>
+            </tr>
             </thead>
             <transition-group name="tags" v-bind:class="'span-transition-group'">
                 <AdminTagsRow
@@ -33,24 +33,30 @@
                     v-on:detachProject="detachProjectHandler"
                     v-on:deleteTag="deleteTagHandler"
                     v-on:isUpdated="isUpdatedHandler"
+                    v-on:showModule="showModuleHandler"
                 ></AdminTagsRow>
             </transition-group>
         </table>
+        <AdminTagsProjectsModule
+            :tagId="addProjectsTagId"
+        ></AdminTagsProjectsModule>
     </div>
 </template>
 
 <script>
     import { callAxios } from '../call-axios';
     import AdminTagsRow from "./AdminTagsRow";
+    import AdminTagsProjectsModule from "./AdminTagsAddProjectModule";
 
     export default {
         name: "AdminTags",
-        components: {AdminTagsRow},
+        components: {AdminTagsProjectsModule, AdminTagsRow},
         data() {
             return {
                 tagsProjects: [],
                 updatedTagIndexes: [],
-                updating: false
+                updating: false,
+                addProjectsTagId: null,
             }
         },
         methods: {
@@ -173,6 +179,9 @@
             },
             showUpdatingStatus() {
                 return this.updating === false ? 'Update Tags' : this.$options.spinner;
+            },
+            showModuleHandler(data) {
+                this.addProjectsTagId = data.tagId;
             },
             retrieveRef(tagId) {
                 return this.$refs['tagRef-'+tagId][0];

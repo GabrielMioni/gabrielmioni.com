@@ -55,6 +55,12 @@
                             <td></td>
                             <td class="td-tag-delete button-container">
                                 <button
+                                    @click="showAddProjectsModule"
+                                    :tabindex="setTabIndex()"
+                                    type="button" class="btn btn-success mb-3">
+                                    Add Projects
+                                </button>
+                                <button
                                     @click="deleteTag()"
                                     v-html="showButtonStatus('Delete Tag')"
                                     :tabindex="setTabIndex()"
@@ -145,6 +151,9 @@
             },
             undo() {
                 this.$emit('undo', {'index': this.index, 'original':this.original});
+            },
+            showAddProjectsModule() {
+                this.$emit('showModule', {'tagId': this.tag.id});
             },
             setTabIndex() {
                 if (this.projectsOpen === true) {

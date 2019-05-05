@@ -5,14 +5,6 @@
       &.thead-empty {
         display: none;
       }
-      /*&:first-child {
-        tr {
-          th {
-            border-bottom: none;
-            padding: 0 .75rem;
-          }
-        }
-      }*/
       &.thead-control-container {
         tr {
           th {
@@ -122,6 +114,38 @@
       br {
         display: none;
       }
+    }
+  }
+
+  .admin-tags-projects {
+    position: fixed;
+    display: none;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+
+    &.show {
+      display: inline-block;
+    }
+
+    .admin-tags-projects-module {
+      position: fixed;
+      z-index: 1;
+      width: 60%;
+      height: 80%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: $themeColor0;
+    }
+    .admin-tags-projects-backdrop {
+      position: absolute;
+      height: inherit;
+      width: inherit;
+      top: inherit;
+      left: inherit;
+      background-color: rgba($themeColor8, .7);
     }
   }
 }
