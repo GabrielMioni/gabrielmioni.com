@@ -147,7 +147,6 @@
                     tagPacket.tagId = self.tagsProjects[tagIndex].id;
                     tagPacket.tagName = self.tagsProjects[tagIndex].tag;
                     tagData.push(tagPacket);
-                    self.triggerUpdateOriginal(tagPacket.tagId);
                 });
 
                 tagData = JSON.stringify(tagData);
@@ -162,6 +161,7 @@
                         self.updating = true;
                         setTimeout(()=>{
                             if (updated === true) {
+                                self.updateOriginals();
                                 self.updatedTagIndexes = [];
                                 self.updating = false;
                             }
@@ -176,6 +176,11 @@
             },
             retrieveRef(tagId) {
                 return this.$refs['tagRef-'+tagId][0];
+            },
+            updateOriginals() {
+                this.updatedTagIndexes.forEach((tagIndex)=>{
+                    this.triggerUpdateOriginal(this.tagsProjects[tagIndex].id);
+                });
             },
             triggerUpdateOriginal(tagId) {
                 const adminRowComponent = this.retrieveRef(tagId);
