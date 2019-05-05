@@ -39,6 +39,8 @@
         </table>
         <AdminTagsProjectsModule
             :tagId="addProjectsTagId"
+            :projectIds="addProjectsTagProjectIds"
+            v-on:closeModule="closeModuleHandler"
         ></AdminTagsProjectsModule>
     </div>
 </template>
@@ -57,6 +59,7 @@
                 updatedTagIndexes: [],
                 updating: false,
                 addProjectsTagId: null,
+                addProjectsTagProjectIds: [],
             }
         },
         methods: {
@@ -182,6 +185,8 @@
             },
             showModuleHandler(data) {
                 this.addProjectsTagId = data.tagId;
+                this.addProjectsTagProjectIds = data.projectIds;
+                console.log(data.projectIds);
             },
             retrieveRef(tagId) {
                 return this.$refs['tagRef-'+tagId][0];
@@ -194,6 +199,9 @@
             triggerUpdateOriginal(tagId) {
                 const adminRowComponent = this.retrieveRef(tagId);
                 adminRowComponent.copyTag();
+            },
+            closeModuleHandler() {
+                this.addProjectsTagId = null;
             }
         },
         mounted() {

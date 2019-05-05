@@ -58,7 +58,7 @@
                                     @click="showAddProjectsModule"
                                     :tabindex="setTabIndex()"
                                     type="button" class="btn btn-success mb-3">
-                                    Add Projects
+                                    Add / Remove<br>Projects
                                 </button>
                                 <button
                                     @click="deleteTag()"
@@ -153,7 +153,13 @@
                 this.$emit('undo', {'index': this.index, 'original':this.original});
             },
             showAddProjectsModule() {
-                this.$emit('showModule', {'tagId': this.tag.id});
+                let projectIds = [];
+
+                this.tag.projects.forEach((project)=>{
+                    projectIds.push(project.id);
+                });
+
+                this.$emit('showModule', {'tagId': this.tag.id, 'projectIds': projectIds});
             },
             setTabIndex() {
                 if (this.projectsOpen === true) {

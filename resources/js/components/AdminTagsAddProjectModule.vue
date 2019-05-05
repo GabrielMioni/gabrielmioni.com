@@ -3,12 +3,24 @@
         class="admin-tags-projects">
         <div class="admin-tags-projects-module">
             <div class="col-md-12">
-                <div v-for="project in filteredProjects">
-                    {{project.description}}
+                <div class="available-projects">
+                    <div
+                        v-for="project in projects"
+                        class="project-option">
+                        <div class="checkbox-container">
+                            <input
+                                v-bind:checked="projectIds.includes(project.id)"
+                                @click="setUpdateProjectIds(project.id)"
+                                type="checkbox" v-bind:id="'project-add-'+ tagId+'-'+project.id">
+                        </div>
+                        <label v-bind:for="'project-add-'+ tagId+'-'+project.id">{{project.title}}</label>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="admin-tags-projects-backdrop"></div>
+        <div
+            @click="closeModule"
+            class="admin-tags-projects-backdrop"></div>
     </div>
 </template>
 
@@ -17,17 +29,18 @@
 
     export default {
         name: "AdminTagsProjectsModule",
-        props: ['tagId'],
+        props: ['tagId', 'projectIds'],
         data() {
             return {
                 projects: [],
+                updateProjectsIds: [],
+                //updateProjectsIds: JSON.parse(JSON.stringify(this.projectIds))
             }
         },
         methods: {
             checkTagId() {
                 const parsedTagId = parseInt(this.tagId);
                 const isNan = isNaN(parsedTagId);
-                console.log(isNan);
                 return !isNan;
             },
             getProjects() {
@@ -35,14 +48,20 @@
                     this.projects = dataObj;
                 });
             },
-        },
-        computed: {
-            filteredProjects() {
-                const self = this;
+            closeModule() {
+                this.$emit('closeModule');
+            },
+            setUpdateProjectIds(projectId) {
 
-                return this.projects.filter((project)=>{
-                    return project.id !== self.tagId;
-                });
+            }
+        },
+        watch: {
+            projectIds() {
+                this.updateProjectsIds = [];
+                const clonedProjectIds = JSON.parse(JSON.stringify(this.projectIds));
+                for (let i = 0 ; i < clonedProjectIds.length ; ++i) {
+                    this.updateProjectsIds.push(clonedProjectIds[i]);
+                }
             }
         },
         mounted() {
