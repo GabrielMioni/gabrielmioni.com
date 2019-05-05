@@ -34,4 +34,29 @@ class TagAdminController extends Controller
         $detached = $project->tags()->detach($tagId);
         return $detached > 0 ? 1 : 0;
     }
+    public function updateTag(Request $request)
+    {
+        $tagData = json_decode($request->get('tagData'), true);
+
+        $updated = false;
+
+        foreach ($tagData as $key => $tagDatum)
+        {
+            $tagId = $tagDatum['tagId'];
+            $tagName = $tagDatum['tagName'];
+            $tag = Tag::find($tagId);
+
+            $saved = false;
+
+            if ($tag->tag !== $tagName) {
+                $tag->tag = $tagName;
+                $saved = $tag->save();
+            }
+            if ($saved === true && $updated == false) {
+                $updated = true;
+            }
+        }
+
+        return $updated === true ? 1 : 0;
+    }
 }

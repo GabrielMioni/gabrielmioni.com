@@ -8,8 +8,9 @@
                     <th class="button-container">
                         <button
                             v-bind:class="{ 'disabled': updatedTagIndexes.length <= 0 }"
+                            v-html="showUpdatingStatus()"
+                            @click="updateTags"
                             class="btn btn-primary" type="button">
-                            Update Tags
                         </button>
                     </th>
                 </tr>
@@ -49,6 +50,7 @@
             return {
                 tagsProjects: [],
                 updatedTagIndexes: [],
+                updating: false
             }
         },
         methods: {
@@ -70,7 +72,7 @@
                 axios.post(self.$options.deleteTagEndpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
                     .then((response) => {
                         const deleted = response.data === 1;
-                        const adminRowComponent = self.$refs['tagRef-'+tagId][0];
+                        const adminRowComponent = self.retrieveRef(tagId);
                         adminRowComponent.setDeleteStatus(true);
                         setTimeout(()=>{
                             if (deleted === true) {
@@ -100,7 +102,7 @@
                 axios.post(self.$options.detachTagEndpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
                     .then((response) => {
                         const detached = response.data === 1;
-                        const adminRowComponent = self.$refs['tagRef-'+tagId][0];
+                        const adminRowComponent = self.retrieveRef(tagId);
                         adminRowComponent.setDetachStatus(projectId);
                         setTimeout(()=>{
                             if (detached === true) {
@@ -131,6 +133,53 @@
                     const tagIdIndex = this.updatedTagIndexes.indexOf(tagIndex);
                     this.updatedTagIndexes.splice(tagIdIndex, 1);
                 }
+            },
+            updateTags() {
+                if (this.updatedTagIndexes.length <= 0) {
+                    return;
+                }
+
+                const self = this;
+                let tagData = [];
+
+                this.updatedTagIndexes.forEach((tagIndex)=>{
+                    let tagPacket = {};
+                    tagPacket.tagId = self.tagsProjects[tagIndex].id;
+                    tagPacket.tagName = self.tagsProjects[tagIndex].tag;
+                    tagData.push(tagPacket);
+                    self.triggerUpdateOriginal(tagPacket.tagId);
+                });
+
+                tagData = JSON.stringify(tagData);
+                console.log(tagData);
+
+                let formData = new FormData();
+                formData.append('tagData', tagData);
+
+                axios.post(self.$options.updateTagEndpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+                    .then((response) => {
+                        const updated = response.data === 1;
+                        self.updating = true;
+                        setTimeout(()=>{
+                            if (updated === true) {
+                                self.updatedTagIndexes = [];
+                                self.updating = false;
+                            }
+                        }, 1000);
+                        console.log(response);
+                    }).catch( (error) => {
+                    console.log('errors: ', error);
+                });
+            },
+            showUpdatingStatus() {
+                return this.updating === false ? 'Update Tags' : this.$options.spinner;
+            },
+            retrieveRef(tagId) {
+                return this.$refs['tagRef-'+tagId][0];
+            },
+            triggerUpdateOriginal(tagId) {
+                const adminRowComponent = this.retrieveRef(tagId);
+                adminRowComponent.copyTag();
             }
         },
         mounted() {
@@ -140,6 +189,8 @@
             this.$options.tagsProjectsData = '/tags-projects';
             this.$options.deleteTagEndpoint = '/tag-delete';
             this.$options.detachTagEndpoint = '/tag-detach';
+            this.$options.updateTagEndpoint = '/tag-update';
+            this.$options.spinner = '<i class="fas fa-circle-notch fa-spin"></i>';
         }
     }
 </script>
