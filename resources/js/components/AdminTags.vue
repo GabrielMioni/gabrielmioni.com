@@ -6,7 +6,9 @@
                     <th></th>
                     <th></th>
                     <th class="button-container">
-                        <button class="btn btn-primary" type="button">
+                        <button
+                            v-bind:class="{ 'disabled': updatedTagIndexes.length <= 0 }"
+                            class="btn btn-primary" type="button">
                             Update Tags
                         </button>
                     </th>
@@ -29,6 +31,7 @@
                     v-on:undo="undoHandler"
                     v-on:detachProject="detachProjectHandler"
                     v-on:deleteTag="deleteTagHandler"
+                    v-on:isUpdated="isUpdatedHandler"
                 ></AdminTagsRow>
             </transition-group>
         </table>
@@ -45,6 +48,7 @@
         data() {
             return {
                 tagsProjects: [],
+                updatedTagIndexes: [],
             }
         },
         methods: {
@@ -71,6 +75,7 @@
                         setTimeout(()=>{
                             if (deleted === true) {
                                 self.tagsProjects.splice(tagIndex, 1);
+                                self.addRemoveTagIndex(tagIndex, false);
                             }
                             adminRowComponent.setDeleteStatus(false);
                         }, 1000);
@@ -110,6 +115,22 @@
             },
             undoHandler(data) {
                 this.tagsProjects[data.index].tag = data.original;
+            },
+            isUpdatedHandler(data) {
+                const tagIndex = data.tagIndex;
+                const isUpdated = data.isUpdated;
+
+                this.addRemoveTagIndex(tagIndex, isUpdated);
+            },
+            addRemoveTagIndex(tagIndex, addIndex) {
+                const tagIndexIsPresent = this.updatedTagIndexes.includes(tagIndex);
+                if (addIndex === true && tagIndexIsPresent === false) {
+                    this.updatedTagIndexes.push(tagIndex);
+                }
+                if (addIndex === false && tagIndexIsPresent === true) {
+                    const tagIdIndex = this.updatedTagIndexes.indexOf(tagIndex);
+                    this.updatedTagIndexes.splice(tagIdIndex, 1);
+                }
             }
         },
         mounted() {

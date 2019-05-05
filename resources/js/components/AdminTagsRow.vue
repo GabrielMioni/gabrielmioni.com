@@ -5,6 +5,7 @@
                 <input
                     v-model="tag.tag"
                     v-bind:name="'tag-name-'+tag.id"
+                    @input="checkUpdated(tag.id)"
                     type="text" class="form-control">
             </td>
             <td class="tag-created align-middle">{{tag.created | dateFormat }}</td>
@@ -107,6 +108,10 @@
             },
             isUpdated() {
                 return this.tag.tag.trim() !== this.original.trim()
+            },
+            checkUpdated() {
+                const isUpdated = this.isUpdated();
+                this.$emit('isUpdated', {'tagIndex': this.index, 'isUpdated': isUpdated});
             },
             showButtonStatus(defaultString, projectId = null) {
                 if (projectId === null) {
