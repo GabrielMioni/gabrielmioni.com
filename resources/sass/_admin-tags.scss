@@ -5,7 +5,15 @@
       &.thead-empty {
         display: none;
       }
-      &:first-child {
+      /*&:first-child {
+        tr {
+          th {
+            border-bottom: none;
+            padding: 0 .75rem;
+          }
+        }
+      }*/
+      &.thead-control-container {
         tr {
           th {
             border-bottom: none;

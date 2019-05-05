@@ -1,7 +1,7 @@
 <template>
     <div class="col-sm-12">
         <table class="table tags-table">
-            <thead>
+            <thead class="thead-control-container">
                 <tr>
                     <th></th>
                     <th></th>

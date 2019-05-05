@@ -10988,11 +10988,22 @@ a.text-dark:focus {
   table-layout: fixed;
 }
 
+#app .tags-table thead {
+  /*&:first-child {
+    tr {
+      th {
+        border-bottom: none;
+        padding: 0 .75rem;
+      }
+    }
+  }*/
+}
+
 #app .tags-table thead.thead-empty {
   display: none;
 }
 
-#app .tags-table thead:first-child tr th {
+#app .tags-table thead.thead-control-container tr th {
   border-bottom: none;
   padding: 0 0.75rem;
 }

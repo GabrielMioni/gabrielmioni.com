@@ -13,7 +13,7 @@
                 <button
                     @click="toggleOpen"
                     v-html="showOrHide()"
-                    type="button" class="tags-project-toggle btn btn-primary">
+                    type="button" class="tags-project-toggle btn btn-dark">
                 </button>
             </td>
         </tr>
@@ -58,7 +58,6 @@
                                     v-html="showButtonStatus('Delete Tag')"
                                     type="button" class="btn btn-danger">
                                     <!--Delete Tag-->
-
                                 </button>
                                 <button
                                     v-bind:class="{ 'button-hidden': isUpdated() === false }"
