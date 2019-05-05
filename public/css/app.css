@@ -11177,6 +11177,11 @@ a.text-dark:focus {
   margin-bottom: 0;
 }
 
+#app .admin-tags-projects .admin-tags-projects-module .button-container {
+  text-align: right;
+  padding: 1rem;
+}
+
 #app .admin-tags-projects .admin-tags-projects-backdrop {
   position: absolute;
   height: inherit;

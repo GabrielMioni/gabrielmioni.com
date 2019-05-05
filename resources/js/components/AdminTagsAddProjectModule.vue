@@ -1,6 +1,5 @@
 <template>
-    <div v-bind:class="{'show': checkTagId()}"
-        class="admin-tags-projects">
+    <div v-bind:class="{'show': checkTagId()}" class="admin-tags-projects container">
         <div class="admin-tags-projects-module">
             <div class="col-md-12">
                 <div class="available-projects">
@@ -9,12 +8,21 @@
                         class="project-option">
                         <div class="checkbox-container">
                             <input
-                                v-bind:checked="projectIds.includes(project.id)"
+                                v-bind:checked="updateProjectsIds.includes(project.id)"
                                 @change="setUpdateProjectIds($event, project.id)"
                                 type="checkbox" v-bind:id="'project-add-'+ tagId+'-'+project.id">
                         </div>
                         <label v-bind:for="'project-add-'+ tagId+'-'+project.id">{{project.title}}</label>
                     </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="button-container">
+                    <button
+                        @click="copyProjectIdsToUpdateProjectIds"
+                        class="btn btn-secondary" type="button">Undo</button>
+                    <button v-bind:class="{'disabled': !projectIdsAreUpdated()}"
+                        class="btn btn-primary" type="button">Update Tagged Projects</button>
                 </div>
             </div>
         </div>
@@ -61,15 +69,32 @@
                     const projectIdIndex = this.updateProjectsIds.indexOf(projectId);
                     this.updateProjectsIds.splice(projectIdIndex, 1);
                 }
-            }
-        },
-        watch: {
-            projectIds() {
+            },
+            projectIdsAreUpdated() {
+                let copiedProjectIds = JSON.stringify(this.sortedProjectIds);
+                let copiedUpdateProjectIds = JSON.stringify(this.sortedUpdateProjectsIds);
+
+                return copiedProjectIds !== copiedUpdateProjectIds;
+            },
+            copyProjectIdsToUpdateProjectIds() {
                 this.updateProjectsIds = [];
                 const clonedProjectIds = JSON.parse(JSON.stringify(this.projectIds));
                 for (let i = 0 ; i < clonedProjectIds.length ; ++i) {
                     this.updateProjectsIds.push(clonedProjectIds[i]);
                 }
+            }
+        },
+        watch: {
+            projectIds() {
+                this.copyProjectIdsToUpdateProjectIds();
+            }
+        },
+        computed: {
+            sortedProjectIds() {
+                return this.projectIds.sort();
+            },
+            sortedUpdateProjectsIds() {
+                return this.updateProjectsIds.sort();
             }
         },
         mounted() {
