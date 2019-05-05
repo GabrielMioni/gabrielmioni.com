@@ -10,7 +10,7 @@
                         <div class="checkbox-container">
                             <input
                                 v-bind:checked="projectIds.includes(project.id)"
-                                @click="setUpdateProjectIds(project.id)"
+                                @change="setUpdateProjectIds($event, project.id)"
                                 type="checkbox" v-bind:id="'project-add-'+ tagId+'-'+project.id">
                         </div>
                         <label v-bind:for="'project-add-'+ tagId+'-'+project.id">{{project.title}}</label>
@@ -51,8 +51,16 @@
             closeModule() {
                 this.$emit('closeModule');
             },
-            setUpdateProjectIds(projectId) {
+            setUpdateProjectIds(event, projectId) {
+                const isChecked = event.target.checked;
 
+                if (isChecked === true && !this.updateProjectsIds.includes(projectId)) {
+                    this.updateProjectsIds.push(projectId);
+                }
+                if (isChecked === false && this.updateProjectsIds.includes(projectId)) {
+                    const projectIdIndex = this.updateProjectsIds.indexOf(projectId);
+                    this.updateProjectsIds.splice(projectIdIndex, 1);
+                }
             }
         },
         watch: {
