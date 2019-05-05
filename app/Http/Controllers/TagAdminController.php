@@ -23,7 +23,6 @@ class TagAdminController extends Controller
         $tagBeingDeleted = Tag::find($tagId);
         $deleted = $tagBeingDeleted->delete();
         return $deleted === true ? 1 : 0;
-        return 1;
     }
     public function detachTag(Request $request)
     {
