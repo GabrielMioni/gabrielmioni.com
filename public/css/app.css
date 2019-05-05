@@ -11032,8 +11032,9 @@ a.text-dark:focus {
 }
 
 #app .project-table-container.open {
-  max-height: 500px;
+  max-height: 93.75rem;
   transition: max-height 0.3s ease-in;
+  overflow-y: scroll;
 }
 
 #app .project-table-container .table th:first-child,

@@ -38,8 +38,9 @@
     transition:max-height 0.3s ease-out;
 
     &.open {
-      max-height: 500px;
+      max-height: rem(1500px);
       transition:max-height 0.3s ease-in;
+      overflow-y: scroll;
     }
     .table th {
       &:first-child,
