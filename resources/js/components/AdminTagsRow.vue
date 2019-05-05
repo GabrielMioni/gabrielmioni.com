@@ -70,7 +70,7 @@
                                     v-bind:class="{ 'button-hidden': isUpdated() === false }"
                                     @click="undo"
                                     :tabindex="setTabIndex()"
-                                    type="button" class="btn btn-secondary button-undo">
+                                    type="button" class="btn btn-secondary button-undo mt-3">
                                     Undo
                                 </button>
                             </td>

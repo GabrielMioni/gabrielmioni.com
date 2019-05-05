@@ -11075,7 +11075,6 @@ a.text-dark:focus {
 }
 
 #app .button-container .btn.button-undo {
-  margin-top: 1rem;
   border: none;
 }
 
@@ -11184,11 +11183,11 @@ a.text-dark:focus {
 }
 
 #app .admin-tags-projects .admin-tags-projects-backdrop {
-  position: absolute;
-  height: inherit;
-  width: inherit;
-  top: inherit;
-  left: inherit;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
   background-color: rgba(0, 0, 0, 0.7);
 }
 

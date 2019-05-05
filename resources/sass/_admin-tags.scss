@@ -80,7 +80,6 @@
     text-align: center;
 
     .btn.button-undo {
-      margin-top: 1rem;
       border: none;
 
       &.button-hidden {
@@ -174,11 +173,11 @@
       }
     }
     .admin-tags-projects-backdrop {
-      position: absolute;
-      height: inherit;
-      width: inherit;
-      top: inherit;
-      left: inherit;
+      position: fixed;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
       background-color: rgba($themeColor8, .7);
     }
   }
