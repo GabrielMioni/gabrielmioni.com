@@ -1,24 +1,39 @@
 #app {
   .tags-table {
     table-layout: fixed;
-    thead.thead-empty {
-      display: none;
+    thead {
+      &.thead-empty {
+        display: none;
+      }
+      /*&:first-child {
+        tr {
+          th {
+            border-bottom: none;
+            padding: 0 .75rem;
+          }
+        }
+      }*/
+      &.thead-control-container {
+        tr {
+          th {
+            border-bottom: none;
+            padding: 0 .75rem;
+          }
+        }
+      }
     }
     th, td {
       border-top: none;
-      width: 33.333333333%
-    }
-    th, td:not(.button-container, .no-projects) {
-      padding: .75rem 0 .75rem 1.5rem;
-    }
-    td {
-      //.btn.btn-dark, .btn.btn-danger, .btn.btn-primary {
+      width: 33.333333333%;
       .btn {
         width: 100%;
         @media(min-width: map_get($grid-breakpoints,'md')) {
           width: 50%;
         }
       }
+    }
+    th, td:not(.button-container, .no-projects) {
+      padding: .75rem 0 .75rem 1.5rem;
     }
     td.project-td-container {
       padding: 0;
@@ -115,9 +130,13 @@
   display: contents;
 }
 
-.tags-enter-active, .tags-leave-active {
+.tags-enter-active,
+.tags-leave-active,
+.tagProjects-enter-active,
+.tagProjects-leave-active {
   transition: opacity .5s;
 }
-.tags-enter, .tags-leave-to {
+.tags-enter, .tags-leave-to,
+.tagProjects-enter, .tagProjects-leave-to{
   opacity: 0;
 }

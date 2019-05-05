@@ -5,6 +5,7 @@
                 <input
                     v-model="tag.tag"
                     v-bind:name="'tag-name-'+tag.id"
+                    @input="checkUpdated(tag.id)"
                     type="text" class="form-control">
             </td>
             <td class="tag-created align-middle">{{tag.created | dateFormat }}</td>
@@ -12,7 +13,7 @@
                 <button
                     @click="toggleOpen"
                     v-html="showOrHide()"
-                    type="button" class="tags-project-toggle btn btn-primary">
+                    type="button" class="tags-project-toggle btn btn-dark">
                 </button>
             </td>
         </tr>
@@ -27,18 +28,23 @@
                             <th></th>
                         </tr>
                         </thead>
-                        <tr
-                            v-for="(project, projectIndex) in tag.projects">
-                            <td>{{ project.title }}</td>
-                            <td>{{ project.description }}</td>
-                            <td class="td-control button-container">
-                                <button
-                                    @click="detachProject(project.id)"
-                                    type="button" class="btn btn-dark">
-                                    Detach Project
-                                </button>
-                            </td>
-                        </tr>
+                        <transition-group name="tagProjects" v-bind:class="'span-transition-group'">
+                            <tr
+                                v-for="(project, projectIndex) in tag.projects"
+                                :key="project.id">
+                                <td>{{ project.title }}</td>
+                                <td>{{ project.description }}</td>
+                                <td class="td-control button-container">
+                                    <button
+                                        @click="detachProject(project.id, projectIndex)"
+                                        :tabindex="setTabIndex()"
+                                        v-html="showButtonStatus('Detach Project', project.id)"
+                                        type="button" class="btn btn-dark">
+                                        <!--Detach Project-->
+                                    </button>
+                                </td>
+                            </tr>
+                        </transition-group>
                         <tr v-if="tag.projects.length <= 0">
                             <td class="no-projects" colspan="3">
                                 <div class="alert alert-danger">This tag has no attached projects</div>
@@ -51,13 +57,13 @@
                                 <button
                                     @click="deleteTag()"
                                     v-html="showButtonStatus('Delete Tag')"
+                                    :tabindex="setTabIndex()"
                                     type="button" class="btn btn-danger">
-                                    <!--Delete Tag-->
-
                                 </button>
                                 <button
                                     v-bind:class="{ 'button-hidden': isUpdated() === false }"
                                     @click="undo"
+                                    :tabindex="setTabIndex()"
                                     type="button" class="btn btn-secondary button-undo">
                                     Undo
                                 </button>
@@ -83,7 +89,7 @@
                 projectsOpen: false,
                 original: '',
                 deleting: false,
-                //original: Vue.util.extend({}, this.tag.tag)
+                detachIds: [],
             }
         },
         methods: {
@@ -104,11 +110,29 @@
             isUpdated() {
                 return this.tag.tag.trim() !== this.original.trim()
             },
-            showButtonStatus(defaultString) {
-                return this.deleting === false ? defaultString : this.$options.spinner;
+            checkUpdated() {
+                const isUpdated = this.isUpdated();
+                this.$emit('isUpdated', {'tagIndex': this.index, 'isUpdated': isUpdated});
+            },
+            showButtonStatus(defaultString, projectId = null) {
+                if (projectId === null) {
+                    return this.deleting === false ? defaultString : this.$options.spinner;
+                }
+                if (Number.isInteger(projectId)) {
+                    return !this.detachIds.includes(projectId) ? defaultString : this.$options.spinner;
+                }
             },
             setDeleteStatus(status) {
                 this.deleting = status;
+            },
+            setDetachStatus(id) {
+                const index = this.detachIds.indexOf(id);
+                if (index === -1) {
+                    this.detachIds.push(id);
+                    return;
+                }
+                this.detachIds.splice(index, id);
+
             },
             deleteTag() {
                 if (!confirm('You\'re about to delete this tag. Are you sure you want to do that?')) {
@@ -116,11 +140,17 @@
                 }
                 this.$emit('deleteTag', {'index': this.index, 'tagId':this.tag.id});
             },
-            detachProject(projectId) {
-                this.$emit('detachProject', {'projectId': projectId, 'tagId':this.tag.id});
+            detachProject(projectId, projectIndex) {
+                this.$emit('detachProject', {'tagIndex': this.index, 'projectIndex': projectIndex});
             },
             undo() {
                 this.$emit('undo', {'index': this.index, 'original':this.original});
+            },
+            setTabIndex() {
+                if (this.projectsOpen === true) {
+                    return '0';
+                }
+                return '-1';
             }
         },
         filters: {
