@@ -76,6 +76,7 @@
                 });
             },
             closeModule() {
+                this.undo();
                 this.$refs.availableProjects.scrollTop = 0;
                 this.$emit('closeModule');
             },
