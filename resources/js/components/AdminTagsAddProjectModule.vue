@@ -2,6 +2,17 @@
     <div v-bind:class="{'show': checkTagId()}" class="admin-tags-projects container">
         <div class="admin-tags-projects-module">
             <div class="col-md-12">
+                <div class="admin-tags-title">
+                    <div>Editing {{tagName}} Projects</div>
+                    <div class="checkbox-control">
+                        <div class="checkbox-container">
+                            <input
+                                @change="toggleCheckAll($event)"
+                                :ref="'toggleCheckBox'"
+                                type="checkbox">
+                        </div>
+                    </div>
+                </div>
                 <div class="available-projects">
                     <div
                         v-for="project in projects"
@@ -20,7 +31,7 @@
                 <div class="button-container">
                     <button
                         v-bind:class="{'button-hidden' : !projectIdsAreUpdated()}"
-                        @click="copyProjectIdsToUpdateProjectIds"
+                        @click="undo"
                         class="btn btn-secondary button-undo" type="button">Undo</button>
                     <button
                         v-bind:class="{'disabled': !projectIdsAreUpdated()}"
@@ -39,12 +50,11 @@
 
     export default {
         name: "AdminTagsProjectsModule",
-        props: ['tagId', 'projectIds'],
+        props: ['tagId', 'tagName', 'projectIds'],
         data() {
             return {
                 projects: [],
                 updateProjectsIds: [],
-                //updateProjectsIds: JSON.parse(JSON.stringify(this.projectIds))
             }
         },
         methods: {
@@ -84,6 +94,25 @@
                 for (let i = 0 ; i < clonedProjectIds.length ; ++i) {
                     this.updateProjectsIds.push(clonedProjectIds[i]);
                 }
+            },
+            undo() {
+                this.copyProjectIdsToUpdateProjectIds();
+                this.$refs['toggleCheckBox'].checked = false;
+            },
+            toggleCheckAll(event) {
+                const checked = event.target.checked;
+
+                if (checked === false) {
+                    this.updateProjectsIds = [];
+                    return;
+                }
+
+                this.projects.forEach((project)=>{
+                    const projectId = project.id;
+                    if (!this.updateProjectsIds.includes(projectId)) {
+                        this.updateProjectsIds.push(projectId);
+                    }
+                })
             }
         },
         watch: {

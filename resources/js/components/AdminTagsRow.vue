@@ -159,7 +159,7 @@
                     projectIds.push(project.id);
                 });
 
-                this.$emit('showModule', {'tagId': this.tag.id, 'projectIds': projectIds});
+                this.$emit('showModule', {'tagId': this.tag.id, 'tagName':this.tag.tag, 'projectIds': projectIds});
             },
             setTabIndex() {
                 if (this.projectsOpen === true) {

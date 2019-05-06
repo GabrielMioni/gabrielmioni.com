@@ -39,6 +39,7 @@
         </table>
         <AdminTagsProjectsModule
             :tagId="addProjectsTagId"
+            :tagName="addProjectsTagName"
             :projectIds="addProjectsTagProjectIds"
             v-on:closeModule="closeModuleHandler"
         ></AdminTagsProjectsModule>
@@ -60,6 +61,7 @@
                 updating: false,
                 addProjectsTagId: null,
                 addProjectsTagProjectIds: [],
+                addProjectsTagName: null
             }
         },
         methods: {
@@ -186,6 +188,7 @@
             showModuleHandler(data) {
                 this.addProjectsTagId = data.tagId;
                 this.addProjectsTagProjectIds = data.projectIds;
+                this.addProjectsTagName = data.tagName;
                 console.log(data.projectIds);
             },
             retrieveRef(tagId) {
