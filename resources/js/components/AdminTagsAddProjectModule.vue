@@ -42,6 +42,7 @@
                         class="btn btn-secondary button-undo" type="button">Undo</button>
                     <button
                         v-bind:class="{'disabled': !projectIdsAreUpdated()}"
+                        @click="submitProjectIds"
                         class="btn btn-primary" type="button">Update Tagged Projects</button>
                 </div>
             </div>
@@ -122,6 +123,13 @@
                         this.updateProjectsIds.push(projectId);
                     }
                 })
+            },
+            submitProjectIds() {
+                if (!this.projectIdsAreUpdated()) {
+                    return;
+                }
+                const projectIds = JSON.stringify(this.updateProjectsIds);
+                this.$emit('submitProjectIds', {'projectIds': projectIds});
             }
         },
         watch: {

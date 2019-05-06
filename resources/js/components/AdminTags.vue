@@ -42,6 +42,7 @@
             :tagName="addProjectsTagName"
             :projectIds="addProjectsTagProjectIds"
             v-on:closeModule="closeModuleHandler"
+            v-on:submitProjectIds="submitProjectIdsHandler"
         ></AdminTagsProjectsModule>
     </div>
 </template>
@@ -205,6 +206,9 @@
             },
             closeModuleHandler() {
                 this.addProjectsTagId = null;
+            },
+            submitProjectIdsHandler(data) {
+                console.log(data);
             }
         },
         mounted() {
