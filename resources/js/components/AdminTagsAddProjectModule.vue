@@ -128,7 +128,7 @@
                 if (!this.projectIdsAreUpdated()) {
                     return;
                 }
-                const projectIds = JSON.stringify(this.updateProjectsIds);
+                const projectIds = JSON.stringify(this.sortedUpdateProjectsIds);
                 this.$emit('submitProjectIds', {'projectIds': projectIds});
             }
         },
