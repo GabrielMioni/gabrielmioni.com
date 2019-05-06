@@ -240,6 +240,7 @@
                         currentTag.projects = projects;
                         found = true;
                     }
+                    ++tagIndex;
                 }
 
                 let newProjectsTagProjectIds = [];
