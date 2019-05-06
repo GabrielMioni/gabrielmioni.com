@@ -241,6 +241,13 @@
                         found = true;
                     }
                 }
+
+                let newProjectsTagProjectIds = [];
+                projects.forEach((project)=>{
+                    newProjectsTagProjectIds.push(project.id);
+                });
+
+                this.addProjectsTagProjectIds = newProjectsTagProjectIds;
             }
         },
         mounted() {
