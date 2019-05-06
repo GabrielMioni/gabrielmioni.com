@@ -129,11 +129,18 @@
       display: inline-block;
     }
 
+    .admin-tags-title {
+      padding: 1rem 1rem 0;
+      margin: 0;
+      font-weight: bold;
+      font-size: rem(20px);
+    }
+
     .admin-tags-projects-module {
       position: fixed;
       z-index: 1;
       width: 60%;
-      height: 600px;
+      //height: 600px;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -143,18 +150,15 @@
         position: relative;
         overflow-y: scroll;
         height: 500px;
-        padding: 1rem;
-        margin-top: 1rem;
+        padding: 0 1rem 1rem;
 
-        .project-option {
+        .project-option,
+        .checkbox-control {
           padding: .75rem;
           //display: -ms-grid;
           display: grid;
           //-ms-grid-columns: 50px 11fr;
           grid-template-columns: 50px 11fr;
-          &:nth-child(odd) {
-            background-color: $table-head-bg;
-          }
           .checkbox-container {
             grid-row: 1;
             grid-column: 1;
@@ -166,6 +170,14 @@
             margin-bottom: 0;
           }
         }
+        .project-option {
+          &:nth-child(odd) {
+            background-color: $table-head-bg;
+          }
+        }
+      }
+      .checkbox-control {
+        padding: .75rem .75rem .5rem;
       }
       .button-container {
         text-align: right;
