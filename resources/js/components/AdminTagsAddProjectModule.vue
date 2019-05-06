@@ -42,8 +42,11 @@
                         class="btn btn-secondary button-undo" type="button">Undo</button>
                     <button
                         v-bind:class="{'disabled': !projectIdsAreUpdated()}"
+                        v-html="showButtonStatus('Update Tagged Projects')"
                         @click="submitProjectIds"
-                        class="btn btn-primary" type="button">Update Tagged Projects</button>
+                        class="btn btn-primary" type="button">
+                        <!--Update Tagged Projects-->
+                    </button>
                 </div>
             </div>
         </div>
@@ -58,7 +61,7 @@
 
     export default {
         name: "AdminTagsProjectsModule",
-        props: ['tagId', 'tagName', 'projectIds'],
+        props: ['tagId', 'tagName', 'projectIds', 'submittingProjectIds'],
         data() {
             return {
                 projects: [],
@@ -124,12 +127,18 @@
                     }
                 })
             },
+            showButtonStatus(defaultString) {
+                if (this.submittingProjectIds === false) {
+                    return defaultString;
+                }
+                return this.$options.spinner;
+            },
             submitProjectIds() {
                 if (!this.projectIdsAreUpdated()) {
                     return;
                 }
-                const projectIds = JSON.stringify(this.sortedUpdateProjectsIds);
-                this.$emit('submitProjectIds', {'projectIds': projectIds});
+                //const projectIds = JSON.stringify(this.sortedUpdateProjectsIds);
+                this.$emit('submitProjectIds', {'projectIds': this.sortedUpdateProjectsIds, 'tagId':this.tagId});
             }
         },
         watch: {
@@ -150,6 +159,7 @@
         },
         created() {
             this.$options.getProjectsEndpoint = '/projects-json';
+            this.$options.spinner = '<i class="fas fa-circle-notch fa-spin"></i>';
         }
     }
 </script>

@@ -41,6 +41,7 @@
             :tagId="addProjectsTagId"
             :tagName="addProjectsTagName"
             :projectIds="addProjectsTagProjectIds"
+            :submittingProjectIds="submittingProjectIds"
             v-on:closeModule="closeModuleHandler"
             v-on:submitProjectIds="submitProjectIdsHandler"
         ></AdminTagsProjectsModule>
@@ -62,7 +63,8 @@
                 updating: false,
                 addProjectsTagId: null,
                 addProjectsTagProjectIds: [],
-                addProjectsTagName: null
+                addProjectsTagName: null,
+                submittingProjectIds: false
             }
         },
         methods: {
@@ -209,6 +211,26 @@
             },
             submitProjectIdsHandler(data) {
                 console.log(data);
+                const self = this;
+                const tagId = data.tagId;
+                const projectIds = JSON.stringify(data.projectIds);
+                let formData = new FormData();
+                formData.append('tagId', tagId);
+                formData.append('projectIds', projectIds);
+
+                axios.post(self.$options.editTagProjectsEndpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+                    .then((response) => {
+                        const updated = response.data === 1;
+                        this.submittingProjectIds = true;
+                        setTimeout(()=>{
+                            if (updated === true) {
+                                self.submittingProjectIds = false;
+                            }
+                        }, 1000);
+                        console.log(response);
+                    }).catch( (error) => {
+                    console.log('errors: ', error);
+                });
             }
         },
         mounted() {
@@ -219,6 +241,7 @@
             this.$options.deleteTagEndpoint = '/tag-delete';
             this.$options.detachTagEndpoint = '/tag-detach';
             this.$options.updateTagEndpoint = '/tag-update';
+            this.$options.editTagProjectsEndpoint = '/tag-projects-edit';
             this.$options.spinner = '<i class="fas fa-circle-notch fa-spin"></i>';
         }
     }

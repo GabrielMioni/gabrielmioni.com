@@ -40,4 +40,5 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/tag-delete', 'TagAdminController@deleteTag')->name('tag-delete');
     Route::post('/tag-detach', 'TagAdminController@detachTag')->name('tag-detach');
     Route::post('/tag-update', 'TagAdminController@updateTag')->name('tag-update');
+    Route::post('/tag-projects-edit', 'TagAdminController@editTagProjects')->name('tag-projects-edit');
 });
