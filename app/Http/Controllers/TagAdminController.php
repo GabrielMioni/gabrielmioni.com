@@ -59,4 +59,37 @@ class TagAdminController extends Controller
 
         return $updated === true ? 1 : 0;
     }
+    public function editTagProjects(Request $request)
+    {
+        $tagId = $request->get('tagId');
+        $submittedProjectIds = json_decode($request->get('projectIds'), true);
+
+        $tag = Tag::find($tagId);
+        $existingProjectIds = $tag->projects()->pluck('projects.id')->toArray();
+
+        $this->attachDetachProjects($tag, $existingProjectIds, $submittedProjectIds, false);
+        $this->attachDetachProjects($tag, $submittedProjectIds, $existingProjectIds, true);
+
+        $projectsData = $tag->projects()->select('projects.id', 'title', 'description')->get()->toArray();
+        $projectsData = json_encode($projectsData);
+
+        return $projectsData;
+    }
+
+    protected function attachDetachProjects(Tag $tag, array $projectIds, array $compareIds, bool $attach)
+    {
+        $projectsObj = $tag->projects();
+
+        foreach ($projectIds as $projectId) {
+            if (in_array($projectId, $compareIds)) {
+                continue;
+            }
+            if ($attach === true) {
+                $projectsObj->attach($projectId);
+            }
+            if ($attach === false) {
+                $projectsObj->detach($projectId);
+            }
+        }
+    }
 }
