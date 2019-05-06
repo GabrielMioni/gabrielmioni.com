@@ -10988,17 +10988,6 @@ a.text-dark:focus {
   table-layout: fixed;
 }
 
-#app .tags-table thead {
-  /*&:first-child {
-    tr {
-      th {
-        border-bottom: none;
-        padding: 0 .75rem;
-      }
-    }
-  }*/
-}
-
 #app .tags-table thead.thead-empty {
   display: none;
 }
@@ -11036,6 +11025,13 @@ a.text-dark:focus {
   border: none;
 }
 
+#app .close-button {
+  position: absolute;
+  right: 0.25rem;
+  top: 0.25rem;
+  z-index: 1;
+}
+
 #app .project-table-container {
   max-height: 0;
   overflow: hidden;
@@ -11043,8 +11039,9 @@ a.text-dark:focus {
 }
 
 #app .project-table-container.open {
-  max-height: 500px;
+  max-height: 93.75rem;
   transition: max-height 0.3s ease-in;
+  overflow-y: scroll;
 }
 
 #app .project-table-container .table th:first-child,
@@ -11085,7 +11082,6 @@ a.text-dark:focus {
 }
 
 #app .button-container .btn.button-undo {
-  margin-top: 1rem;
   border: none;
 }
 
@@ -11131,6 +11127,87 @@ a.text-dark:focus {
   #app .tags-project-toggle br {
     display: none;
   }
+}
+
+#app .admin-tags-projects {
+  position: fixed;
+  display: none;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+#app .admin-tags-projects.show {
+  display: inline-block;
+}
+
+#app .admin-tags-projects .admin-tags-title {
+  padding: 1rem 1rem 0;
+  margin: 0;
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+#app .admin-tags-projects .admin-tags-projects-module {
+  position: fixed;
+  z-index: 1;
+  width: 60%;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  background-color: #FFFFFF;
+}
+
+#app .admin-tags-projects .admin-tags-projects-module .available-projects {
+  position: relative;
+  overflow-y: scroll;
+  height: 500px;
+  padding: 0 1rem 1rem;
+}
+
+#app .admin-tags-projects .admin-tags-projects-module .available-projects .project-option,
+#app .admin-tags-projects .admin-tags-projects-module .available-projects .checkbox-control {
+  padding: 0.75rem;
+  display: grid;
+  grid-template-columns: 50px 11fr;
+}
+
+#app .admin-tags-projects .admin-tags-projects-module .available-projects .project-option .checkbox-container,
+#app .admin-tags-projects .admin-tags-projects-module .available-projects .checkbox-control .checkbox-container {
+  grid-row: 1;
+  grid-column: 1;
+  display: inline-block;
+}
+
+#app .admin-tags-projects .admin-tags-projects-module .available-projects .project-option label,
+#app .admin-tags-projects .admin-tags-projects-module .available-projects .checkbox-control label {
+  grid-row: 1;
+  grid-column: 2;
+  margin-bottom: 0;
+}
+
+#app .admin-tags-projects .admin-tags-projects-module .available-projects .project-option:nth-child(odd) {
+  background-color: #e9ecef;
+}
+
+#app .admin-tags-projects .admin-tags-projects-module .checkbox-control {
+  padding: 0.75rem 0.75rem 0.5rem;
+}
+
+#app .admin-tags-projects .admin-tags-projects-module .button-container {
+  text-align: right;
+  padding: 1rem;
+}
+
+#app .admin-tags-projects .admin-tags-projects-backdrop {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .span-transition-group {

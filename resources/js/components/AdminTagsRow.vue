@@ -55,6 +55,12 @@
                             <td></td>
                             <td class="td-tag-delete button-container">
                                 <button
+                                    @click="showAddProjectsModule"
+                                    :tabindex="setTabIndex()"
+                                    type="button" class="btn btn-success mb-3">
+                                    Add / Remove<br>Projects
+                                </button>
+                                <button
                                     @click="deleteTag()"
                                     v-html="showButtonStatus('Delete Tag')"
                                     :tabindex="setTabIndex()"
@@ -64,7 +70,7 @@
                                     v-bind:class="{ 'button-hidden': isUpdated() === false }"
                                     @click="undo"
                                     :tabindex="setTabIndex()"
-                                    type="button" class="btn btn-secondary button-undo">
+                                    type="button" class="btn btn-secondary button-undo mt-3">
                                     Undo
                                 </button>
                             </td>
@@ -145,6 +151,15 @@
             },
             undo() {
                 this.$emit('undo', {'index': this.index, 'original':this.original});
+            },
+            showAddProjectsModule() {
+                let projectIds = [];
+
+                this.tag.projects.forEach((project)=>{
+                    projectIds.push(project.id);
+                });
+
+                this.$emit('showModule', {'tagId': this.tag.id, 'tagName':this.tag.tag, 'projectIds': projectIds});
             },
             setTabIndex() {
                 if (this.projectsOpen === true) {

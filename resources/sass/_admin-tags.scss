@@ -5,14 +5,6 @@
       &.thead-empty {
         display: none;
       }
-      /*&:first-child {
-        tr {
-          th {
-            border-bottom: none;
-            padding: 0 .75rem;
-          }
-        }
-      }*/
       &.thead-control-container {
         tr {
           th {
@@ -40,14 +32,21 @@
       border: none;
     }
   }
+  .close-button {
+    position: absolute;
+    right: .25rem;
+    top: 0.25rem;
+    z-index: 1;
+  }
   .project-table-container {
     max-height: 0;
     overflow: hidden;
     transition:max-height 0.3s ease-out;
 
     &.open {
-      max-height: 500px;
+      max-height: rem(1500px);
       transition:max-height 0.3s ease-in;
+      overflow-y: scroll;
     }
     .table th {
       &:first-child,
@@ -87,7 +86,6 @@
     text-align: center;
 
     .btn.button-undo {
-      margin-top: 1rem;
       border: none;
 
       &.button-hidden {
@@ -122,6 +120,83 @@
       br {
         display: none;
       }
+    }
+  }
+
+  .admin-tags-projects {
+    position: fixed;
+    display: none;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+
+    &.show {
+      display: inline-block;
+    }
+
+    .admin-tags-title {
+      padding: 1rem 1rem 0;
+      margin: 0;
+      font-weight: bold;
+      font-size: rem(20px);
+    }
+
+    .admin-tags-projects-module {
+      position: fixed;
+      z-index: 1;
+      width: 60%;
+      //height: 600px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: $themeColor0;
+
+      .available-projects {
+        position: relative;
+        overflow-y: scroll;
+        height: 500px;
+        padding: 0 1rem 1rem;
+
+        .project-option,
+        .checkbox-control {
+          padding: .75rem;
+          //display: -ms-grid;
+          display: grid;
+          //-ms-grid-columns: 50px 11fr;
+          grid-template-columns: 50px 11fr;
+          .checkbox-container {
+            grid-row: 1;
+            grid-column: 1;
+            display: inline-block;
+          }
+          label {
+            grid-row: 1;
+            grid-column: 2;
+            margin-bottom: 0;
+          }
+        }
+        .project-option {
+          &:nth-child(odd) {
+            background-color: $table-head-bg;
+          }
+        }
+      }
+      .checkbox-control {
+        padding: .75rem .75rem .5rem;
+      }
+      .button-container {
+        text-align: right;
+        padding: 1rem;
+      }
+    }
+    .admin-tags-projects-backdrop {
+      position: fixed;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      background-color: rgba($themeColor8, .7);
     }
   }
 }
