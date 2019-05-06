@@ -1,6 +1,11 @@
 <template>
     <div v-bind:class="{'show': checkTagId()}" class="admin-tags-projects container">
         <div class="admin-tags-projects-module">
+            <button
+                @click="closeModule"
+                class="close-button btn">
+                <i class="fas fa-times"></i>
+            </button>
             <div class="col-md-12">
                 <div class="admin-tags-title">
                     <div>Editing {{tagName}} Projects</div>

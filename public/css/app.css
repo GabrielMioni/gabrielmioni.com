@@ -11025,6 +11025,13 @@ a.text-dark:focus {
   border: none;
 }
 
+#app .close-button {
+  position: absolute;
+  right: 0.25rem;
+  top: 0.25rem;
+  z-index: 1;
+}
+
 #app .project-table-container {
   max-height: 0;
   overflow: hidden;
