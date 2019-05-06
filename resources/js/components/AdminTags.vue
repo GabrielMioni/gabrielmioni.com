@@ -220,17 +220,27 @@
 
                 axios.post(self.$options.editTagProjectsEndpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
                     .then((response) => {
-                        const updated = response.data === 1;
                         this.submittingProjectIds = true;
                         setTimeout(()=>{
-                            if (updated === true) {
-                                self.submittingProjectIds = false;
-                            }
+                            self.updateTagProjects(tagId, response.data);
+                            self.submittingProjectIds = false;
                         }, 1000);
                         console.log(response);
                     }).catch( (error) => {
                     console.log('errors: ', error);
                 });
+            },
+            updateTagProjects(tagId, projects) {
+                let found = false;
+                let tagIndex = 0;
+
+                while (found === false && tagIndex < this.tagsProjects.length) {
+                    const currentTag = this.tagsProjects[tagIndex]
+                    if (currentTag.id === tagId) {
+                        currentTag.projects = projects;
+                        found = true;
+                    }
+                }
             }
         },
         mounted() {

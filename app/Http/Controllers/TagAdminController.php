@@ -70,7 +70,10 @@ class TagAdminController extends Controller
         $this->attachDetachProjects($tag, $existingProjectIds, $submittedProjectIds, false);
         $this->attachDetachProjects($tag, $submittedProjectIds, $existingProjectIds, true);
 
-        return 1;
+        $projectsData = $tag->projects()->select('projects.id', 'title', 'description')->get()->toArray();
+        $projectsData = json_encode($projectsData);
+
+        return $projectsData;
     }
 
     protected function attachDetachProjects(Tag $tag, array $projectIds, array $compareIds, bool $attach)
