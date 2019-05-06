@@ -235,7 +235,7 @@
                 let tagIndex = 0;
 
                 while (found === false && tagIndex < this.tagsProjects.length) {
-                    const currentTag = this.tagsProjects[tagIndex]
+                    const currentTag = this.tagsProjects[tagIndex];
                     if (currentTag.id === tagId) {
                         currentTag.projects = projects;
                         found = true;
