@@ -18,7 +18,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="available-projects">
+                <div
+                    :ref="'availableProjects'"
+                    class="available-projects">
                     <div
                         v-for="project in projects"
                         class="project-option">
@@ -74,6 +76,7 @@
                 });
             },
             closeModule() {
+                this.$refs.availableProjects.scrollTop = 0;
                 this.$emit('closeModule');
             },
             setUpdateProjectIds(event, projectId) {
