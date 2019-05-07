@@ -210,7 +210,11 @@
             retrieveRef(tagId) {
                 return this.$refs['tagRef-'+tagId][0];
             },
-            updateOriginals() {
+            updateOriginals(tagIndex = null) {
+                if (tagIndex !== null) {
+                    this.triggerUpdateOriginal(this.tagsProjects[tagIndex].id);
+                    return;
+                }
                 this.updatedTagIndexes.forEach((tagIndex)=>{
                     this.triggerUpdateOriginal(this.tagsProjects[tagIndex].id);
                 });
@@ -239,10 +243,12 @@
                 console.log(data);
                 const self = this;
                 const tagId = data.tagId;
+                const tagIndex = this.getTagIndexByTagId(tagId);
                 const projectIds = JSON.stringify(data.projectIds);
                 let formData = new FormData();
                 formData.append('tagId', tagId);
                 formData.append('projectIds', projectIds);
+
                 formData.append('tagName', this.addProjectsTagName);
 
                 axios.post(self.$options.editTagProjectsEndpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
@@ -250,11 +256,17 @@
                         this.submittingProjectIds = true;
                         setTimeout(()=>{
                             self.updateTagProjects(tagId, response.data.projectData);
+                            self.updateOriginals(tagIndex);
                             self.submittingProjectIds = false;
                         }, 1000);
                         console.log(response);
                     }).catch( (error) => {
                     console.log('errors: ', error);
+                });
+            },
+            getTagIndexByTagId(tagId) {
+                this.tagsProjects.forEach((tag, index)=>{
+                    if (tag.id === tagId) return index;
                 });
             },
             updateTagProjects(tagId, projects) {
