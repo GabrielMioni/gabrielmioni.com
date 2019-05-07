@@ -103,7 +103,8 @@
                 this.projectsOpen = !this.projectsOpen;
             },
             copyTag() {
-                this.original = this.tag.tag.slice(0, this.tag.tag.length);
+                const tagName = this.tag.tag === null ? '' : this.tag.tag;
+                this.original = tagName.slice(0, tagName.length);
             },
             showOrHide() {
                 const faClass = this.projectsOpen === false ? 'fa-plus': 'fa-minus';
@@ -114,7 +115,9 @@
                 return out;
             },
             isUpdated() {
-                return this.tag.tag.trim() !== this.original.trim()
+                //console.log('trim: ', this.tag.tag);
+                const tagName = this.tag.tag == null ? '' : this.tag.tag;
+                return tagName.trim() !== this.original.trim()
             },
             checkUpdated() {
                 const isUpdated = this.isUpdated();

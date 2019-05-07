@@ -36,6 +36,17 @@
                     v-on:showModule="showModuleHandler"
                 ></AdminTagsRow>
             </transition-group>
+            <tr>
+                <th></th>
+                <th></th>
+                <th class="button-container">
+                    <button
+                        @click="newTag"
+                        class="btn btn-primary" type="button">
+                        New Tag
+                    </button>
+                </th>
+            </tr>
         </table>
         <AdminTagsProjectsModule
             :tagId="addProjectsTagId"
@@ -171,16 +182,18 @@
 
                 axios.post(self.$options.updateTagEndpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
                     .then((response) => {
-                        const updated = response.data === 1;
+                        console.log(response);
+                        const updated = response.data.updated === 1;
+                        const tagIds = response.data.tagIds;
                         self.updating = true;
                         setTimeout(()=>{
+                            self.updating = false;
                             if (updated === true) {
                                 self.updateOriginals();
                                 self.updatedTagIndexes = [];
-                                self.updating = false;
+                                self.updateTagIds(tagIds);
                             }
                         }, 1000);
-                        console.log(response);
                     }).catch( (error) => {
                     console.log('errors: ', error);
                 });
@@ -202,6 +215,19 @@
                     this.triggerUpdateOriginal(this.tagsProjects[tagIndex].id);
                 });
             },
+            updateTagIds(tagIdsObj) {
+                const idKeys = Object.keys(tagIdsObj);
+                const idValues = Object.values(tagIdsObj);
+
+                this.tagsProjects.forEach((tag, tagIndex)=>{
+                    const tagId = tag.id;
+                    if (!idKeys.includes(tagId)) {
+                        return;
+                    }
+                    const keyIndex = idKeys.indexOf(tagId);
+                    this.tagsProjects[tagIndex].id = idValues[keyIndex];
+                });
+            },
             triggerUpdateOriginal(tagId) {
                 const adminRowComponent = this.retrieveRef(tagId);
                 adminRowComponent.copyTag();
@@ -217,12 +243,13 @@
                 let formData = new FormData();
                 formData.append('tagId', tagId);
                 formData.append('projectIds', projectIds);
+                formData.append('tagName', this.addProjectsTagName);
 
                 axios.post(self.$options.editTagProjectsEndpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
                     .then((response) => {
                         this.submittingProjectIds = true;
                         setTimeout(()=>{
-                            self.updateTagProjects(tagId, response.data);
+                            self.updateTagProjects(tagId, response.data.projectData);
                             self.submittingProjectIds = false;
                         }, 1000);
                         console.log(response);
@@ -249,6 +276,14 @@
                 });
 
                 this.addProjectsTagProjectIds = newProjectsTagProjectIds;
+            },
+            newTag() {
+                let tagObj = {};
+                tagObj.id = this.tagsProjects.length + '-new';
+                tagObj.projects = [];
+                tagObj.tag = '';
+
+                this.tagsProjects.push(tagObj);
             }
         },
         mounted() {
