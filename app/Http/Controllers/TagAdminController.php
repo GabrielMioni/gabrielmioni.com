@@ -77,7 +77,7 @@ class TagAdminController extends Controller
     public function editTagProjects(Request $request)
     {
         $tagId = $request->get('tagId');
-        $tagName = $request->get('tagName');
+        $tagName = trim($request->get('tagName'));
         $submittedProjectIds = json_decode($request->get('projectIds'), true);
 
         $tag = $this->returnOrCreateTag($tagId);
@@ -88,6 +88,11 @@ class TagAdminController extends Controller
 
         $this->attachDetachProjects($tag, $existingProjectIds, $submittedProjectIds, false);
         $this->attachDetachProjects($tag, $submittedProjectIds, $existingProjectIds, true);
+
+        if ($tagName !== $tag->tag) {
+            $tag->tag = $tagName;
+            $tag->save();
+        }
 
         $projectsData = $tag->projects()->select('projects.id', 'title', 'description')->get()->toArray();
         //$projectsData = json_encode($projectsData);
