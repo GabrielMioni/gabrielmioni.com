@@ -255,7 +255,7 @@
                     .then((response) => {
                         this.submittingProjectIds = true;
                         setTimeout(()=>{
-                            self.updateTagProjects(tagId, response.data.projectData);
+                            self.updateTagProjects(tagIndex, response.data.projectData);
                             self.updateOriginals(tagIndex);
                             self.submittingProjectIds = false;
                         }, 1000);
@@ -265,22 +265,14 @@
                 });
             },
             getTagIndexByTagId(tagId) {
-                this.tagsProjects.forEach((tag, index)=>{
-                    if (tag.id === tagId) return index;
-                });
-            },
-            updateTagProjects(tagId, projects) {
-                let found = false;
-                let tagIndex = 0;
-
-                while (found === false && tagIndex < this.tagsProjects.length) {
-                    const currentTag = this.tagsProjects[tagIndex];
-                    if (currentTag.id === tagId) {
-                        currentTag.projects = projects;
-                        found = true;
+                for (let i = 0 ; i < this.tagsProjects.length ; ++i) {
+                    if (this.tagsProjects[i].id === tagId) {
+                        return i;
                     }
-                    ++tagIndex;
                 }
+            },
+            updateTagProjects(tagIndex, projects) {
+                this.tagsProjects[tagIndex].projects = projects;
 
                 let newProjectsTagProjectIds = [];
                 projects.forEach((project)=>{
