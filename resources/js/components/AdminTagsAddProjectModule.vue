@@ -70,7 +70,11 @@
         },
         methods: {
             checkTagId() {
+                if (this.tagId == null) {
+                    return false;
+                }
                 const parsedTagId = parseInt(this.tagId);
+                console.log(parsedTagId);
                 const isNan = isNaN(parsedTagId);
                 return !isNan;
             },

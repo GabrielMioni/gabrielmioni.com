@@ -36,6 +36,17 @@
                     v-on:showModule="showModuleHandler"
                 ></AdminTagsRow>
             </transition-group>
+            <tr>
+                <th></th>
+                <th></th>
+                <th class="button-container">
+                    <button
+                        @click="newTag"
+                        class="btn btn-primary" type="button">
+                        New Tag
+                    </button>
+                </th>
+            </tr>
         </table>
         <AdminTagsProjectsModule
             :tagId="addProjectsTagId"
@@ -171,16 +182,18 @@
 
                 axios.post(self.$options.updateTagEndpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
                     .then((response) => {
-                        const updated = response.data === 1;
+                        console.log(response);
+                        const updated = response.data.updated === 1;
+                        const tagIds = response.data.tagIds;
                         self.updating = true;
                         setTimeout(()=>{
+                            self.updating = false;
                             if (updated === true) {
                                 self.updateOriginals();
                                 self.updatedTagIndexes = [];
-                                self.updating = false;
+                                self.updateTagIds(tagIds);
                             }
                         }, 1000);
-                        console.log(response);
                     }).catch( (error) => {
                     console.log('errors: ', error);
                 });
@@ -197,9 +210,26 @@
             retrieveRef(tagId) {
                 return this.$refs['tagRef-'+tagId][0];
             },
-            updateOriginals() {
+            updateOriginals(tagIndex = null) {
+                if (tagIndex !== null) {
+                    this.triggerUpdateOriginal(this.tagsProjects[tagIndex].id);
+                    return;
+                }
                 this.updatedTagIndexes.forEach((tagIndex)=>{
                     this.triggerUpdateOriginal(this.tagsProjects[tagIndex].id);
+                });
+            },
+            updateTagIds(tagIdsObj) {
+                const idKeys = Object.keys(tagIdsObj);
+                const idValues = Object.values(tagIdsObj);
+
+                this.tagsProjects.forEach((tag, tagIndex)=>{
+                    const tagId = tag.id;
+                    if (!idKeys.includes(tagId)) {
+                        return;
+                    }
+                    const keyIndex = idKeys.indexOf(tagId);
+                    this.tagsProjects[tagIndex].id = idValues[keyIndex];
                 });
             },
             triggerUpdateOriginal(tagId) {
@@ -213,16 +243,20 @@
                 console.log(data);
                 const self = this;
                 const tagId = data.tagId;
+                const tagIndex = this.getTagIndexByTagId(tagId);
                 const projectIds = JSON.stringify(data.projectIds);
                 let formData = new FormData();
                 formData.append('tagId', tagId);
                 formData.append('projectIds', projectIds);
 
+                formData.append('tagName', this.addProjectsTagName);
+
                 axios.post(self.$options.editTagProjectsEndpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
                     .then((response) => {
                         this.submittingProjectIds = true;
                         setTimeout(()=>{
-                            self.updateTagProjects(tagId, response.data);
+                            self.updateTagProjects(tagIndex, response.data.projectData);
+                            self.updateOriginals(tagIndex);
                             self.submittingProjectIds = false;
                         }, 1000);
                         console.log(response);
@@ -230,18 +264,15 @@
                     console.log('errors: ', error);
                 });
             },
-            updateTagProjects(tagId, projects) {
-                let found = false;
-                let tagIndex = 0;
-
-                while (found === false && tagIndex < this.tagsProjects.length) {
-                    const currentTag = this.tagsProjects[tagIndex];
-                    if (currentTag.id === tagId) {
-                        currentTag.projects = projects;
-                        found = true;
+            getTagIndexByTagId(tagId) {
+                for (let i = 0 ; i < this.tagsProjects.length ; ++i) {
+                    if (this.tagsProjects[i].id === tagId) {
+                        return i;
                     }
-                    ++tagIndex;
                 }
+            },
+            updateTagProjects(tagIndex, projects) {
+                this.tagsProjects[tagIndex].projects = projects;
 
                 let newProjectsTagProjectIds = [];
                 projects.forEach((project)=>{
@@ -249,6 +280,14 @@
                 });
 
                 this.addProjectsTagProjectIds = newProjectsTagProjectIds;
+            },
+            newTag() {
+                let tagObj = {};
+                tagObj.id = this.tagsProjects.length + '-new';
+                tagObj.projects = [];
+                tagObj.tag = '';
+
+                this.tagsProjects.push(tagObj);
             }
         },
         mounted() {
