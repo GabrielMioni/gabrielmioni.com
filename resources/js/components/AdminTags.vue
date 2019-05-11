@@ -81,13 +81,11 @@
         methods: {
             getTagsProjectsData() {
                 callAxios(this.$options.tagsProjectsData, (dataObj) => {
-                    console.log(dataObj);
                     this.tagsProjects = dataObj;
                 });
             },
             deleteTagHandler(data) {
                 const self = this;
-                console.log(data);
 
                 const tagId = data.tagId;
                 const tagIndex = data.index;
@@ -106,7 +104,6 @@
                             }
                             adminRowComponent.setDeleteStatus(false);
                         }, 1000);
-                        console.log(response);
                     }).catch( (error) => {
                     console.log('errors: ', error);
                 });
@@ -135,7 +132,6 @@
                             }
                             adminRowComponent.setDetachStatus(projectId);
                         }, 1000);
-                        console.log(response);
                     }).catch( (error) => {
                     console.log('errors: ', error);
                 });
@@ -175,14 +171,12 @@
                 });
 
                 tagData = JSON.stringify(tagData);
-                console.log(tagData);
 
                 let formData = new FormData();
                 formData.append('tagData', tagData);
 
                 axios.post(self.$options.updateTagEndpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
                     .then((response) => {
-                        console.log(response);
                         const updated = response.data.updated === 1;
                         const tagIds = response.data.tagIds;
                         self.updating = true;
@@ -205,7 +199,6 @@
                 this.addProjectsTagId = data.tagId;
                 this.addProjectsTagProjectIds = data.projectIds;
                 this.addProjectsTagName = data.tagName;
-                console.log(data.projectIds);
             },
             retrieveRef(tagId) {
                 return this.$refs['tagRef-'+tagId][0];
@@ -240,7 +233,6 @@
                 this.addProjectsTagId = null;
             },
             submitProjectIdsHandler(data) {
-                console.log(data);
                 const self = this;
                 const tagId = data.tagId;
                 const tagIndex = this.getTagIndexByTagId(tagId);
@@ -255,11 +247,16 @@
                     .then((response) => {
                         this.submittingProjectIds = true;
                         setTimeout(()=>{
+
+                            let tagIdObject = {};
+                            tagIdObject[tagId] = response.data.tagId;
+                            console.log(tagIdObject);
+
                             self.updateTagProjects(tagIndex, response.data.projectData);
                             self.updateOriginals(tagIndex);
                             self.submittingProjectIds = false;
+                            self.updateTagIds(tagIdObject);
                         }, 1000);
-                        console.log(response);
                     }).catch( (error) => {
                     console.log('errors: ', error);
                 });
