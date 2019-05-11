@@ -11,9 +11,9 @@ class TagAdminController extends Controller
     public function index() {
         return view('tag-admin');
     }
-    public function getTagsData() {
+    public function getTagsData()
+    {
         $tags = Tag::select('*')->with(array('projects' => function($q) {$q->select('projects.id','title', 'description'); }))->get()->toArray();
-        //$tags = Tag::select('*')->with(array('projects' => function($q) {$q->select('*'); }))->get()->toArray();
 
         return $tags;
     }
@@ -37,18 +37,25 @@ class TagAdminController extends Controller
     public function updateTag(Request $request)
     {
         $tagData = json_decode($request->get('tagData'), true);
-        file_put_contents(dirname(__FILE__) . '/log', print_r($tagData, true), FILE_APPEND);
 
         $updated = false;
 
         $newTagIds = [];
+
+        $allExistingTags = Tag::all()->pluck('tag')->toArray();
 
         foreach ($tagData as $key => $tagDatum)
         {
             $tagId = $tagDatum['tagId'];
             $tagName = $tagDatum['tagName'];
             $isNew = strpos($tagId, 'new') !== false;
+
             $tag = $this->returnOrCreateTag($tagId, $tagName);
+
+            if ($tag === false) {
+                // Don't create duplicate tags, goofus.
+                continue;
+            }
 
             $saved = false;
 
@@ -64,6 +71,9 @@ class TagAdminController extends Controller
             }
 
             $newTagIds[$tagId] = $tag->id;
+
+            // Update existing tags with newly created tag names.
+            $allExistingTags[] = $tagName;
         }
 
         $out = [];
@@ -71,39 +81,39 @@ class TagAdminController extends Controller
         $out['tagIds'] = $newTagIds;
 
         return $out;
-
-        //return $updated === true ? 1 : 0;
     }
     public function editTagProjects(Request $request)
     {
         $tagId = $request->get('tagId');
         $tagName = trim($request->get('tagName'));
+        $tagName = $tagName === '' ? null : $tagName;
         $submittedProjectIds = json_decode($request->get('projectIds'), true);
 
-        $tag = $this->returnOrCreateTag($tagId);
+        $tag = $this->returnOrCreateTag($tagId, $tagName);
+
+        if ($tag === false) {
+            return 0;
+        }
+
         $tagId = $tag->id;
 
-        //$tag = Tag::find($tagId);
         $existingProjectIds = $tag->projects()->pluck('projects.id')->toArray();
 
         $this->attachDetachProjects($tag, $existingProjectIds, $submittedProjectIds, false);
         $this->attachDetachProjects($tag, $submittedProjectIds, $existingProjectIds, true);
 
-        if ($tagName !== $tag->tag) {
+        if ($tagName !== null && $tagName !== $tag->tag) {
             $tag->tag = $tagName;
             $tag->save();
         }
 
         $projectsData = $tag->projects()->select('projects.id', 'title', 'description')->get()->toArray();
-        //$projectsData = json_encode($projectsData);
 
         $out = [];
         $out['tagId'] = $tagId;
         $out['projectData'] = $projectsData;
 
         return json_encode($out);
-
-//        return $projectsData;
     }
 
     protected function attachDetachProjects(Tag $tag, array $projectIds, array $compareIds, bool $attach)
@@ -123,10 +133,26 @@ class TagAdminController extends Controller
         }
     }
 
-    protected function returnOrCreateTag($tagId, $tagName = '') {
-        if (strpos($tagId, 'new-') >= 0) {
+    protected function returnOrCreateTag($tagId, $tagName = null)
+    {
+        $tagName = trim($tagName) === '' ? null : $tagName;
+        if ($tagName !== null)
+        {
+            $allExistingTags = Tag::all()->pluck('tag')->toArray();
+            if (in_array($tagName, $allExistingTags))
+            {
+                return false;
+            }
+        }
+
+        if (strpos($tagId, 'new-') >= 0)
+        {
             $tag = new Tag();
-            $tag->tag = $tagName;
+
+            if ($tagName !== null) {
+                $tag->tag = $tagName;
+            }
+
             $tag->save();
 
             return $tag;
