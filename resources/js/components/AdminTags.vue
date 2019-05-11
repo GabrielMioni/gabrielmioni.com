@@ -89,6 +89,12 @@
 
                 const tagId = data.tagId;
                 const tagIndex = data.index;
+                const isNew = isNaN(tagId);
+                
+                if (isNew === true) {
+                    this.removeTagData(tagIndex);
+                    return;
+                }
                 let formData = new FormData();
                 formData.append('tagId', tagId);
 
@@ -99,14 +105,19 @@
                         adminRowComponent.setDeleteStatus(true);
                         setTimeout(()=>{
                             if (deleted === true) {
-                                self.tagsProjects.splice(tagIndex, 1);
-                                self.addRemoveTagIndex(tagIndex, false);
+                                // self.tagsProjects.splice(tagIndex, 1);
+                                // self.addRemoveTagIndex(tagIndex, false);
+                                self.removeTagData(tagIndex);
                             }
                             adminRowComponent.setDeleteStatus(false);
                         }, 1000);
                     }).catch( (error) => {
                     console.log('errors: ', error);
                 });
+            },
+            removeTagData(tagIndex) {
+                this.tagsProjects.splice(tagIndex, 1);
+                this.addRemoveTagIndex(tagIndex, false);
             },
             detachProjectHandler(data) {
                 const self = this;
