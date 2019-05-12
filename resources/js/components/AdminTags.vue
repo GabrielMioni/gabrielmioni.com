@@ -22,7 +22,7 @@
                 <th></th>
             </tr>
             </thead>
-            <transition-group name="tags" v-bind:class="'span-transition-group'">
+            <transition-group :name="setTransitionActiveStatus()" v-bind:class="'span-transition-group'">
                 <AdminTagsRow
                     v-for="(tag, index) in tagsProjects"
                     :tag="tag"
@@ -75,7 +75,8 @@
                 addProjectsTagId: null,
                 addProjectsTagProjectIds: [],
                 addProjectsTagName: null,
-                submittingProjectIds: false
+                submittingProjectIds: false,
+                transitionActive: true,
             }
         },
         methods: {
@@ -84,13 +85,16 @@
                     this.tagsProjects = dataObj;
                 });
             },
+            setTransitionActiveStatus() {
+                return this.transitionActive === true ? 'tags' : 'break';
+            },
             deleteTagHandler(data) {
                 const self = this;
 
                 const tagId = data.tagId;
                 const tagIndex = data.index;
                 const isNew = isNaN(tagId);
-                
+
                 if (isNew === true) {
                     this.removeTagData(tagIndex);
                     return;
@@ -188,20 +192,32 @@
 
                 axios.post(self.$options.updateTagEndpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
                     .then((response) => {
-                        const updated = response.data.updated === 1;
-                        const tagIds = response.data.tagIds;
+                        this.transitionActive = false;
                         self.updating = true;
-                        setTimeout(()=>{
-                            self.updating = false;
-                            if (updated === true) {
-                                self.updateOriginals();
-                                self.updatedTagIndexes = [];
-                                self.updateTagIds(tagIds);
-                            }
-                        }, 1000);
+                        self.processUpdateTags(response).then(()=>{
+                            setTimeout(()=>{
+                                this.transitionActive = true;
+                            }, 500);
+                        });
                     }).catch( (error) => {
                     console.log('errors: ', error);
                 });
+            },
+            processUpdateTags(response) {
+                const self = this;
+                const updated = response.data.updated === 1;
+                const tagIds = response.data.tagIds;
+                return new Promise((resolve)=>{
+                    setTimeout(()=>{
+                        self.updating = false;
+                        if (updated === true) {
+                            self.updateOriginals();
+                            self.updatedTagIndexes = [];
+                            self.updateTagIds(tagIds);
+                        }
+                        resolve(true);
+                    }, 1000);
+                })
             },
             showUpdatingStatus() {
                 return this.updating === false ? 'Update Tags' : this.$options.spinner;
@@ -251,25 +267,34 @@
                 let formData = new FormData();
                 formData.append('tagId', tagId);
                 formData.append('projectIds', projectIds);
-
                 formData.append('tagName', this.addProjectsTagName);
 
                 axios.post(self.$options.editTagProjectsEndpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
                     .then((response) => {
                         this.submittingProjectIds = true;
-                        setTimeout(()=>{
-
-                            let tagIdObject = {};
-                            tagIdObject[tagId] = response.data.tagId;
-                            console.log(tagIdObject);
-
-                            self.updateTagProjects(tagIndex, response.data.projectData);
-                            self.updateOriginals(tagIndex);
-                            self.submittingProjectIds = false;
-                            self.updateTagIds(tagIdObject);
-                        }, 1000);
+                        this.transitionActive = false;
+                        this.processSubmitProjectIds(tagId, tagIndex, response).then(()=>{
+                            setTimeout(()=>{
+                                this.transitionActive = true;
+                            }, 500);
+                        });
                     }).catch( (error) => {
                     console.log('errors: ', error);
+                });
+            },
+            processSubmitProjectIds(tagId, tagIndex, response) {
+                const self = this;
+                return new Promise((resolve)=>{
+                    setTimeout(()=>{
+                        let tagIdObject = {};
+                        tagIdObject[tagId] = response.data.tagId;
+
+                        self.updateTagProjects(tagIndex, response.data.projectData);
+                        self.updateOriginals(tagIndex);
+                        self.submittingProjectIds = false;
+                        self.updateTagIds(tagIdObject);
+                        resolve(true);
+                    }, 1000);
                 });
             },
             getTagIndexByTagId(tagId) {
