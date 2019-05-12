@@ -89,6 +89,7 @@ class TagAdminController extends Controller
         $tagName = $tagName === '' ? null : $tagName;
         $submittedProjectIds = json_decode($request->get('projectIds'), true);
 
+        file_put_contents(dirname(__FILE__) . '/log', print_r("TagId: $tagId \n", true), FILE_APPEND);
         $tag = $this->returnOrCreateTag($tagId, $tagName);
 
         if ($tag === false) {
@@ -136,16 +137,16 @@ class TagAdminController extends Controller
     protected function returnOrCreateTag($tagId, $tagName = null)
     {
         $tagName = trim($tagName) === '' ? null : $tagName;
-        if ($tagName !== null)
+        $isNew = strpos($tagId, 'new') !== false;
+        if ($tagName !== null && $isNew === true)
         {
             $allExistingTags = Tag::all()->pluck('tag')->toArray();
             if (in_array($tagName, $allExistingTags))
             {
+                // TagNames must be unique.
                 return false;
             }
         }
-
-        $isNew = strpos($tagId, 'new') !== false;
 
         if ($isNew === true)
         {
