@@ -145,7 +145,9 @@ class TagAdminController extends Controller
             }
         }
 
-        if (strpos($tagId, 'new-') >= 0)
+        $isNew = strpos($tagId, 'new') !== false;
+
+        if ($isNew === true)
         {
             $tag = new Tag();
 
@@ -156,9 +158,8 @@ class TagAdminController extends Controller
             $tag->save();
 
             return $tag;
-
-        } else {
-            return Tag::find($tagId);
         }
+
+        return Tag::find($tagId);
     }
 }
