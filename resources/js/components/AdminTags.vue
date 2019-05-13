@@ -7,7 +7,7 @@
                 <th></th>
                 <th class="button-container">
                     <button
-                        v-bind:class="{ 'disabled': updatedTagIndexes.length <= 0 }"
+                        v-bind:class="{ 'disabled': updatedTagIds.length <= 0 }"
                         v-html="showUpdatingStatus()"
                         @click="updateTags"
                         class="btn btn-primary" type="button">
@@ -22,13 +22,15 @@
                 <th></th>
             </tr>
             </thead>
-            <transition-group :name="setTransitionActiveStatus()" v-bind:class="'span-transition-group'">
+            <!--<transition-group :name="setTransitionActiveStatus()" v-bind:class="'span-transition-group'">-->
+            <transition-group :name="setTransitionActiveStatus()" v-bind:class="{'span-transition-group': true, 'break': transitionActive === false}">
                 <AdminTagsRow
                     v-for="(tag, index) in tagsProjects"
                     :tag="tag"
                     :index="index"
+                    :tagId="tag.id"
                     :ref="'tagRef-'+tag.id"
-                    :key="tag.id"
+                    :key="index"
                     v-on:undo="undoHandler"
                     v-on:detachProject="detachProjectHandler"
                     v-on:deleteTag="deleteTagHandler"
@@ -70,7 +72,7 @@
         data() {
             return {
                 tagsProjects: [],
-                updatedTagIndexes: [],
+                updatedTagIds: [],
                 updating: false,
                 addProjectsTagId: null,
                 addProjectsTagProjectIds: [],
@@ -155,32 +157,33 @@
                 this.tagsProjects[data.index].tag = data.original;
             },
             isUpdatedHandler(data) {
-                const tagIndex = data.tagIndex;
+                const tagId = data.tagId;
                 const isUpdated = data.isUpdated;
 
-                this.addRemoveTagIndex(tagIndex, isUpdated);
+                this.addRemoveTagIndex(tagId, isUpdated);
             },
-            addRemoveTagIndex(tagIndex, addIndex) {
-                const tagIndexIsPresent = this.updatedTagIndexes.includes(tagIndex);
-                if (addIndex === true && tagIndexIsPresent === false) {
-                    this.updatedTagIndexes.push(tagIndex);
+            addRemoveTagIndex(tagId, isUpdated) {
+                const tagIdIsPresent = this.updatedTagIds.includes(tagId);
+                if (isUpdated === true && tagIdIsPresent === false) {
+                    this.updatedTagIds.push(tagId);
                 }
-                if (addIndex === false && tagIndexIsPresent === true) {
-                    const tagIdIndex = this.updatedTagIndexes.indexOf(tagIndex);
-                    this.updatedTagIndexes.splice(tagIdIndex, 1);
+                if (isUpdated === false && tagIdIsPresent === true) {
+                    const tagIdIndex = this.updatedTagIds.indexOf(tagId);
+                    this.updatedTagIds.splice(tagIdIndex, 1);
                 }
             },
             updateTags() {
-                if (this.updatedTagIndexes.length <= 0) {
+                if (this.updatedTagIds.length <= 0) {
                     return;
                 }
 
                 const self = this;
                 let tagData = [];
 
-                this.updatedTagIndexes.forEach((tagIndex)=>{
+                this.updatedTagIds.forEach((tagId)=>{
+                    const tagIndex = self.getTagIndexByTagId(tagId);
                     let tagPacket = {};
-                    tagPacket.tagId = self.tagsProjects[tagIndex].id;
+                    tagPacket.tagId = tagId;
                     tagPacket.tagName = self.tagsProjects[tagIndex].tag;
                     tagData.push(tagPacket);
                 });
@@ -197,7 +200,7 @@
                         self.processUpdateTags(response).then(()=>{
                             setTimeout(()=>{
                                 this.transitionActive = true;
-                            }, 500);
+                            }, 3000);
                         });
                     }).catch( (error) => {
                     console.log('errors: ', error);
@@ -212,7 +215,7 @@
                         self.updating = false;
                         if (updated === true) {
                             self.updateOriginals();
-                            self.updatedTagIndexes = [];
+                            self.updatedTagIds = [];
                             self.updateTagIds(tagIds);
                         }
                         resolve(true);
@@ -235,7 +238,9 @@
                     this.triggerUpdateOriginal(this.tagsProjects[tagIndex].id);
                     return;
                 }
-                this.updatedTagIndexes.forEach((tagIndex)=>{
+                const self = this;
+                this.updatedTagIds.forEach((tagId)=>{
+                    const tagIndex = self.getTagIndexByTagId(tagId);
                     this.triggerUpdateOriginal(this.tagsProjects[tagIndex].id);
                 });
             },
@@ -276,13 +281,14 @@
                         this.processSubmitProjectIds(tagId, tagIndex, response).then(()=>{
                             setTimeout(()=>{
                                 this.transitionActive = true;
-                            }, 500);
+                            }, 1000);
                         });
                     }).catch( (error) => {
                     console.log('errors: ', error);
                 });
             },
             processSubmitProjectIds(tagId, tagIndex, response) {
+
                 const self = this;
                 return new Promise((resolve)=>{
                     setTimeout(()=>{
