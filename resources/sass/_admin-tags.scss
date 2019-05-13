@@ -203,15 +203,17 @@
 
 .span-transition-group {
   display: contents;
-}
 
-.tags-enter-active,
-.tags-leave-active,
-.tagProjects-enter-active,
-.tagProjects-leave-active {
-  transition: opacity .5s;
-}
-.tags-enter, .tags-leave-to,
-.tagProjects-enter, .tagProjects-leave-to{
-  opacity: 0;
+  &:not(.break) {
+    .tags-enter-active,
+    .tags-leave-active,
+    .tagProjects-enter-active,
+    .tagProjects-leave-active {
+      transition: opacity .5s;
+    }
+    .tags-enter, .tags-leave-to,
+    .tagProjects-enter, .tagProjects-leave-to{
+      opacity: 0;
+    }
+  }
 }

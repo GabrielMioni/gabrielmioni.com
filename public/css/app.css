@@ -11214,17 +11214,17 @@ a.text-dark:focus {
   display: contents;
 }
 
-.tags-enter-active,
-.tags-leave-active,
-.tagProjects-enter-active,
-.tagProjects-leave-active {
+.span-transition-group:not(.break) .tags-enter-active,
+.span-transition-group:not(.break) .tags-leave-active,
+.span-transition-group:not(.break) .tagProjects-enter-active,
+.span-transition-group:not(.break) .tagProjects-leave-active {
   transition: opacity 0.5s;
 }
 
-.tags-enter,
-.tags-leave-to,
-.tagProjects-enter,
-.tagProjects-leave-to {
+.span-transition-group:not(.break) .tags-enter,
+.span-transition-group:not(.break) .tags-leave-to,
+.span-transition-group:not(.break) .tagProjects-enter,
+.span-transition-group:not(.break) .tagProjects-leave-to {
   opacity: 0;
 }
 

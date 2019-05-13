@@ -7,7 +7,7 @@
                 <th></th>
                 <th class="button-container">
                     <button
-                        v-bind:class="{ 'disabled': updatedTagIndexes.length <= 0 }"
+                        v-bind:class="{ 'disabled': updatedTagIds.length <= 0 }"
                         v-html="showUpdatingStatus()"
                         @click="updateTags"
                         class="btn btn-primary" type="button">
@@ -22,13 +22,15 @@
                 <th></th>
             </tr>
             </thead>
-            <transition-group name="tags" v-bind:class="'span-transition-group'">
+            <!--<transition-group :name="setTransitionActiveStatus()" v-bind:class="'span-transition-group'">-->
+            <transition-group :name="setTransitionActiveStatus()" v-bind:class="{'span-transition-group': true, 'break': transitionActive === false}">
                 <AdminTagsRow
                     v-for="(tag, index) in tagsProjects"
                     :tag="tag"
                     :index="index"
+                    :tagId="tag.id"
                     :ref="'tagRef-'+tag.id"
-                    :key="tag.id"
+                    :key="index"
                     v-on:undo="undoHandler"
                     v-on:detachProject="detachProjectHandler"
                     v-on:deleteTag="deleteTagHandler"
@@ -70,27 +72,35 @@
         data() {
             return {
                 tagsProjects: [],
-                updatedTagIndexes: [],
+                updatedTagIds: [],
                 updating: false,
                 addProjectsTagId: null,
                 addProjectsTagProjectIds: [],
                 addProjectsTagName: null,
-                submittingProjectIds: false
+                submittingProjectIds: false,
+                transitionActive: true,
             }
         },
         methods: {
             getTagsProjectsData() {
                 callAxios(this.$options.tagsProjectsData, (dataObj) => {
-                    console.log(dataObj);
                     this.tagsProjects = dataObj;
                 });
             },
+            setTransitionActiveStatus() {
+                return this.transitionActive === true ? 'tags' : 'break';
+            },
             deleteTagHandler(data) {
                 const self = this;
-                console.log(data);
 
                 const tagId = data.tagId;
                 const tagIndex = data.index;
+                const isNew = isNaN(tagId);
+
+                if (isNew === true) {
+                    this.removeTagData(tagIndex);
+                    return;
+                }
                 let formData = new FormData();
                 formData.append('tagId', tagId);
 
@@ -101,15 +111,19 @@
                         adminRowComponent.setDeleteStatus(true);
                         setTimeout(()=>{
                             if (deleted === true) {
-                                self.tagsProjects.splice(tagIndex, 1);
-                                self.addRemoveTagIndex(tagIndex, false);
+                                // self.tagsProjects.splice(tagIndex, 1);
+                                // self.addRemoveTagIndex(tagIndex, false);
+                                self.removeTagData(tagIndex);
                             }
                             adminRowComponent.setDeleteStatus(false);
                         }, 1000);
-                        console.log(response);
                     }).catch( (error) => {
                     console.log('errors: ', error);
                 });
+            },
+            removeTagData(tagIndex) {
+                this.tagsProjects.splice(tagIndex, 1);
+                this.addRemoveTagIndex(tagIndex, false);
             },
             detachProjectHandler(data) {
                 const self = this;
@@ -135,7 +149,6 @@
                             }
                             adminRowComponent.setDetachStatus(projectId);
                         }, 1000);
-                        console.log(response);
                     }).catch( (error) => {
                     console.log('errors: ', error);
                 });
@@ -144,59 +157,70 @@
                 this.tagsProjects[data.index].tag = data.original;
             },
             isUpdatedHandler(data) {
-                const tagIndex = data.tagIndex;
+                const tagId = data.tagId;
                 const isUpdated = data.isUpdated;
 
-                this.addRemoveTagIndex(tagIndex, isUpdated);
+                this.addRemoveTagIndex(tagId, isUpdated);
             },
-            addRemoveTagIndex(tagIndex, addIndex) {
-                const tagIndexIsPresent = this.updatedTagIndexes.includes(tagIndex);
-                if (addIndex === true && tagIndexIsPresent === false) {
-                    this.updatedTagIndexes.push(tagIndex);
+            addRemoveTagIndex(tagId, isUpdated) {
+                const tagIdIsPresent = this.updatedTagIds.includes(tagId);
+                if (isUpdated === true && tagIdIsPresent === false) {
+                    this.updatedTagIds.push(tagId);
                 }
-                if (addIndex === false && tagIndexIsPresent === true) {
-                    const tagIdIndex = this.updatedTagIndexes.indexOf(tagIndex);
-                    this.updatedTagIndexes.splice(tagIdIndex, 1);
+                if (isUpdated === false && tagIdIsPresent === true) {
+                    const tagIdIndex = this.updatedTagIds.indexOf(tagId);
+                    this.updatedTagIds.splice(tagIdIndex, 1);
                 }
             },
             updateTags() {
-                if (this.updatedTagIndexes.length <= 0) {
+                if (this.updatedTagIds.length <= 0) {
                     return;
                 }
 
                 const self = this;
                 let tagData = [];
 
-                this.updatedTagIndexes.forEach((tagIndex)=>{
+                this.updatedTagIds.forEach((tagId)=>{
+                    const tagIndex = self.getTagIndexByTagId(tagId);
                     let tagPacket = {};
-                    tagPacket.tagId = self.tagsProjects[tagIndex].id;
+                    tagPacket.tagId = tagId;
                     tagPacket.tagName = self.tagsProjects[tagIndex].tag;
                     tagData.push(tagPacket);
                 });
 
                 tagData = JSON.stringify(tagData);
-                console.log(tagData);
 
                 let formData = new FormData();
                 formData.append('tagData', tagData);
 
                 axios.post(self.$options.updateTagEndpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
                     .then((response) => {
-                        console.log(response);
-                        const updated = response.data.updated === 1;
-                        const tagIds = response.data.tagIds;
+                        this.transitionActive = false;
                         self.updating = true;
-                        setTimeout(()=>{
-                            self.updating = false;
-                            if (updated === true) {
-                                self.updateOriginals();
-                                self.updatedTagIndexes = [];
-                                self.updateTagIds(tagIds);
-                            }
-                        }, 1000);
+                        self.processUpdateTags(response).then(()=>{
+                            setTimeout(()=>{
+                                this.transitionActive = true;
+                            }, 3000);
+                        });
                     }).catch( (error) => {
                     console.log('errors: ', error);
                 });
+            },
+            processUpdateTags(response) {
+                const self = this;
+                const updated = response.data.updated === 1;
+                const tagIds = response.data.tagIds;
+                return new Promise((resolve)=>{
+                    setTimeout(()=>{
+                        self.updating = false;
+                        if (updated === true) {
+                            self.updateOriginals();
+                            self.updatedTagIds = [];
+                            self.updateTagIds(tagIds);
+                        }
+                        resolve(true);
+                    }, 1000);
+                })
             },
             showUpdatingStatus() {
                 return this.updating === false ? 'Update Tags' : this.$options.spinner;
@@ -205,7 +229,6 @@
                 this.addProjectsTagId = data.tagId;
                 this.addProjectsTagProjectIds = data.projectIds;
                 this.addProjectsTagName = data.tagName;
-                console.log(data.projectIds);
             },
             retrieveRef(tagId) {
                 return this.$refs['tagRef-'+tagId][0];
@@ -215,7 +238,9 @@
                     this.triggerUpdateOriginal(this.tagsProjects[tagIndex].id);
                     return;
                 }
-                this.updatedTagIndexes.forEach((tagIndex)=>{
+                const self = this;
+                this.updatedTagIds.forEach((tagId)=>{
+                    const tagIndex = self.getTagIndexByTagId(tagId);
                     this.triggerUpdateOriginal(this.tagsProjects[tagIndex].id);
                 });
             },
@@ -240,7 +265,6 @@
                 this.addProjectsTagId = null;
             },
             submitProjectIdsHandler(data) {
-                console.log(data);
                 const self = this;
                 const tagId = data.tagId;
                 const tagIndex = this.getTagIndexByTagId(tagId);
@@ -248,20 +272,35 @@
                 let formData = new FormData();
                 formData.append('tagId', tagId);
                 formData.append('projectIds', projectIds);
-
                 formData.append('tagName', this.addProjectsTagName);
 
                 axios.post(self.$options.editTagProjectsEndpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
                     .then((response) => {
                         this.submittingProjectIds = true;
-                        setTimeout(()=>{
-                            self.updateTagProjects(tagIndex, response.data.projectData);
-                            self.updateOriginals(tagIndex);
-                            self.submittingProjectIds = false;
-                        }, 1000);
-                        console.log(response);
+                        this.transitionActive = false;
+                        this.processSubmitProjectIds(tagId, tagIndex, response).then(()=>{
+                            setTimeout(()=>{
+                                this.transitionActive = true;
+                            }, 1000);
+                        });
                     }).catch( (error) => {
                     console.log('errors: ', error);
+                });
+            },
+            processSubmitProjectIds(tagId, tagIndex, response) {
+
+                const self = this;
+                return new Promise((resolve)=>{
+                    setTimeout(()=>{
+                        let tagIdObject = {};
+                        tagIdObject[tagId] = response.data.tagId;
+
+                        self.updateTagProjects(tagIndex, response.data.projectData);
+                        self.updateOriginals(tagIndex);
+                        self.submittingProjectIds = false;
+                        self.updateTagIds(tagIdObject);
+                        resolve(true);
+                    }, 1000);
                 });
             },
             getTagIndexByTagId(tagId) {

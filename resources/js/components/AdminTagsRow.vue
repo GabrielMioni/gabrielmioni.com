@@ -86,7 +86,7 @@
     import moment from 'moment';
     export default {
         name: "AdminTagsRow",
-        props: ['tag', 'index'],
+        props: ['tag', 'index', 'tagId'],
         model: {
             prop: "tag",
         },
@@ -121,7 +121,7 @@
             },
             checkUpdated() {
                 const isUpdated = this.isUpdated();
-                this.$emit('isUpdated', {'tagIndex': this.index, 'isUpdated': isUpdated});
+                this.$emit('isUpdated', {'tagId': this.tagId, 'isUpdated': isUpdated});
             },
             showButtonStatus(defaultString, projectId = null) {
                 if (projectId === null) {
