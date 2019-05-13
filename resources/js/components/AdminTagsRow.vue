@@ -8,7 +8,7 @@
                     @input="checkUpdated(tag.id)"
                     type="text" class="form-control">
             </td>
-            <td class="tag-created align-middle">{{tag.created | dateFormat }}</td>
+            <td class="tag-created align-middle">{{tag.created_at | dateFormat }}</td>
             <td class="button-container">
                 <button
                     @click="toggleOpen"
