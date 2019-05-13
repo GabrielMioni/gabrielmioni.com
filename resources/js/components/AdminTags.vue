@@ -243,6 +243,7 @@
                 });
             },
             updateTagIds(tagIdsObj) {
+                console.log(tagIdsObj);
                 const idKeys = Object.keys(tagIdsObj);
                 const idValues = Object.values(tagIdsObj);
 
@@ -319,6 +320,7 @@
             newTag() {
                 let tagObj = {};
                 tagObj.id = this.tagsProjects.length + '-new';
+                tagObj.created_at = 'now';
                 tagObj.projects = [];
                 tagObj.tag = '';
 

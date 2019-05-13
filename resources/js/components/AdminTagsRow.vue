@@ -173,6 +173,9 @@
         },
         filters: {
             dateFormat: function (date) {
+                if (date === 'now') {
+                    return '';
+                }
                 return moment(date).format('MMMM Do YYYY, h:mm a');
             }
         },
