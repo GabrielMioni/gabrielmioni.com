@@ -30,7 +30,7 @@
                     :index="index"
                     :tagId="tag.id"
                     :ref="'tagRef-'+tag.id"
-                    :key="index"
+                    :key="'tag-'+index"
                     v-on:undo="undoHandler"
                     v-on:detachProject="detachProjectHandler"
                     v-on:deleteTag="deleteTagHandler"
