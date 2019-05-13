@@ -198,9 +198,7 @@
                         this.transitionActive = false;
                         self.updating = true;
                         self.processUpdateTags(response).then(()=>{
-                            setTimeout(()=>{
-                                this.transitionActive = true;
-                            }, 3000);
+                            this.transitionActive = true;
                         });
                     }).catch( (error) => {
                     console.log('errors: ', error);
@@ -279,9 +277,7 @@
                         this.submittingProjectIds = true;
                         this.transitionActive = false;
                         this.processSubmitProjectIds(tagId, tagIndex, response).then(()=>{
-                            setTimeout(()=>{
-                                this.transitionActive = true;
-                            }, 1000);
+                            this.transitionActive = true;
                         });
                     }).catch( (error) => {
                     console.log('errors: ', error);
