@@ -31,6 +31,7 @@
                         <transition-group name="tagProjects" v-bind:class="'span-transition-group'">
                             <tr
                                 v-for="(project, projectIndex) in tag.projects"
+                                v-bind:class="{'even': projectIndex % 2 !== 0}"
                                 :key="project.id">
                                 <td>{{ project.title }}</td>
                                 <td>{{ project.description }}</td>
