@@ -18,6 +18,7 @@ class CreateProfileTable extends Migration
                 $table->increments('id');
                 $table->string('aboutMe')->nullable()->default(null);
                 $table->string('avatar')->nullable()->default(null);
+                $table->string('hero')->nullable()->default(null);
                 $table->string('github')->nullable()->default(null);
                 $table->string('linkedIn')->nullable()->default(null);
                 $table->string('name')->nullable()->default(null);
