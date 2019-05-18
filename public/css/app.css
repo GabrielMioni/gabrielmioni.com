@@ -11003,14 +11003,14 @@ a.text-dark:focus {
   width: 33.333333333%;
 }
 
-#app .tags-table th .btn,
-#app .tags-table td .btn {
+#app .tags-table th .btn:not(.tags-project-toggle),
+#app .tags-table td .btn:not(.tags-project-toggle) {
   width: 100%;
 }
 
 @media (min-width: 768px) {
-  #app .tags-table th .btn,
-  #app .tags-table td .btn {
+  #app .tags-table th .btn:not(.tags-project-toggle),
+  #app .tags-table td .btn:not(.tags-project-toggle) {
     width: 50%;
   }
 }
@@ -11048,35 +11048,9 @@ a.text-dark:focus {
   overflow-y: scroll;
 }
 
-#app .project-table-container .table th {
-  /*&:first-child,
-  &:last-child {
-    position: relative;
-    padding: 0.75rem 1.5rem;
-    &:after {
-      content: '';
-      height: 104%;
-      width: .75rem;
-      border: 1px solid $body-bg;
-      position: absolute;
-      top: 0;
-      background-color: $body-bg;
-    }
-  }
-  &:first-child {
-    &:after {
-      left: 0;
-    }
-  }
-  &:last-child {
-    &:after {
-      right: 0;
-    }
-  }*/
-}
-
 #app .project-table-container .no-projects {
   font-style: italic;
+  padding: 0.75rem 0;
 }
 
 #app .project-table-container .td-control {
@@ -11101,38 +11075,18 @@ a.text-dark:focus {
   box-shadow: none;
 }
 
+#app .button-container .btn.button-submit {
+  width: 14.0625rem;
+}
+
 #app .tags-project-toggle {
-  height: 4.0625rem;
+  height: 1.875rem;
+  width: 1.875rem;
   position: relative;
-}
-
-#app .tags-project-toggle i {
-  position: absolute;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
-  right: 15%;
-  display: none;
-}
-
-@media (min-width: 1200px) {
-  #app .tags-project-toggle {
-    padding-right: 10%;
-  }
-
-  #app .tags-project-toggle i {
-    display: inline-block;
-  }
-}
-
-@media (min-width: 768px) {
-  #app .tags-project-toggle {
-    height: auto;
-  }
-
-  #app .tags-project-toggle br {
-    display: none;
-  }
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #app .admin-tags-projects {
