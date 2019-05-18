@@ -1,6 +1,12 @@
 <template>
     <div class="profile">
-        <div class="container-fluid front-end-hero mb-3">
+        <div class="profile-hero mb-3">
+            <div
+                v-if="hero !== ''"
+                v-bind:style="{ backgroundImage: 'url(' + heroUrl() + ')' }"
+                class="front-end-hero">
+            </div>
+            <div v-else class="front-end-hero"></div>
             <div class="hero-cta">
                 <div class="row">
                     <div class="col-md-12">
@@ -11,6 +17,10 @@
                 </div>
             </div>
         </div>
+        <input type="file" accept="image/x-png,image/jpg,image/jpeg"
+               v-on:input="updateFile($event, 'hero')"
+               :name="'file'"
+               ref="heroFile" id="profile-hero-uploader" style="display: none">
         <form class="profile-form">
             <div class="row">
                 <div class="col-md-9">
@@ -77,7 +87,7 @@
                             ref="undoImageButton"
                             type="button" class="btn btn-primary mt-3">Undo</button>
                         <input type="file" accept="image/x-png,image/jpg,image/jpeg"
-                               v-on:input="updateFile"
+                               v-on:input="updateFile($event, 'avatar')"
                                :name="'file'"
                                ref="file" id="profile-image-uploader" style="display: none">
                     </div>
@@ -115,15 +125,12 @@
                 name: '',
                 submitting: false,
                 avatar: '',
+                hero: '',
                 avatarOriginal: '',
                 tagLine: ''
             }
         },
         methods: {
-            chooseHero(e) {
-                e.preventDefault();
-                console.log('clicky');
-            },
             submit() {
                 const self = this;
                 let profileData = {};
@@ -158,24 +165,33 @@
                     console.log('errors: ', error);
                 });
             },
-            updateFile(e) {
-                const originalAvatar = this.avatar;
-                console.log(e);
-                let file = e.target.files[0];
-                console.log(file);
-                let file_url;
-                if (typeof file === 'undefined') {
-                    file = '';
-                    file_url = '';
-                } else {
-                    let imgData = {};
-                    imgData.fileObj = file;
-                    imgData.fileUrl = URL.createObjectURL(file);
-                    console.log(imgData);
-                    this.avatar = imgData
-                    this.avatarOriginal = originalAvatar;
+            chooseHero(e) {
+                e.preventDefault();
+                this.$refs.heroFile.click();
+            },
+            heroUrl() {
+                if (typeof this.hero !== 'object') {
+                    return this.hero;
                 }
-                this.$refs.file.value = '';
+                return this.hero.fileUrl;
+            },
+            updateFile(e, imageType) {
+                let file = e.target.files[0];
+                if (typeof file === 'undefined') {
+                    return;
+                }
+                let imgData = {};
+                imgData.fileObj = file;
+                imgData.fileUrl = URL.createObjectURL(file);
+
+                if (imageType === 'avatar') {
+                    this.avatar = imgData;
+                    this.$refs.file.value = '';
+                }
+                if (imageType === 'hero') {
+                    this.hero = imgData;
+                    this.$refs.heroFile.value = '';
+                }
             },
             clickProfileImage() {
                 this.$refs.file.click();
@@ -216,7 +232,7 @@
             },
             undoImage() {
                 this.avatar = this.avatarOriginal;
-                this.avatarOriginal = '';
+                //this.avatarOriginal = '';
             },
             setUrl() {
                 const self = this;
@@ -232,6 +248,9 @@
                         return;
                     }
                     self[property] = dataObj[property];
+                    if (property === 'avatar') {
+                        self.avatarOriginal = dataObj[property];
+                    }
                 }
             });
         },
