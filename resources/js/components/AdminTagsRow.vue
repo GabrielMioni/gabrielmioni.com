@@ -39,8 +39,8 @@
                                     <button
                                         @click="detachProject(project.id, projectIndex)"
                                         :tabindex="setTabIndex()"
-                                        v-html="showButtonStatus('Detach Project', project.id)"
-                                        type="button" class="btn btn-dark">
+                                        v-html='showButtonStatus("<i class=\"fas fa-times\"></i>", project.id)'
+                                        type="button" class="btn btn-danger tags-project-toggle">
                                         <!--Detach Project-->
                                     </button>
                                 </td>
@@ -109,11 +109,7 @@
             },
             showOrHide() {
                 const faClass = this.projectsOpen === false ? 'fa-plus': 'fa-minus';
-                let out = this.projectsOpen === true ? 'Hide ' : 'Show ';
-                out += '<br> Details';
-                out += `<i class="fas ${faClass}"></i>`;
-
-                return out;
+                return `<i class="fas ${faClass}"></i>`;
             },
             isUpdated() {
                 //console.log('trim: ', this.tag.tag);
