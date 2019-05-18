@@ -44,7 +44,7 @@
                         v-bind:class="{'disabled': !projectIdsAreUpdated()}"
                         v-html="showButtonStatus('Update Tagged Projects')"
                         @click="submitProjectIds"
-                        class="btn btn-primary" type="button">
+                        class="btn btn-primary button-submit" type="button">
                         <!--Update Tagged Projects-->
                     </button>
                 </div>

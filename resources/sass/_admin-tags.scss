@@ -17,7 +17,7 @@
     th, td {
       border-top: none;
       width: 33.333333333%;
-      .btn {
+      .btn:not(.tags-project-toggle) {
         width: 100%;
         @media(min-width: map_get($grid-breakpoints,'md')) {
           width: 50%;
@@ -43,40 +43,18 @@
     overflow: hidden;
     transition:max-height 0.3s ease-out;
 
+    .even {
+      background-color: rgba($themeColor5, .4);
+    }
+
     &.open {
       max-height: rem(1500px);
       transition:max-height 0.3s ease-in;
       overflow-y: scroll;
     }
-    .table th {
-      &:first-child,
-      &:last-child {
-        position: relative;
-        padding: 0.75rem 1.5rem;
-        &:after {
-          content: '';
-          height: 104%;
-          width: .75rem;
-          border: 1px solid $body-bg;
-          position: absolute;
-          top: 0;
-          background-color: $body-bg;
-        }
-      }
-      &:first-child {
-        &:after {
-          left: 0;
-        }
-      }
-      &:last-child {
-        &:after {
-          right: 0;
-        }
-      }
-    }
-
     .no-projects {
       font-style: italic;
+      padding: 0.75rem 0;
     }
     .td-control {
       text-align: center;
@@ -98,31 +76,19 @@
         }
       }
     }
+    .btn.button-submit {
+      width: rem(225px);
+    }
   }
   .tags-project-toggle {
-    height: rem(65px);
+    height: rem(30px);
+    width: rem(30px);
     position: relative;
-    i {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      right: 15%;
-      display: none;
-    }
-    @media(min-width: map_get($grid-breakpoints,'xl')) {
-      padding-right: 10%;
-      i {
-        display: inline-block;
-      }
-    }
-    @media(min-width: map_get($grid-breakpoints,'md')) {
-      height: auto;
-      br {
-        display: none;
-      }
-    }
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
-
   .admin-tags-projects {
     position: fixed;
     display: none;
@@ -146,7 +112,6 @@
       position: fixed;
       z-index: 1;
       width: 60%;
-      //height: 600px;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);

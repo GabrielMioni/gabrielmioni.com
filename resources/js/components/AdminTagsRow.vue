@@ -8,7 +8,7 @@
                     @input="checkUpdated(tag.id)"
                     type="text" class="form-control">
             </td>
-            <td class="tag-created align-middle">{{tag.created | dateFormat }}</td>
+            <td class="tag-created align-middle">{{tag.created_at | dateFormat }}</td>
             <td class="button-container">
                 <button
                     @click="toggleOpen"
@@ -31,6 +31,7 @@
                         <transition-group name="tagProjects" v-bind:class="'span-transition-group'">
                             <tr
                                 v-for="(project, projectIndex) in tag.projects"
+                                v-bind:class="{'even': projectIndex % 2 !== 0}"
                                 :key="project.id">
                                 <td>{{ project.title }}</td>
                                 <td>{{ project.description }}</td>
@@ -38,8 +39,8 @@
                                     <button
                                         @click="detachProject(project.id, projectIndex)"
                                         :tabindex="setTabIndex()"
-                                        v-html="showButtonStatus('Detach Project', project.id)"
-                                        type="button" class="btn btn-dark">
+                                        v-html='showButtonStatus("<i class=\"fas fa-times\"></i>", project.id)'
+                                        type="button" class="btn btn-danger tags-project-toggle">
                                         <!--Detach Project-->
                                     </button>
                                 </td>
@@ -108,11 +109,7 @@
             },
             showOrHide() {
                 const faClass = this.projectsOpen === false ? 'fa-plus': 'fa-minus';
-                let out = this.projectsOpen === true ? 'Hide ' : 'Show ';
-                out += '<br> Details';
-                out += `<i class="fas ${faClass}"></i>`;
-
-                return out;
+                return `<i class="fas ${faClass}"></i>`;
             },
             isUpdated() {
                 //console.log('trim: ', this.tag.tag);
@@ -173,6 +170,9 @@
         },
         filters: {
             dateFormat: function (date) {
+                if (date === 'now') {
+                    return '';
+                }
                 return moment(date).format('MMMM Do YYYY, h:mm a');
             }
         },

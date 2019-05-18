@@ -30,7 +30,7 @@
                     :index="index"
                     :tagId="tag.id"
                     :ref="'tagRef-'+tag.id"
-                    :key="index"
+                    :key="'tag-'+index"
                     v-on:undo="undoHandler"
                     v-on:detachProject="detachProjectHandler"
                     v-on:deleteTag="deleteTagHandler"
@@ -198,9 +198,7 @@
                         this.transitionActive = false;
                         self.updating = true;
                         self.processUpdateTags(response).then(()=>{
-                            setTimeout(()=>{
-                                this.transitionActive = true;
-                            }, 3000);
+                            this.transitionActive = true;
                         });
                     }).catch( (error) => {
                     console.log('errors: ', error);
@@ -245,6 +243,7 @@
                 });
             },
             updateTagIds(tagIdsObj) {
+                console.log(tagIdsObj);
                 const idKeys = Object.keys(tagIdsObj);
                 const idValues = Object.values(tagIdsObj);
 
@@ -279,9 +278,7 @@
                         this.submittingProjectIds = true;
                         this.transitionActive = false;
                         this.processSubmitProjectIds(tagId, tagIndex, response).then(()=>{
-                            setTimeout(()=>{
-                                this.transitionActive = true;
-                            }, 1000);
+                            this.transitionActive = true;
                         });
                     }).catch( (error) => {
                     console.log('errors: ', error);
@@ -323,6 +320,7 @@
             newTag() {
                 let tagObj = {};
                 tagObj.id = this.tagsProjects.length + '-new';
+                tagObj.created_at = 'now';
                 tagObj.projects = [];
                 tagObj.tag = '';
 

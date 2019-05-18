@@ -89,7 +89,6 @@ class TagAdminController extends Controller
         $tagName = $tagName === '' ? null : $tagName;
         $submittedProjectIds = json_decode($request->get('projectIds'), true);
 
-        file_put_contents(dirname(__FILE__) . '/log', print_r("TagId: $tagId \n", true), FILE_APPEND);
         $tag = $this->returnOrCreateTag($tagId, $tagName);
 
         if ($tag === false) {
