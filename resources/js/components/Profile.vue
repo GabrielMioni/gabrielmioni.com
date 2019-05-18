@@ -11,7 +11,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <a
-                            @click="chooseHero"
+                            @click="clickHeroImage"
                             href="#">Choose a hero image</a>
                     </div>
                 </div>
@@ -165,10 +165,6 @@
                     console.log('errors: ', error);
                 });
             },
-            chooseHero(e) {
-                e.preventDefault();
-                this.$refs.heroFile.click();
-            },
             heroUrl() {
                 if (typeof this.hero !== 'object') {
                     return this.hero;
@@ -192,6 +188,10 @@
                     this.hero = imgData;
                     this.$refs.heroFile.value = '';
                 }
+            },
+            clickHeroImage(e) {
+                e.preventDefault();
+                this.$refs.heroFile.click();
             },
             clickProfileImage() {
                 this.$refs.file.click();
