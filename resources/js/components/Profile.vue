@@ -1,5 +1,16 @@
 <template>
     <div class="profile">
+        <div class="container-fluid front-end-hero mb-3">
+            <div class="hero-cta">
+                <div class="row">
+                    <div class="col-md-12">
+                        <a
+                            @click="chooseHero"
+                            href="#">Choose a hero image</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <form class="profile-form">
             <div class="row">
                 <div class="col-md-9">
@@ -109,6 +120,10 @@
             }
         },
         methods: {
+            chooseHero(e) {
+                e.preventDefault();
+                console.log('clicky');
+            },
             submit() {
                 const self = this;
                 let profileData = {};
