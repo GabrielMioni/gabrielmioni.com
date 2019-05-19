@@ -11230,6 +11230,7 @@ a.text-dark:focus {
   position: relative;
   color: #FFFFFF;
   font-family: "Roboto", Helvetica, sans-serif;
+  height: 31.25rem;
 }
 
 .profile-hero a,
@@ -11254,7 +11255,6 @@ a.text-dark:focus {
 }
 
 .front-end-hero {
-  height: 31.25rem;
   background-image: url("/background/nature-forest-trees-fog.jpeg");
 }
 

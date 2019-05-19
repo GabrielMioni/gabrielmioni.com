@@ -2,11 +2,9 @@
     <div class="profile">
         <div class="profile-hero mb-3">
             <div
-                v-if="hero !== ''"
                 v-bind:style="{ backgroundImage: 'url(' + heroUrl() + ')' }"
-                class="front-end-hero">
+                class="profile-hero">
             </div>
-            <div v-else class="front-end-hero"></div>
             <div class="hero-cta">
                 <div class="row">
                     <div class="col-md-12">
@@ -185,6 +183,9 @@
             heroUrl() {
                 if (typeof this.hero === 'object') {
                     return this.hero.fileUrl;
+                }
+                if (this.hero.trim() === '') {
+                    return setImageUrl('background', 'nature-forest-trees-fog', 'jpeg');
                 }
                 return setImageUrl('background', this.hero, 'jpg');
             },

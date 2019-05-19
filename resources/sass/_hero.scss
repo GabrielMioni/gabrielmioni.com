@@ -5,6 +5,7 @@
   position: relative;
   color: $themeColor0;
   font-family: $themeFont0;
+  height: rem(500px);
 
   a {
     display: inline-block;
@@ -27,7 +28,6 @@
 }
 
 .front-end-hero {
-  height: rem(500px);
   background-image: url($hero-background);
 
   &:after {
