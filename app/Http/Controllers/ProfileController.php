@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Project;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Profile;
