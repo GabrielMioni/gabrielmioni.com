@@ -130,7 +130,8 @@
                 hero: '',
                 avatarOriginal: '',
                 heroOriginal: '',
-                tagLine: ''
+                tagLine: '',
+                initialized: false
             }
         },
         methods: {
@@ -181,6 +182,9 @@
                 });
             },
             heroUrl() {
+                if (this.initialized === false) {
+                    return '';
+                }
                 if (typeof this.hero === 'object') {
                     return this.hero.fileUrl;
                 }
@@ -264,17 +268,21 @@
         mounted() {
             const self = this;
             callAxios(this.$options.proifleDataEndpoint, (dataObj) => {
-                console.log(dataObj);
-                for (const property in dataObj) {
-                    if (!dataObj.hasOwnProperty(property)) {
-                        return;
-                    }
-                    self[property] = dataObj[property];
+                const keys = Object.keys(dataObj);
+                const values = Object.values(dataObj);
+
+                keys.forEach((property, index)=>{
+                    const value = values[index];
+                    self[property] = value;
 
                     if (['avatar','hero'].indexOf(property) !== -1) {
-                        self[property + 'Original'] = dataObj[property];
+                        self[property + 'Original'] = value;
                     }
-                }
+
+                    if (index+1 === keys.length) {
+                        self.initialized = true;
+                    }
+                });
             });
         },
         created() {
