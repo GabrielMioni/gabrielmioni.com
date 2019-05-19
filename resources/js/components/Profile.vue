@@ -147,7 +147,10 @@
                 formData.append('profileData', JSON.stringify(profileData));
 
                 if (typeof this.avatar.fileObj === 'object') {
-                    formData.append('file', this.avatar.fileObj);
+                    formData.append('file[0]', this.avatar.fileObj);
+                }
+                if (typeof this.hero.fileObj === 'object') {
+                    formData.append('file[1]', this.hero.fileObj);
                 }
 
                 this.submitting = true;
