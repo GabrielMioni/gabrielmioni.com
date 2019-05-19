@@ -159,9 +159,18 @@
                     .then((response) => {
                         console.log(response);
                         setTimeout(()=>{
-                            const imageData = response.data.image;
+                            /*const imageData = response.data.image;
                             if (imageData !== false) {
                                 self.avatar = imageData;
+                            }*/
+                            const newAvatar = response.data.avatar;
+                            const newHero   = response.data.hero;
+
+                            if (newAvatar !== null) {
+                                self.avatar = newAvatar;
+                            }
+                            if (newHero !== null) {
+                                self.hero = newHero;
                             }
                             self.submitting = false;
                         }, 1000);
