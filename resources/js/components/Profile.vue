@@ -16,6 +16,10 @@
                     </div>
                 </div>
             </div>
+            <a
+                v-if="typeof hero === 'object'"
+                @click="undoHero"
+                class="undo-hero" href="#">Undo</a>
         </div>
         <input type="file" accept="image/x-png,image/jpg,image/jpeg"
                v-on:input="updateFile($event, 'hero')"
@@ -246,6 +250,10 @@
             undoImage() {
                 this.avatar = this.avatarOriginal;
                 //this.avatarOriginal = '';
+            },
+            undoHero(e) {
+                e.preventDefault();
+                this.hero = this.heroOriginal;
             },
             setUrl() {
                 const self = this;

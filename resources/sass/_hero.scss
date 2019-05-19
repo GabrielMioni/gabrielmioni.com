@@ -5,35 +5,6 @@
   position: relative;
   color: $themeColor0;
   font-family: $themeFont0;
-}
-
-.front-end-hero {
-  height: rem(500px);
-  background-image: url($hero-background);
-
-  &:after {
-    content: '';
-    height: 100%;
-    width: 100%;
-    background-color: rgba($black, .3);
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-}
-
-.hero-cta {
-  @extend .center-vertical;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  z-index: 1;
-
-  h2 {
-    color: inherit;
-    font-family: inherit;
-    margin-bottom: rem(20px);
-  }
 
   a {
     display: inline-block;
@@ -52,6 +23,41 @@
     &:hover {
       opacity: .7;
     }
+  }
+}
+
+.front-end-hero {
+  height: rem(500px);
+  background-image: url($hero-background);
+
+  &:after {
+    content: '';
+    height: 100%;
+    width: 100%;
+    background-color: rgba($black, .3);
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+.undo-hero {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+}
+
+.hero-cta {
+  @extend .center-vertical;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 1;
+
+  h2 {
+    color: inherit;
+    font-family: inherit;
+    margin-bottom: rem(20px);
   }
 
   @media(min-width: map_get($grid-breakpoints,'sm')) {

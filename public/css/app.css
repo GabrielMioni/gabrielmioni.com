@@ -11232,6 +11232,27 @@ a.text-dark:focus {
   font-family: "Roboto", Helvetica, sans-serif;
 }
 
+.profile-hero a,
+.front-end-hero a {
+  display: inline-block;
+  color: inherit;
+  text-decoration: none;
+  font-family: inherit;
+  font-weight: 100;
+  border: 0.125rem solid #FFFFFF;
+  padding: 10px 20px;
+  font-size: 1.25rem;
+  margin-bottom: 1.25rem;
+  width: 9.375rem;
+  text-align: center;
+  transition: opacity 0.5s;
+}
+
+.profile-hero a:hover,
+.front-end-hero a:hover {
+  opacity: 0.7;
+}
+
 .front-end-hero {
   height: 31.25rem;
   background-image: url("/background/nature-forest-trees-fog.jpeg");
@@ -11247,6 +11268,12 @@ a.text-dark:focus {
   left: 0;
 }
 
+.undo-hero {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+}
+
 .hero-cta {
   left: 0;
   width: 100%;
@@ -11258,25 +11285,6 @@ a.text-dark:focus {
   color: inherit;
   font-family: inherit;
   margin-bottom: 1.25rem;
-}
-
-.hero-cta a {
-  display: inline-block;
-  color: inherit;
-  text-decoration: none;
-  font-family: inherit;
-  font-weight: 100;
-  border: 0.125rem solid #FFFFFF;
-  padding: 10px 20px;
-  font-size: 1.25rem;
-  margin-bottom: 1.25rem;
-  width: 9.375rem;
-  text-align: center;
-  transition: opacity 0.5s;
-}
-
-.hero-cta a:hover {
-  opacity: 0.7;
 }
 
 @media (min-width: 576px) {
