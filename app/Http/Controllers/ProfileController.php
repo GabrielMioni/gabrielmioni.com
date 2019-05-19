@@ -15,7 +15,7 @@ class ProfileController extends Controller
         return view('profile');
     }
     public function getPrivateProfileData($returnQueryObject = false) {
-        $publicProfileData = Profile::select('aboutMe', 'avatar', 'github', 'linkedIn', 'name', 'tagLine')->where('id', '>', 0)->first();
+        $publicProfileData = Profile::select('aboutMe', 'avatar', 'hero', 'github', 'linkedIn', 'name', 'tagLine')->where('id', '>', 0)->first();
 
         if ($publicProfileData === null) {
             return response()->json([
