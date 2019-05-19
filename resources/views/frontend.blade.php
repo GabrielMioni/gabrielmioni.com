@@ -8,11 +8,21 @@
                 background-image: url({{ bgImage($avatar) }});
             }
         @endif
+        @if (isset($hero) && trim($hero) !== '')
+            #app .hero {
+            background-image: url({{ bgImage($hero, 'hero') }});
+        }
+        @endif
+        @if (isset($hero) && trim($hero) === '')
+            #app .hero {
+            background-image: url({{ '/background/nature-forest-trees-fog.jpeg' }});
+        }
+        @endif
     </style>
 @stop
 
 @section('content')
-    <div class="container-fluid front-end-hero">
+    <div class="container-fluid hero">
         <div class="hero-cta">
             @if (isset($tagLine) && trim($tagLine) !== '')
                 <h2>
