@@ -1,10 +1,8 @@
 <template>
     <div class="profile">
-        <div class="profile-hero mb-3">
-            <div
-                v-bind:style="{ backgroundImage: 'url(' + heroUrl() + ')' }"
-                class="hero">
-            </div>
+        <div
+            v-bind:style="{ backgroundImage: 'url(' + heroUrl() + ')' }"
+            class="hero mb-3">
             <div class="hero-cta">
                 <div class="row">
                     <div class="col-md-12">
