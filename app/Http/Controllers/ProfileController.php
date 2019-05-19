@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Project;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Profile;
@@ -46,26 +47,41 @@ class ProfileController extends Controller
             if ($updated === false) $updated = true;
         }
 
-        $profileAvatar = $request->file('file');
-        $newImage = false;
+        $files = $request->file('file');
+        $profileAvatar = isset($files[0]) ? $files[0] : null;
+        $profileHero   = isset($files[1]) ? $files[1] : null;
 
-        if ($profileAvatar !== null) {
-            $oldImageName = $profile->avatar;
-            $newImageData = $this->processImage('images', $oldImageName, 'jpg', $profileAvatar);
+        $imageNames = [];
+        $imageNames['avatar'] = $this->storeImage($profile, $profileAvatar, 'avatar');
+        $imageNames['hero']   = $this->storeImage($profile, $profileHero, 'hero', false);
 
-            if (is_array($newImageData)) {
-                $newImage = $newImageData['fileName'];
-                $profile->avatar = $newImageData['fileName'];
-
-                if ($updated === false) $updated = true;
+        foreach ($imageNames as $type => $name) {
+            if ($name === null) {
+                continue;
             }
+            $profile->$type = $name;
+            if ($updated === false) $updated = true;
         }
 
         if ($updated === true) {
             $profile->save();
         }
 
-        return ['image'=>$newImage];
+        return $imageNames;
+    }
+
+    protected function storeImage(Profile $profile, $image, $imageType, $resize = false) {
+        if ($image !== null) {
+            $oldImageName = $profile->$imageType;
+            $path = in_array($imageType, ['avatar', 'hero']) ? ($path = $imageType === 'avatar' ? 'images' : 'background') : null;
+            $newImageData = $this->processImage($path, $oldImageName, 'jpg', $image,  $resize);
+
+            if (!is_array($newImageData)) {
+                return false;
+            }
+
+            return $newImageData['fileName'];
+        }
     }
 
     public function profileImage(Request $request) {
