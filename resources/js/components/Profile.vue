@@ -179,10 +179,10 @@
                 });
             },
             heroUrl() {
-                if (typeof this.hero !== 'object') {
-                    return this.hero;
+                if (typeof this.hero === 'object') {
+                    return this.hero.fileUrl;
                 }
-                return this.hero.fileUrl;
+                return setImageUrl('background', this.hero, 'jpg');
             },
             updateFile(e, imageType) {
                 let file = e.target.files[0];
