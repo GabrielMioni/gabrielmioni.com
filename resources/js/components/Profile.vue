@@ -3,7 +3,7 @@
         <div class="profile-hero mb-3">
             <div
                 v-bind:style="{ backgroundImage: 'url(' + heroUrl() + ')' }"
-                class="profile-hero">
+                class="hero">
             </div>
             <div class="hero-cta">
                 <div class="row">
