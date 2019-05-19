@@ -43,7 +43,7 @@ trait saveImageTrait {
         return false;
     }
 
-    protected function saveImage(UploadedFile $image, $path = null)
+    protected function saveImage(UploadedFile $image, $path = null, $resize = false)
     {
         $path = $path === null ? 'project-images/' : trim($path);
 
@@ -62,13 +62,14 @@ trait saveImageTrait {
 
         $img = Image::make($tempPath);
 
-        if ($originalWidth > $originalHeight)
+        if (($originalWidth > $originalHeight) && $resize === true)
         {
             $img->resize(null, 400, function ($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
             });
-        } else {
+        }
+        elseif ($resize === true) {
             $img->resize( 400, null, function ($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
