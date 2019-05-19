@@ -11247,6 +11247,7 @@ a.text-dark:focus {
   width: 9.375rem;
   text-align: center;
   transition: opacity 0.5s;
+  z-index: 1;
 }
 
 .profile-hero a:hover,
@@ -11254,10 +11255,7 @@ a.text-dark:focus {
   opacity: 0.7;
 }
 
-.front-end-hero {
-  background-image: url("/background/nature-forest-trees-fog.jpeg");
-}
-
+.profile-hero:after,
 .front-end-hero:after {
   content: "";
   height: 100%;
@@ -11266,6 +11264,10 @@ a.text-dark:focus {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.front-end-hero {
+  background-image: url("/background/nature-forest-trees-fog.jpeg");
 }
 
 .undo-hero {

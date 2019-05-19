@@ -20,25 +20,26 @@
     width: rem(150px);
     text-align: center;
     transition: opacity .5s;
+    z-index: 1;
 
     &:hover {
       opacity: .7;
     }
   }
-}
-
-.front-end-hero {
-  background-image: url($hero-background);
 
   &:after {
     content: '';
     height: 100%;
     width: 100%;
-    background-color: rgba($black, .3);
+    background-color: rgba($black, .2);
     position: absolute;
     top: 0;
     left: 0;
   }
+}
+
+.front-end-hero {
+  background-image: url($hero-background);
 }
 
 .undo-hero {
