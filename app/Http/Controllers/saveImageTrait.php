@@ -7,21 +7,23 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 trait saveImageTrait {
 
-    protected function processImage($path, $oldImageName, $oldImageExt, UploadedFile $newFile) {
+    protected function processImage($path, $oldImageName, $oldImageExt, UploadedFile $newFile, $resize = true)
+    {
         $oldImagePath = $this->getImagePath($path, $oldImageName, $oldImageExt);
 
         if ($oldImagePath !== false) {
             $this->deleteImage($oldImagePath);
         }
 
-        $imageData = $this->saveImage($newFile, $path);
+        $imageData = $this->saveImage($newFile, $path, $resize);
 
         if ($imageData === false) return false;
 
         return ['fileName' => $imageData['file_name'], 'fileExt'=>$imageData['extension']];
     }
 
-    protected function deleteImage($imagePath) {
+    protected function deleteImage($imagePath)
+    {
         if (file_exists($imagePath)) {
             unlink($imagePath);
             return true;
@@ -29,7 +31,8 @@ trait saveImageTrait {
         return false;
     }
 
-    protected function getImagePath($path, $imageName, $imageExt) {
+    protected function getImagePath($path, $imageName, $imageExt)
+    {
         if ($imageName === '' || $imageExt === '') {
             return false;
         }
@@ -43,7 +46,7 @@ trait saveImageTrait {
         return false;
     }
 
-    protected function saveImage(UploadedFile $image, $path = null)
+    protected function saveImage(UploadedFile $image, $path = null, $resize = true)
     {
         $path = $path === null ? 'project-images/' : trim($path);
 
@@ -62,17 +65,19 @@ trait saveImageTrait {
 
         $img = Image::make($tempPath);
 
-        if ($originalWidth > $originalHeight)
-        {
-            $img->resize(null, 400, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-        } else {
-            $img->resize( 400, null, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
+        if ($resize === true) {
+            if ($originalWidth > $originalHeight) {
+                $img->resize(null, 400, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+            }
+            else {
+                $img->resize( 400, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+            }
         }
 
         $img->encode('jpg', 75)->save($path);

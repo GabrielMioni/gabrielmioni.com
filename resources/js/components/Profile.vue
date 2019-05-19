@@ -1,5 +1,26 @@
 <template>
     <div class="profile">
+        <div
+            v-bind:style="{ backgroundImage: 'url(' + heroUrl() + ')' }"
+            class="hero mb-3">
+            <div class="hero-cta">
+                <div class="row">
+                    <div class="col-md-12">
+                        <a
+                            @click="clickHeroImage"
+                            href="#">Choose a hero image</a>
+                    </div>
+                </div>
+            </div>
+            <a
+                v-if="typeof hero === 'object'"
+                @click="undoHero"
+                class="undo-hero" href="#">Undo</a>
+        </div>
+        <input type="file" accept="image/x-png,image/jpg,image/jpeg"
+               v-on:input="updateFile($event, 'hero')"
+               :name="'file'"
+               ref="heroFile" id="profile-hero-uploader" style="display: none">
         <form class="profile-form">
             <div class="row">
                 <div class="col-md-9">
@@ -66,7 +87,7 @@
                             ref="undoImageButton"
                             type="button" class="btn btn-primary mt-3">Undo</button>
                         <input type="file" accept="image/x-png,image/jpg,image/jpeg"
-                               v-on:input="updateFile"
+                               v-on:input="updateFile($event, 'avatar')"
                                :name="'file'"
                                ref="file" id="profile-image-uploader" style="display: none">
                     </div>
@@ -104,8 +125,11 @@
                 name: '',
                 submitting: false,
                 avatar: '',
+                hero: '',
                 avatarOriginal: '',
-                tagLine: ''
+                heroOriginal: '',
+                tagLine: '',
+                initialized: false
             }
         },
         methods: {
@@ -123,8 +147,11 @@
                 let formData = new FormData();
                 formData.append('profileData', JSON.stringify(profileData));
 
-                if (this.avatar !== null) {
-                    formData.append('file', this.avatar.fileObj);
+                if (typeof this.avatar.fileObj === 'object') {
+                    formData.append('file[0]', this.avatar.fileObj);
+                }
+                if (typeof this.hero.fileObj === 'object') {
+                    formData.append('file[1]', this.hero.fileObj);
                 }
 
                 this.submitting = true;
@@ -133,9 +160,18 @@
                     .then((response) => {
                         console.log(response);
                         setTimeout(()=>{
-                            const imageData = response.data.image;
+                            /*const imageData = response.data.image;
                             if (imageData !== false) {
                                 self.avatar = imageData;
+                            }*/
+                            const newAvatar = response.data.avatar;
+                            const newHero   = response.data.hero;
+
+                            if (newAvatar !== null) {
+                                self.avatar = newAvatar;
+                            }
+                            if (newHero !== null) {
+                                self.hero = newHero;
                             }
                             self.submitting = false;
                         }, 1000);
@@ -143,24 +179,39 @@
                     console.log('errors: ', error);
                 });
             },
-            updateFile(e) {
-                const originalAvatar = this.avatar;
-                console.log(e);
-                let file = e.target.files[0];
-                console.log(file);
-                let file_url;
-                if (typeof file === 'undefined') {
-                    file = '';
-                    file_url = '';
-                } else {
-                    let imgData = {};
-                    imgData.fileObj = file;
-                    imgData.fileUrl = URL.createObjectURL(file);
-                    console.log(imgData);
-                    this.avatar = imgData
-                    this.avatarOriginal = originalAvatar;
+            heroUrl() {
+                if (this.initialized === false) {
+                    return '';
                 }
-                this.$refs.file.value = '';
+                if (typeof this.hero === 'object') {
+                    return this.hero.fileUrl;
+                }
+                if (this.hero.trim() === '') {
+                    return setImageUrl('background', 'nature-forest-trees-fog', 'jpeg');
+                }
+                return setImageUrl('background', this.hero, 'jpg');
+            },
+            updateFile(e, imageType) {
+                let file = e.target.files[0];
+                if (typeof file === 'undefined') {
+                    return;
+                }
+                let imgData = {};
+                imgData.fileObj = file;
+                imgData.fileUrl = URL.createObjectURL(file);
+
+                if (imageType === 'avatar') {
+                    this.avatar = imgData;
+                    this.$refs.file.value = '';
+                }
+                if (imageType === 'hero') {
+                    this.hero = imgData;
+                    this.$refs.heroFile.value = '';
+                }
+            },
+            clickHeroImage(e) {
+                e.preventDefault();
+                this.$refs.heroFile.click();
             },
             clickProfileImage() {
                 this.$refs.file.click();
@@ -201,7 +252,11 @@
             },
             undoImage() {
                 this.avatar = this.avatarOriginal;
-                this.avatarOriginal = '';
+                //this.avatarOriginal = '';
+            },
+            undoHero(e) {
+                e.preventDefault();
+                this.hero = this.heroOriginal;
             },
             setUrl() {
                 const self = this;
@@ -211,13 +266,21 @@
         mounted() {
             const self = this;
             callAxios(this.$options.proifleDataEndpoint, (dataObj) => {
-                console.log(dataObj);
-                for (const property in dataObj) {
-                    if (!dataObj.hasOwnProperty(property)) {
-                        return;
+                const keys = Object.keys(dataObj);
+                const values = Object.values(dataObj);
+
+                keys.forEach((property, index)=>{
+                    const value = values[index];
+                    self[property] = value;
+
+                    if (['avatar','hero'].indexOf(property) !== -1) {
+                        self[property + 'Original'] = value;
                     }
-                    self[property] = dataObj[property];
-                }
+
+                    if (index+1 === keys.length) {
+                        self.initialized = true;
+                    }
+                });
             });
         },
         created() {

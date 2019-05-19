@@ -23,6 +23,9 @@ function setBladeClass(bool $conditional, $classOne, $classTwo) {
     return 'class='.$out;
 }
 
-function bgImage($avatar) {
-    return '/images/' . $avatar . '.jpg';
+function bgImage($image, $type = 'avatar') {
+    if ($type === 'hero') {
+        return '/background/' . $image . '.jpg';
+    }
+    return '/images/' . $image . '.jpg';
 }
