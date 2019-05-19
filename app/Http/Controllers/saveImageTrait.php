@@ -7,7 +7,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 trait saveImageTrait {
 
-    protected function processImage($path, $oldImageName, $oldImageExt, UploadedFile $newFile, $resize = false) {
+    protected function processImage($path, $oldImageName, $oldImageExt, UploadedFile $newFile, $resize = true) {
         $oldImagePath = $this->getImagePath($path, $oldImageName, $oldImageExt);
 
         if ($oldImagePath !== false) {
@@ -43,7 +43,7 @@ trait saveImageTrait {
         return false;
     }
 
-    protected function saveImage(UploadedFile $image, $path = null, $resize = false)
+    protected function saveImage(UploadedFile $image, $path = null, $resize = true)
     {
         $path = $path === null ? 'project-images/' : trim($path);
 
