@@ -7,14 +7,14 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 trait saveImageTrait {
 
-    protected function processImage($path, $oldImageName, $oldImageExt, UploadedFile $newFile) {
+    protected function processImage($path, $oldImageName, $oldImageExt, UploadedFile $newFile, $resize = false) {
         $oldImagePath = $this->getImagePath($path, $oldImageName, $oldImageExt);
 
         if ($oldImagePath !== false) {
             $this->deleteImage($oldImagePath);
         }
 
-        $imageData = $this->saveImage($newFile, $path);
+        $imageData = $this->saveImage($newFile, $path, $resize);
 
         if ($imageData === false) return false;
 
