@@ -127,6 +127,7 @@
                 avatar: '',
                 hero: '',
                 avatarOriginal: '',
+                heroOriginal: '',
                 tagLine: ''
             }
         },
@@ -145,7 +146,7 @@
                 let formData = new FormData();
                 formData.append('profileData', JSON.stringify(profileData));
 
-                if (this.avatar !== null) {
+                if (typeof this.avatar.fileObj === 'object') {
                     formData.append('file', this.avatar.fileObj);
                 }
 
@@ -249,6 +250,9 @@
                     }
                     self[property] = dataObj[property];
                     if (property === 'avatar') {
+                        self.avatarOriginal = dataObj[property];
+                    }
+                    if (property === 'hero') {
                         self.avatarOriginal = dataObj[property];
                     }
                 }
