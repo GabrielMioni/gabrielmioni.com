@@ -261,11 +261,9 @@
                         return;
                     }
                     self[property] = dataObj[property];
-                    if (property === 'avatar') {
-                        self.avatarOriginal = dataObj[property];
-                    }
-                    if (property === 'hero') {
-                        self.avatarOriginal = dataObj[property];
+
+                    if (['avatar','hero'].indexOf(property) !== -1) {
+                        self[property + 'Original'] = dataObj[property];
                     }
                 }
             });
