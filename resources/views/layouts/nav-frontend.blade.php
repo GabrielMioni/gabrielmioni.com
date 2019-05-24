@@ -12,9 +12,9 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
-                    <li>Projects</li>
-                    <li>About</li>
-                    <li>Contact</li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#footer">About</a></li>
+                    <li><a href="#footer">Contact</a></li>
                 </ul>
             </div>
         </div>

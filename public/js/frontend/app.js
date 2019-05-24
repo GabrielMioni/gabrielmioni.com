@@ -264,7 +264,42 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   /***/
   function resourcesJsFrontendAppJs(module, exports) {
-    console.log('dust my wets');
+    var navlinks = document.querySelectorAll('#navbarSupportedContent a');
+    var scrollLinks = {};
+
+    window.onload = function () {
+      var _loop = function _loop(j) {
+        var navlink = navlinks[j];
+        var href = navlink.href.split('#')[1];
+
+        if (typeof href === 'undefined') {
+          return "continue";
+        }
+
+        var targetElement = document.getElementById(href);
+        scrollLinks[href] = targetElement.getBoundingClientRect().top;
+        navlink.addEventListener('click', function (e) {
+          e.preventDefault();
+          console.log(href, scrollLinks[href]);
+        }); // scrollLinks[href] = document.getElementById(href).offsetTop;
+        // console.log('Real Element: ', document.getElementById(href));
+        // console.log()
+        // console.log(href);
+
+        /*navlinks[j].addEventListener('click', (e)=>{
+          e.preventDefault();
+          const href = e.target.href.split('#')[1];
+        });*/
+      };
+
+      for (var j = 0; j < navlinks.length; ++j) {
+        var _ret = _loop(j);
+
+        if (_ret === "continue") continue;
+      }
+    };
+
+    console.log(scrollLinks);
     /***/
   },
 
