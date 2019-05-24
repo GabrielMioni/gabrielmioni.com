@@ -2,6 +2,7 @@
 @include('layouts.nav-frontend')
 
 @section('page-style')
+    <script src="{{ asset('js/frontend/app.js') }}" defer></script>
     <style>
         @if (isset($avatar) && trim($avatar) !== '')
             #app .about .about-content .about-image {
