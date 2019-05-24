@@ -1,8 +1,7 @@
-const navlinks = document.querySelectorAll('#navbarSupportedContent a');
-
-let scrollLinks = {};
-
 window.onload = () => {
+  const navlinks = document.querySelectorAll('#navbarSupportedContent a');
+
+  let scrollLinks = {};
 
   for (let j = 0 ; j < navlinks.length ; ++j) {
     const navlink = navlinks[j];
@@ -17,7 +16,6 @@ window.onload = () => {
 
     navlink.addEventListener('click', (e)=>{
       e.preventDefault();
-      console.log(href, scrollLinks[href]);
 
       window.scrollTo({
         top: scrollLinks[href],

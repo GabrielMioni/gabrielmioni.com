@@ -264,10 +264,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   /***/
   function resourcesJsFrontendAppJs(module, exports) {
-    var navlinks = document.querySelectorAll('#navbarSupportedContent a');
-    var scrollLinks = {};
-
     window.onload = function () {
+      var navlinks = document.querySelectorAll('#navbarSupportedContent a');
+      var scrollLinks = {};
+
       var _loop = function _loop(j) {
         var navlink = navlinks[j];
         var href = navlink.href.split('#')[1];
@@ -294,9 +294,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (_ret === "continue") continue;
       }
     };
-
-    console.log(scrollLinks);
     /***/
+
   },
 
   /***/
