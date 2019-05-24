@@ -18,11 +18,11 @@ window.onload = () => {
     navlink.addEventListener('click', (e)=>{
       e.preventDefault();
       console.log(href, scrollLinks[href]);
+
+      window.scrollTo({
+        top: scrollLinks[href],
+        behavior: 'smooth'
+      });
     });
-
   }
-
-
 };
-
-console.log(scrollLinks);

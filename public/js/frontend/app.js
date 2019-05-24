@@ -281,15 +281,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         navlink.addEventListener('click', function (e) {
           e.preventDefault();
           console.log(href, scrollLinks[href]);
-        }); // scrollLinks[href] = document.getElementById(href).offsetTop;
-        // console.log('Real Element: ', document.getElementById(href));
-        // console.log()
-        // console.log(href);
-
-        /*navlinks[j].addEventListener('click', (e)=>{
-          e.preventDefault();
-          const href = e.target.href.split('#')[1];
-        });*/
+          window.scrollTo({
+            top: scrollLinks[href],
+            behavior: 'smooth'
+          });
+        });
       };
 
       for (var j = 0; j < navlinks.length; ++j) {
