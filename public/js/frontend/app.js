@@ -639,11 +639,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       smoothscroll_polyfill__WEBPACK_IMPORTED_MODULE_0___default.a.polyfill();
     }
 
-    var navBar = document.getElementsByClassName('navbar')[0];
-    var navLinks = document.querySelectorAll('#navbarSupportedContent a');
-    var heroLinks = document.querySelectorAll('.hero a');
-
-    var navClick = function navClick(e) {
+    var navClick = function navClick(e, navBar) {
       e.preventDefault();
       var href = e.target.href.split('#')[1];
 
@@ -665,34 +661,37 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
     };
 
-    var addNavClickEvent = function addNavClickEvent(htmlCollection) {
-      for (var j = 0; j < htmlCollection.length; ++j) {
-        var link = htmlCollection[j];
+    var addNavClickEvent = function addNavClickEvent(linkElements, navBar) {
+      for (var j = 0; j < linkElements.length; ++j) {
+        var link = linkElements[j];
         link.addEventListener('click', function (e) {
-          navClick(e);
+          navClick(e, navBar);
         });
       }
     };
 
     window.onload = function () {
-      addNavClickEvent(navLinks);
-      addNavClickEvent(heroLinks);
+      var navBar = document.getElementsByClassName('navbar')[0];
+      var navLinks = document.querySelectorAll('#navbarSupportedContent a');
+      var heroLinks = document.querySelectorAll('.hero a');
+      addNavClickEvent(navLinks, navBar);
+      addNavClickEvent(heroLinks, navBar);
+      var homeLink = document.getElementsByClassName('home-link')[0];
+      document.addEventListener('scroll', function () {
+        var displaySet = homeLink.classList.contains('display');
+        var scrollPos = window.scrollY;
+
+        if (!displaySet && scrollPos > 300) {
+          homeLink.classList.add('display');
+        }
+
+        if (displaySet && scrollPos <= 300) {
+          homeLink.classList.remove('display');
+        }
+      });
     };
-
-    var homeLink = document.getElementsByClassName('home-link')[0];
-    document.addEventListener('scroll', function () {
-      var displaySet = homeLink.classList.contains('display');
-      var scrollPos = window.scrollY;
-
-      if (!displaySet && scrollPos > 300) {
-        homeLink.classList.add('display');
-      }
-
-      if (displaySet && scrollPos <= 300) {
-        homeLink.classList.remove('display');
-      }
-    });
     /***/
+
   },
 
   /***/

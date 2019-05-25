@@ -4,11 +4,7 @@ if ('scrollBehavior' in document.documentElement.style !== true) {
   smoothscroll.polyfill();
 }
 
-const navBar = document.getElementsByClassName('navbar')[0];
-const navLinks = document.querySelectorAll('#navbarSupportedContent a');
-const heroLinks = document.querySelectorAll('.hero a');
-
-const navClick = (e) => {
+const navClick = (e, navBar) => {
   e.preventDefault();
   const href = e.target.href.split('#')[1];
   if (typeof href === 'undefined') {
@@ -29,30 +25,34 @@ const navClick = (e) => {
   });
 };
 
-const addNavClickEvent = (linkElements) => {
+const addNavClickEvent = (linkElements, navBar) => {
   for (let j = 0 ; j < linkElements.length ; ++j) {
     const link = linkElements[j];
 
     link.addEventListener('click', (e)=>{
-      navClick(e);
+      navClick(e, navBar);
     });
   }
 };
 
 window.onload = () => {
-  addNavClickEvent(navLinks);
-  addNavClickEvent(heroLinks);
+  const navBar = document.getElementsByClassName('navbar')[0];
+  const navLinks = document.querySelectorAll('#navbarSupportedContent a');
+  const heroLinks = document.querySelectorAll('.hero a');
+
+  addNavClickEvent(navLinks, navBar);
+  addNavClickEvent(heroLinks, navBar);
+
+  const homeLink = document.getElementsByClassName('home-link')[0];
+
+  document.addEventListener('scroll', () => {
+    const displaySet = homeLink.classList.contains('display');
+    const scrollPos  = window.scrollY;
+    if (!displaySet && scrollPos > 300) {
+      homeLink.classList.add('display');
+    }
+    if (displaySet && scrollPos <= 300) {
+      homeLink.classList.remove('display');
+    }
+  });
 };
-
-const homeLink = document.getElementsByClassName('home-link')[0];
-
-document.addEventListener('scroll', () => {
-  const displaySet = homeLink.classList.contains('display');
-  const scrollPos  = window.scrollY;
-  if (!displaySet && scrollPos > 300) {
-    homeLink.classList.add('display');
-  }
-  if (displaySet && scrollPos <= 300) {
-    homeLink.classList.remove('display');
-  }
-});
