@@ -11223,6 +11223,10 @@ a.text-dark:focus {
   border-radius: 50%;
 }
 
+.navbar-frontend .home-link.d-md-block {
+  display: flex;
+}
+
 .navbar-frontend .home-link.display {
   visibility: visible;
   opacity: 0.5;

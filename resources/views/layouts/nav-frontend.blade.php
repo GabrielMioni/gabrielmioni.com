@@ -16,7 +16,7 @@
                     <li><a href="#footer">About</a></li>
                     <li><a href="#footer">Contact</a></li>
                 </ul>
-                <a class="home-link d-none d-md-block" href="#"><i class="fas fa-arrow-alt-circle-up"></i></a>
+                <a class="home-link d-none d-md-flex" href="#"><i class="fas fa-arrow-alt-circle-up"></i></a>
             </div>
         </div>
     </nav>
