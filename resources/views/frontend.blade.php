@@ -32,10 +32,10 @@
             @endif
             <div class="row">
                 <div class="col-sm-6">
-                    <a href="">My Projects</a>
+                    <a href="#projects">My Projects</a>
                 </div>
                 <div class="col-sm-6">
-                    <a href="">Contact Me</a>
+                    <a href="#footer">Contact Me</a>
                 </div>
             </div>
         </div>
