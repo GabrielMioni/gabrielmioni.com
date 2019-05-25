@@ -22,7 +22,7 @@ window.onload = () => {
 
       const targetElement = document.getElementById(href);
       const navBarHeight = typeof navBar !== 'undefined' ? navBar.offsetHeight : 0;
-      const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - navBarHeight;
+      const targetPosition = targetElement === null ? 0 : targetElement.getBoundingClientRect().top + window.scrollY - navBarHeight;
 
       if (typeof targetElement === 'undefined') {
         return;
@@ -35,3 +35,16 @@ window.onload = () => {
     });
   }
 };
+
+const homeLink = document.getElementsByClassName('home-link')[0];
+
+document.addEventListener('scroll', () => {
+  const displaySet = homeLink.classList.contains('display');
+  const scrollPos  = window.scrollY;
+  if (!displaySet && scrollPos > 300) {
+    homeLink.classList.add('display');
+  }
+  if (displaySet && scrollPos <= 300) {
+    homeLink.classList.remove('display');
+  }
+});

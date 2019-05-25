@@ -655,7 +655,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           e.preventDefault();
           var targetElement = document.getElementById(href);
           var navBarHeight = typeof navBar !== 'undefined' ? navBar.offsetHeight : 0;
-          var targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - navBarHeight;
+          var targetPosition = targetElement === null ? 0 : targetElement.getBoundingClientRect().top + window.scrollY - navBarHeight;
 
           if (typeof targetElement === 'undefined') {
             return;
@@ -674,8 +674,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (_ret === "continue") continue;
       }
     };
-    /***/
 
+    var homeLink = document.getElementsByClassName('home-link')[0];
+    document.addEventListener('scroll', function () {
+      var displaySet = homeLink.classList.contains('display');
+      var scrollPos = window.scrollY;
+
+      if (!displaySet && scrollPos > 300) {
+        homeLink.classList.add('display');
+      }
+
+      if (displaySet && scrollPos <= 300) {
+        homeLink.classList.remove('display');
+      }
+    });
+    /***/
   },
 
   /***/

@@ -11207,6 +11207,31 @@ a.text-dark:focus {
   background-image: url("/svg/front-end-hamburger.svg");
 }
 
+.navbar-frontend .home-link {
+  position: fixed;
+  bottom: 1rem;
+  right: 3rem;
+  font-size: 2rem;
+  color: #000000;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.3s linear;
+  display: flex;
+  background-color: #FFFFFF;
+  padding: 0.5rem;
+  text-decoration: none;
+  border-radius: 50%;
+}
+
+.navbar-frontend .home-link.display {
+  visibility: visible;
+  opacity: 0.5;
+}
+
+.navbar-frontend .home-link.display:hover {
+  opacity: 1;
+}
+
 .navbar-frontend ul li {
   padding-right: 1.25rem;
   padding-bottom: 1rem;
