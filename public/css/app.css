@@ -11192,6 +11192,10 @@ a.text-dark:focus {
   background-color: #47c6c2;
   font-family: "Roboto", Helvetica, sans-serif;
   color: #FFFFFF;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 
 .navbar-frontend .navbar-brand h2 {

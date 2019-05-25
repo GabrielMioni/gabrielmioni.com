@@ -2,6 +2,9 @@
   background-color: $themeColor3;
   font-family: $themeFont0;
   color: $themeColor0;
+  position: sticky;
+  top: 0;
+  z-index: 2;
 
   .navbar-brand {
     h2 {
