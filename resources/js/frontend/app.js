@@ -4,28 +4,29 @@ if ('scrollBehavior' in document.documentElement.style !== true) {
   smoothscroll.polyfill();
 }
 
-const navlinks = document.querySelectorAll('#navbarSupportedContent a');
-
-let scrollLinks = {};
+const navLinks = document.querySelectorAll('#navbarSupportedContent a');
 
 window.onload = () => {
 
-  for (let j = 0 ; j < navlinks.length ; ++j) {
-    const navlink = navlinks[j];
-    const href = navlink.href.split('#')[1];
+  for (let j = 0 ; j < navLinks.length ; ++j) {
+    const navLink = navLinks[j];
+    const href = navLink.href.split('#')[1];
 
     if (typeof href === 'undefined') {
       continue;
     }
 
-    const targetElement = document.getElementById(href);
-    scrollLinks[href] = targetElement.getBoundingClientRect().top;
-
-    navlink.addEventListener('click', (e)=>{
+    navLink.addEventListener('click', (e)=>{
       e.preventDefault();
 
+      const targetElement = document.getElementById(href);
+
+      if (typeof targetElement === 'undefined') {
+        return;
+      }
+
       window.scrollTo({
-        top: scrollLinks[href],
+        top: targetElement.getBoundingClientRect().top,
         behavior: 'smooth'
       });
     });

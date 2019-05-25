@@ -635,11 +635,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     /*#__PURE__*/
     __webpack_require__.n(smoothscroll_polyfill__WEBPACK_IMPORTED_MODULE_0__);
 
-    var supportsNativeSmoothScroll = 'scrollBehavior' in document.documentElement.style;
-    console.log("smooth criminal", supportsNativeSmoothScroll);
-    smoothscroll_polyfill__WEBPACK_IMPORTED_MODULE_0___default.a.polyfill();
+    if ('scrollBehavior' in document.documentElement.style !== true) {
+      smoothscroll_polyfill__WEBPACK_IMPORTED_MODULE_0___default.a.polyfill();
+    }
+
     var navlinks = document.querySelectorAll('#navbarSupportedContent a');
-    var scrollLinks = {};
 
     window.onload = function () {
       var _loop = function _loop(j) {
@@ -650,12 +650,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           return "continue";
         }
 
-        var targetElement = document.getElementById(href);
-        scrollLinks[href] = targetElement.getBoundingClientRect().top;
         navlink.addEventListener('click', function (e) {
-          e.preventDefault();
+          e.preventDefault(); // let scrollLinks = {};
+
+          var targetElement = document.getElementById(href); // scrollLinks[href] = targetElement.getBoundingClientRect().top;
+
           window.scrollTo({
-            top: scrollLinks[href],
+            top: targetElement.getBoundingClientRect().top,
             behavior: 'smooth'
           });
         });
