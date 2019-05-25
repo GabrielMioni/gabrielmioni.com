@@ -6,34 +6,42 @@ if ('scrollBehavior' in document.documentElement.style !== true) {
 
 const navBar = document.getElementsByClassName('navbar')[0];
 const navLinks = document.querySelectorAll('#navbarSupportedContent a');
+const heroLinks = document.querySelectorAll('.hero a');
 
-window.onload = () => {
+const navClick = (e) => {
+  e.preventDefault();
+  const href = e.target.href.split('#')[1];
+  if (typeof href === 'undefined') {
+    return;
+  }
 
-  for (let j = 0 ; j < navLinks.length ; ++j) {
-    const navLink = navLinks[j];
-    const href = navLink.href.split('#')[1];
+  const targetElement = document.getElementById(href);
+  const navBarHeight = typeof navBar !== 'undefined' ? navBar.offsetHeight : 0;
+  const targetPosition = targetElement === null ? 0 : targetElement.getBoundingClientRect().top + window.scrollY - navBarHeight;
 
-    if (typeof href === 'undefined') {
-      continue;
-    }
+  if (typeof targetElement === 'undefined') {
+    return;
+  }
 
-    navLink.addEventListener('click', (e)=>{
-      e.preventDefault();
+  window.scrollTo({
+    top: targetPosition,
+    behavior: 'smooth'
+  });
+};
 
-      const targetElement = document.getElementById(href);
-      const navBarHeight = typeof navBar !== 'undefined' ? navBar.offsetHeight : 0;
-      const targetPosition = targetElement === null ? 0 : targetElement.getBoundingClientRect().top + window.scrollY - navBarHeight;
+const addNavClickEvent = (linkElements) => {
+  for (let j = 0 ; j < linkElements.length ; ++j) {
+    const link = linkElements[j];
 
-      if (typeof targetElement === 'undefined') {
-        return;
-      }
-
-      window.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth'
-      });
+    link.addEventListener('click', (e)=>{
+      navClick(e);
     });
   }
+};
+
+window.onload = () => {
+  addNavClickEvent(navLinks);
+  addNavClickEvent(heroLinks);
 };
 
 const homeLink = document.getElementsByClassName('home-link')[0];

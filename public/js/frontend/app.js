@@ -641,38 +641,42 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     var navBar = document.getElementsByClassName('navbar')[0];
     var navLinks = document.querySelectorAll('#navbarSupportedContent a');
+    var heroLinks = document.querySelectorAll('.hero a');
+
+    var navClick = function navClick(e) {
+      e.preventDefault();
+      var href = e.target.href.split('#')[1];
+
+      if (typeof href === 'undefined') {
+        return;
+      }
+
+      var targetElement = document.getElementById(href);
+      var navBarHeight = typeof navBar !== 'undefined' ? navBar.offsetHeight : 0;
+      var targetPosition = targetElement === null ? 0 : targetElement.getBoundingClientRect().top + window.scrollY - navBarHeight;
+
+      if (typeof targetElement === 'undefined') {
+        return;
+      }
+
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+      });
+    };
+
+    var addNavClickEvent = function addNavClickEvent(htmlCollection) {
+      for (var j = 0; j < htmlCollection.length; ++j) {
+        var link = htmlCollection[j];
+        link.addEventListener('click', function (e) {
+          navClick(e);
+        });
+      }
+    };
 
     window.onload = function () {
-      var _loop = function _loop(j) {
-        var navLink = navLinks[j];
-        var href = navLink.href.split('#')[1];
-
-        if (typeof href === 'undefined') {
-          return "continue";
-        }
-
-        navLink.addEventListener('click', function (e) {
-          e.preventDefault();
-          var targetElement = document.getElementById(href);
-          var navBarHeight = typeof navBar !== 'undefined' ? navBar.offsetHeight : 0;
-          var targetPosition = targetElement === null ? 0 : targetElement.getBoundingClientRect().top + window.scrollY - navBarHeight;
-
-          if (typeof targetElement === 'undefined') {
-            return;
-          }
-
-          window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-          });
-        });
-      };
-
-      for (var j = 0; j < navLinks.length; ++j) {
-        var _ret = _loop(j);
-
-        if (_ret === "continue") continue;
-      }
+      addNavClickEvent(navLinks);
+      addNavClickEvent(heroLinks);
     };
 
     var homeLink = document.getElementsByClassName('home-link')[0];
