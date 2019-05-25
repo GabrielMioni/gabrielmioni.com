@@ -11203,6 +11203,14 @@ a.text-dark:focus {
   font-size: 2.5rem;
 }
 
+.navbar-frontend .navbar-nav a {
+  transition: opacity 0.5s;
+}
+
+.navbar-frontend .navbar-nav a:hover {
+  opacity: 0.5;
+}
+
 .navbar-frontend .navbar-toggler-icon {
   background-image: url("/svg/front-end-hamburger.svg");
 }
@@ -11249,6 +11257,10 @@ a.text-dark:focus {
 .navbar-frontend a {
   color: #FFFFFF;
   text-decoration: none;
+}
+
+.navbar-frontend a i {
+  pointer-events: none;
 }
 
 .hero {
