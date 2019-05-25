@@ -29,7 +29,6 @@
     display: flex;
     background-color: $themeColor0;
     padding: .5rem;
-    text-decoration: none;
     border-radius: 50%;
 
     &.display {
@@ -59,5 +58,6 @@
 
   a {
     color: $themeColor0;
+    text-decoration: none;
   }
 }

@@ -11219,12 +11219,7 @@ a.text-dark:focus {
   display: flex;
   background-color: #FFFFFF;
   padding: 0.5rem;
-  text-decoration: none;
   border-radius: 50%;
-}
-
-.navbar-frontend .home-link.d-md-block {
-  display: flex;
 }
 
 .navbar-frontend .home-link.display {
@@ -11253,6 +11248,7 @@ a.text-dark:focus {
 
 .navbar-frontend a {
   color: #FFFFFF;
+  text-decoration: none;
 }
 
 .hero {
