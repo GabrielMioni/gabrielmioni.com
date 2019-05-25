@@ -40,10 +40,10 @@
             </div>
         </div>
     </div>
-    <div class="container projects py-4">
+    <div id="projects" class="container projects py-4">
         <div class="row">
             <div class="col-sm-12">
-                <h2 id="projects">Projects</h2>
+                <h2>Projects</h2>
             </div>
         </div>
         <front-end-projects></front-end-projects>
