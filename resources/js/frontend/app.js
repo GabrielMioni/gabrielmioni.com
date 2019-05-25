@@ -20,13 +20,14 @@ window.onload = () => {
       e.preventDefault();
 
       const targetElement = document.getElementById(href);
+      const targetPosition = targetElement.getBoundingClientRect().top;
 
-      if (typeof targetElement === 'undefined') {
+      if (typeof targetElement === 'undefined' || targetPosition <= 0) {
         return;
       }
 
       window.scrollTo({
-        top: targetElement.getBoundingClientRect().top,
+        top: targetPosition,
         behavior: 'smooth'
       });
     });

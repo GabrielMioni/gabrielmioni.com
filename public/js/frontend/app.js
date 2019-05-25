@@ -639,30 +639,35 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       smoothscroll_polyfill__WEBPACK_IMPORTED_MODULE_0___default.a.polyfill();
     }
 
-    var navlinks = document.querySelectorAll('#navbarSupportedContent a');
+    var navLinks = document.querySelectorAll('#navbarSupportedContent a');
 
     window.onload = function () {
       var _loop = function _loop(j) {
-        var navlink = navlinks[j];
-        var href = navlink.href.split('#')[1];
+        var navLink = navLinks[j];
+        var href = navLink.href.split('#')[1];
 
         if (typeof href === 'undefined') {
           return "continue";
         }
 
-        navlink.addEventListener('click', function (e) {
-          e.preventDefault(); // let scrollLinks = {};
+        navLink.addEventListener('click', function (e) {
+          e.preventDefault();
+          var targetElement = document.getElementById(href);
+          var targetPosition = targetElement.getBoundingClientRect().top;
+          console.log(targetPosition);
 
-          var targetElement = document.getElementById(href); // scrollLinks[href] = targetElement.getBoundingClientRect().top;
+          if (typeof targetElement === 'undefined' || targetPosition <= 0) {
+            return;
+          }
 
           window.scrollTo({
-            top: targetElement.getBoundingClientRect().top,
+            top: targetPosition,
             behavior: 'smooth'
           });
         });
       };
 
-      for (var j = 0; j < navlinks.length; ++j) {
+      for (var j = 0; j < navLinks.length; ++j) {
         var _ret = _loop(j);
 
         if (_ret === "continue") continue;
