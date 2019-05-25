@@ -639,6 +639,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       smoothscroll_polyfill__WEBPACK_IMPORTED_MODULE_0___default.a.polyfill();
     }
 
+    var navBar = document.getElementsByClassName('navbar')[0];
     var navLinks = document.querySelectorAll('#navbarSupportedContent a');
 
     window.onload = function () {
@@ -653,10 +654,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         navLink.addEventListener('click', function (e) {
           e.preventDefault();
           var targetElement = document.getElementById(href);
-          var targetPosition = targetElement.getBoundingClientRect().top;
-          console.log(targetPosition);
+          var navBarHeight = typeof navBar !== 'undefined' ? navBar.offsetHeight : 0;
+          var targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - navBarHeight;
 
-          if (typeof targetElement === 'undefined' || targetPosition <= 0) {
+          if (typeof targetElement === 'undefined') {
             return;
           }
 

@@ -4,6 +4,7 @@ if ('scrollBehavior' in document.documentElement.style !== true) {
   smoothscroll.polyfill();
 }
 
+const navBar = document.getElementsByClassName('navbar')[0];
 const navLinks = document.querySelectorAll('#navbarSupportedContent a');
 
 window.onload = () => {
@@ -20,9 +21,10 @@ window.onload = () => {
       e.preventDefault();
 
       const targetElement = document.getElementById(href);
-      const targetPosition = targetElement.getBoundingClientRect().top;
+      const navBarHeight = typeof navBar !== 'undefined' ? navBar.offsetHeight : 0;
+      const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - navBarHeight;
 
-      if (typeof targetElement === 'undefined' || targetPosition <= 0) {
+      if (typeof targetElement === 'undefined') {
         return;
       }
 
