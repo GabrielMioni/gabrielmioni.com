@@ -1,7 +1,14 @@
-window.onload = () => {
-  const navlinks = document.querySelectorAll('#navbarSupportedContent a');
+import smoothscroll from 'smoothscroll-polyfill';
 
-  let scrollLinks = {};
+if ('scrollBehavior' in document.documentElement.style !== true) {
+  smoothscroll.polyfill();
+}
+
+const navlinks = document.querySelectorAll('#navbarSupportedContent a');
+
+let scrollLinks = {};
+
+window.onload = () => {
 
   for (let j = 0 ; j < navlinks.length ; ++j) {
     const navlink = navlinks[j];
