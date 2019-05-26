@@ -11192,6 +11192,10 @@ a.text-dark:focus {
   background-color: #47c6c2;
   font-family: "Roboto", Helvetica, sans-serif;
   color: #FFFFFF;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 
 .navbar-frontend .navbar-brand h2 {
@@ -11199,8 +11203,40 @@ a.text-dark:focus {
   font-size: 2.5rem;
 }
 
+.navbar-frontend .navbar-nav a {
+  transition: opacity 0.5s;
+}
+
+.navbar-frontend .navbar-nav a:hover {
+  opacity: 0.5;
+}
+
 .navbar-frontend .navbar-toggler-icon {
   background-image: url("/svg/front-end-hamburger.svg");
+}
+
+.navbar-frontend .home-link {
+  position: fixed;
+  bottom: 1rem;
+  right: 3rem;
+  font-size: 2rem;
+  color: #000000;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.3s linear;
+  display: flex;
+  background-color: #FFFFFF;
+  padding: 0.5rem;
+  border-radius: 50%;
+}
+
+.navbar-frontend .home-link.display {
+  visibility: visible;
+  opacity: 0.5;
+}
+
+.navbar-frontend .home-link.display:hover {
+  opacity: 1;
 }
 
 .navbar-frontend ul li {
@@ -11220,6 +11256,11 @@ a.text-dark:focus {
 
 .navbar-frontend a {
   color: #FFFFFF;
+  text-decoration: none;
+}
+
+.navbar-frontend a i {
+  pointer-events: none;
 }
 
 .hero {

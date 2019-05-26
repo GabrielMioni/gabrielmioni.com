@@ -2,6 +2,9 @@
   background-color: $themeColor3;
   font-family: $themeFont0;
   color: $themeColor0;
+  position: sticky;
+  top: 0;
+  z-index: 2;
 
   .navbar-brand {
     h2 {
@@ -10,8 +13,41 @@
     }
   }
 
+  .navbar-nav {
+    a {
+      transition: opacity .5s;
+      &:hover {
+        opacity: .5;
+      }
+    }
+  }
+
   .navbar-toggler-icon {
     background-image: url($hamburger);
+  }
+
+  .home-link {
+    position: fixed;
+    bottom: 1rem;
+    right: 3rem;
+    font-size: 2rem;
+    color: $themeColor8;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s linear;
+    display: flex;
+    background-color: $themeColor0;
+    padding: .5rem;
+    border-radius: 50%;
+
+    &.display {
+      visibility: visible;
+      opacity: .5;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
   }
 
   ul {
@@ -31,5 +67,10 @@
 
   a {
     color: $themeColor0;
+    text-decoration: none;
+
+    i {
+      pointer-events: none;
+    }
   }
 }

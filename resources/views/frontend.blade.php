@@ -2,6 +2,7 @@
 @include('layouts.nav-frontend')
 
 @section('page-style')
+    <script src="{{ asset('js/frontend/app.js') }}" defer></script>
     <style>
         @if (isset($avatar) && trim($avatar) !== '')
             #app .about .about-content .about-image {
@@ -31,15 +32,15 @@
             @endif
             <div class="row">
                 <div class="col-sm-6">
-                    <a href="">My Projects</a>
+                    <a href="#projects">My Projects</a>
                 </div>
                 <div class="col-sm-6">
-                    <a href="">Contact Me</a>
+                    <a href="#footer">Contact Me</a>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container projects py-4">
+    <div id="projects" class="container projects py-4">
         <div class="row">
             <div class="col-sm-12">
                 <h2>Projects</h2>
@@ -47,7 +48,7 @@
         </div>
         <front-end-projects></front-end-projects>
     </div>
-    <div class="footer">
+    <div id="footer" class="footer">
         <div class="container">
             <div class="col-sm-12">
                 <div class="row">
