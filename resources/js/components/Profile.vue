@@ -190,6 +190,7 @@
                 if (this.hero.trim() === '') {
                     return setImageUrl('background', 'nature-forest-trees-fog', 'jpeg');
                 }
+                console.log('wut?');
                 return setImageUrl('background', this.hero, 'jpg');
             },
             updateFile(e, imageType) {
