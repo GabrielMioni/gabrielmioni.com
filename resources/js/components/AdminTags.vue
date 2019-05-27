@@ -83,8 +83,8 @@
         },
         methods: {
             getTagsProjectsData() {
-                callAxios(this.$options.tagsProjectsData, (dataObj) => {
-                    this.tagsProjects = dataObj;
+                callAxios(this.$options.tagsProjectsData, (response) => {
+                    this.tagsProjects = response.data;
                 });
             },
             setTransitionActiveStatus() {

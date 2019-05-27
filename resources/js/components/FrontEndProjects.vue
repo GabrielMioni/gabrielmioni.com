@@ -29,13 +29,13 @@
         },
         methods: {
             getTags() {
-                callAxios(this.$options.tags_url, (data_obj) => {
-                    this.allTags = data_obj;
+                callAxios(this.$options.tags_url, (response) => {
+                    this.allTags = response.data;
                 });
             },
             getProjects() {
-                callAxios(this.$options.projects_url, (data_obj) => {
-                    this.projects = data_obj;
+                callAxios(this.$options.projects_url, (response) => {
+                    this.projects = response.data;
                 });
             },
             updateFilter(data) {

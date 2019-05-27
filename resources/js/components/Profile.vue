@@ -265,7 +265,13 @@
         },
         mounted() {
             const self = this;
-            callAxios(this.$options.proifleDataEndpoint, (dataObj) => {
+            callAxios(this.$options.proifleDataEndpoint, (response) => {
+                const dataObj = response.data;
+
+                if (response.status === '204') {
+                    self.initialized = true;
+                }
+
                 const keys = Object.keys(dataObj);
                 const values = Object.values(dataObj);
 
