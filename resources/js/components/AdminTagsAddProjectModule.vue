@@ -79,8 +79,8 @@
                 return !isNan;
             },
             getProjects() {
-                callAxios(this.$options.getProjectsEndpoint, (dataObj) => {
-                    this.projects = dataObj;
+                callAxios(this.$options.getProjectsEndpoint, (response) => {
+                    this.projects = response.data;
                 });
             },
             closeModule() {

@@ -1,10 +1,9 @@
 module.exports = {
   callAxios: (url, callback) => {
     axios.get(url)
-      .then((data) => {
-        const data_obj = data.data;
+      .then((response) => {
         if (typeof callback === 'function') {
-          callback(data_obj)
+          callback(response)
         }
       })
       .catch((error)=>{
