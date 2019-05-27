@@ -184,6 +184,7 @@
                     return '';
                 }
                 if (typeof this.hero === 'object') {
+                    console.log('image is an object');
                     return this.hero.fileUrl;
                 }
                 if (this.hero.trim() === '') {
@@ -192,6 +193,7 @@
                 return setImageUrl('background', this.hero, 'jpg');
             },
             updateFile(e, imageType) {
+                console.log(e);
                 let file = e.target.files[0];
                 if (typeof file === 'undefined') {
                     return;
