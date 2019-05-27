@@ -181,6 +181,7 @@
             },
             heroUrl() {
                 if (this.initialized === false) {
+                    console.log('not intialized');
                     return '';
                 }
                 if (typeof this.hero === 'object') {
@@ -188,6 +189,7 @@
                     return this.hero.fileUrl;
                 }
                 if (this.hero.trim() === '') {
+                    console.log('image is default');
                     return setImageUrl('background', 'nature-forest-trees-fog', 'jpeg');
                 }
                 console.log('wut?');
