@@ -266,9 +266,7 @@
         mounted() {
             const self = this;
             callAxios(this.$options.proifleDataEndpoint, (response) => {
-                console.log('profile response:', response);
                 const dataObj = response.data;
-                console.log('Status:', typeof response.status, response.status);
 
                 if (response.status === 204) {
                     self.initialized = true;
