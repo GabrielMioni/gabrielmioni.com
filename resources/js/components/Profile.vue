@@ -271,7 +271,7 @@
         mounted() {
             const self = this;
             callAxios(this.$options.proifleDataEndpoint, (dataObj) => {
-                console.log(dataObj);
+                console.log('Hi kids, I\'m a data object: ', dataObj);
                 const keys = Object.keys(dataObj);
                 const values = Object.values(dataObj);
 
