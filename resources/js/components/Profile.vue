@@ -281,7 +281,26 @@
                 const keys = Object.keys(dataObj);
                 const values = Object.values(dataObj);
 
-                keys.forEach((property, index)=>{
+                for (let k = 0 ; k < keys.length ; ++k) {
+                    const property = keys[k];
+                    const value = values[k];
+
+                    if (value === null) {
+                        continue;
+                    }
+
+                    self[property] = value;
+
+                    if (['avatar', 'hero'].indexOf(property) !== -1) {
+                        self[property + 'Original'] = value;
+                    }
+
+                    if (k+1 === keys.length) {
+                        self.initialized = true;
+                    }
+                }
+
+                /*keys.forEach((property, index)=>{
                     const value = values[index];
                     self[property] = value;
 
@@ -292,7 +311,7 @@
                     if (index+1 === keys.length) {
                         self.initialized = true;
                     }
-                });
+                });*/
             });
         },
         created() {
