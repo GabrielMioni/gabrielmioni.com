@@ -181,21 +181,15 @@
             },
             heroUrl() {
                 if (this.initialized === false) {
-                    console.log('Not initialized');
                     return '';
                 }
                 if (typeof this.hero === 'object') {
-                    console.log('Hero is object');
                     return this.hero.fileUrl;
                 }
                 if (this.hero.trim() === '') {
-                    console.log('Hero is default');
                     return setImageUrl('background', 'nature-forest-trees-fog', 'jpeg');
                 }
-                const imgUrl = setImageUrl('background', this.hero, 'jpg');
-                console.log(typeof imgUrl);
-                console.log('Img URL:', imgUrl);
-                return imgUrl;
+                return setImageUrl('background', this.hero, 'jpg');
             },
             updateFile(e, imageType) {
                 let file = e.target.files[0];
@@ -282,12 +276,13 @@
                 const values = Object.values(dataObj);
 
                 for (let k = 0 ; k < keys.length ; ++k) {
-                    const property = keys[k];
                     const value = values[k];
 
                     if (value === null) {
                         continue;
                     }
+
+                    const property = keys[k];
 
                     self[property] = value;
 
@@ -299,19 +294,6 @@
                         self.initialized = true;
                     }
                 }
-
-                /*keys.forEach((property, index)=>{
-                    const value = values[index];
-                    self[property] = value;
-
-                    if (['avatar','hero'].indexOf(property) !== -1) {
-                        self[property + 'Original'] = value;
-                    }
-
-                    if (index+1 === keys.length) {
-                        self.initialized = true;
-                    }
-                });*/
             });
         },
         created() {
