@@ -88,7 +88,8 @@ trait saveImageTrait {
             }
         }
 
-        $quality = $resize === true ? 75 : 50;
+        $quality = $resize === true ? 75 : 20;
+        file_put_contents(dirname(__FILE__) . '/log', print_r("quality: " . $quality . "\n", true), FILE_APPEND);
 
         $img->encode('jpg', $quality)->save($path);
 
