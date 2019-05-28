@@ -79,6 +79,14 @@ trait saveImageTrait {
                 });
             }
         }
+        if ($resize === false) {
+            if ($originalWidth > 3000) {
+                $img->resize(3000, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+            }
+        }
 
         $img->encode('jpg', 75)->save($path);
 
