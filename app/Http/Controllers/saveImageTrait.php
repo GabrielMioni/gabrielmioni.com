@@ -88,7 +88,9 @@ trait saveImageTrait {
             }
         }
 
-        $img->encode('jpg', 75)->save($path);
+        $quality = $resize === true ? 75 : 50;
+
+        $img->encode('jpg', $quality)->save($path);
 
         $imageData = [];
         $imageData['file_name'] = $fileName;
