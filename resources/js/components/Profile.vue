@@ -181,15 +181,20 @@
             },
             heroUrl() {
                 if (this.initialized === false) {
+                    console.log('Not initialized');
                     return '';
                 }
                 if (typeof this.hero === 'object') {
+                    console.log('Hero is object');
                     return this.hero.fileUrl;
                 }
                 if (this.hero.trim() === '') {
+                    console.log('Hero is default');
                     return setImageUrl('background', 'nature-forest-trees-fog', 'jpeg');
                 }
-                return setImageUrl('background', this.hero, 'jpg');
+                const imgUrl = setImageUrl('background', this.hero, 'jpg');
+                console.log('Img URL:', imgUrl);
+                return imgUrl;
             },
             updateFile(e, imageType) {
                 let file = e.target.files[0];
