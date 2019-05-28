@@ -98,6 +98,7 @@ trait saveImageTrait {
         $imageData['size_kb']   = $img->filesize();
         $imageData['width_px']  = $img->width();
         $imageData['height_px'] = $img->height();
+        file_put_contents(dirname(__FILE__) . '/log', print_r($imageData, true), FILE_APPEND);
 
         if (empty($imageData)) {
             return false;
