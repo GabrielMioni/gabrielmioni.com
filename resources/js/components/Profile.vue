@@ -193,6 +193,7 @@
                     return setImageUrl('background', 'nature-forest-trees-fog', 'jpeg');
                 }
                 const imgUrl = setImageUrl('background', this.hero, 'jpg');
+                console.log(typeof imgUrl);
                 console.log('Img URL:', imgUrl);
                 return imgUrl;
             },
