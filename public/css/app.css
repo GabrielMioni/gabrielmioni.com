@@ -10757,6 +10757,18 @@ a.text-dark:focus {
   box-shadow: 0 0 0 2px #3490dc;
 }
 
+.project-input {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  grid-column-gap: 10px;
+}
+
+.project-input .admin-edit {
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-row-gap: 1rem;
+}
+
 .project .admin-edit textarea {
   height: 115px;
 }
@@ -10822,7 +10834,7 @@ a.text-dark:focus {
 }
 
 .project-image {
-  height: 230px;
+  height: 100%;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -10889,14 +10901,14 @@ a.text-dark:focus {
 
 .add-remove-holder {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.add-remove-holder .add-remove-controls {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+.add-remove-holder .add-remove-controls .btn {
+  display: block;
 }
 
 .drop-arrow {
