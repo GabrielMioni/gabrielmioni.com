@@ -145,7 +145,7 @@
             checkIfImageIsPresent() {
                 const imgData = this.project['image_main'];
 
-                if (imgData === '') {
+                if (imgData === '' || imgData === null) {
                     return false;
                 }
                 if (typeof imgData === 'object') {
