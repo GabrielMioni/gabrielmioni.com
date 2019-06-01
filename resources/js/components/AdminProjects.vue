@@ -125,7 +125,9 @@
                 const index = data.index;
 
                 this.projects.splice(index, 0, newProject);
-                this.projects = move(this.projects, index, index);
+                if (this.projects.length > 1) {
+                    this.projects = move(this.projects, index, index);
+                }
             },
             projectRemove(data) {
                 let project = this.getProjectAtIndex(data.index);
