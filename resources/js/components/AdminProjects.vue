@@ -62,7 +62,13 @@
                     console.log(data_obj);
                     setTimeout(() => {
                         self.loading = false;
-                        self.projects = data_obj;
+
+                        if (data_obj.length > 0) {
+                            self.projects = data_obj;
+                        }
+                        if (data_obj.length <= 0) {
+                            self.projectAdd(0);
+                        }
                     }, 1000);
                 });
             },
