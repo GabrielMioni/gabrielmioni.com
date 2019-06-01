@@ -59,9 +59,16 @@
             getProjects() {
                 const self = this;
                 this.callAxios(self.$options.projects_url, (data_obj)=>{
+                    console.log(data_obj);
                     setTimeout(() => {
                         self.loading = false;
-                        self.projects = data_obj;
+
+                        if (data_obj.length > 0) {
+                            self.projects = data_obj;
+                        }
+                        if (data_obj.length <= 0) {
+                            self.projectAdd(0);
+                        }
                     }, 1000);
                 });
             },
@@ -118,7 +125,9 @@
                 const index = data.index;
 
                 this.projects.splice(index, 0, newProject);
-                this.projects = move(this.projects, index, index);
+                if (this.projects.length > 1) {
+                    this.projects = move(this.projects, index, index);
+                }
             },
             projectRemove(data) {
                 let project = this.getProjectAtIndex(data.index);
@@ -141,7 +150,6 @@
                 axios.post('/project-delete', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
                     .then((response) => {
                         self.projects.splice(data.index, 1);
-                        console.log(response);
                     }).catch( (error) => {
                     console.log('errors: ', error);
                 });
