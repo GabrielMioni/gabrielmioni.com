@@ -59,6 +59,7 @@
             getProjects() {
                 const self = this;
                 this.callAxios(self.$options.projects_url, (data_obj)=>{
+                    console.log(data_obj);
                     setTimeout(() => {
                         self.loading = false;
                         self.projects = data_obj;
