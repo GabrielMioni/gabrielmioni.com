@@ -150,7 +150,6 @@
                 axios.post('/project-delete', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
                     .then((response) => {
                         self.projects.splice(data.index, 1);
-                        console.log(response);
                     }).catch( (error) => {
                     console.log('errors: ', error);
                 });
@@ -239,7 +238,6 @@
                 });
             },
             moveHandler(data) {
-                console.log('Move Handler: ', data);
                 const index = data.index;
                 const id = this.projects[index].id;
                 const orderColumn = this.projects[index].order_column;
