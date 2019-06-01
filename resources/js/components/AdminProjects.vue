@@ -237,7 +237,7 @@
                 });
             },
             moveHandler(data) {
-                console.log(data);
+                console.log('Move Handler: ', data);
                 const index = data.index;
                 const id = this.projects[index].id;
                 const orderColumn = this.projects[index].order_column;
