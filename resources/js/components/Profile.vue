@@ -275,18 +275,25 @@
                 const keys = Object.keys(dataObj);
                 const values = Object.values(dataObj);
 
-                keys.forEach((property, index)=>{
-                    const value = values[index];
+                for (let k = 0 ; k < keys.length ; ++k) {
+                    const value = values[k];
+
+                    if (value === null) {
+                        continue;
+                    }
+
+                    const property = keys[k];
+
                     self[property] = value;
 
-                    if (['avatar','hero'].indexOf(property) !== -1) {
+                    if (['avatar', 'hero'].indexOf(property) !== -1) {
                         self[property + 'Original'] = value;
                     }
 
-                    if (index+1 === keys.length) {
+                    if (k+1 === keys.length) {
                         self.initialized = true;
                     }
-                });
+                }
             });
         },
         created() {

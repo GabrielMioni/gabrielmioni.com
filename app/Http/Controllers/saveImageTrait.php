@@ -79,8 +79,19 @@ trait saveImageTrait {
                 });
             }
         }
+        if ($resize === false) {
+            if ($originalWidth > 3000) {
+                $img->resize(3000, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+            }
+        }
 
-        $img->encode('jpg', 75)->save($path);
+        $quality = $resize === true ? 75 : 20;
+        file_put_contents(dirname(__FILE__) . '/log', print_r("quality: " . $quality . "\n", true), FILE_APPEND);
+
+        $img->encode('jpg', $quality)->save($path);
 
         $imageData = [];
         $imageData['file_name'] = $fileName;
@@ -88,6 +99,7 @@ trait saveImageTrait {
         $imageData['size_kb']   = $img->filesize();
         $imageData['width_px']  = $img->width();
         $imageData['height_px'] = $img->height();
+        file_put_contents(dirname(__FILE__) . '/log', print_r($imageData, true), FILE_APPEND);
 
         if (empty($imageData)) {
             return false;
