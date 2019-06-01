@@ -1,5 +1,5 @@
 <template>
-    <div class="form-group" v-bind:class="{ 'form-inline inline-input no-gutters' : isInline }">
+    <div v-bind:class="{ 'form-inline inline-input no-gutters' : isInline }">
         <div v-if="isInline" class="col-sm-2">
             <label class="justify-content-start" :for="setInputName(inputTitle)">{{ inputTitle | ucFirst }}</label>
         </div>
