@@ -110,10 +110,10 @@
 .project-tag {
   display: inline-block;
   background-color: $blue;
-  padding: 0 10px;
+  padding: 0 rem(10px);
   color: $white;
-  border-radius: 20px;
-  margin: 0 5px 0 0;
+  border-radius: rem(20px);
+  margin: rem(5px);
   /*&.possible-tag {
       opacity: .5;
   }*/
@@ -127,12 +127,12 @@
 }
 
 .tag-area {
-  height: 50px;
-  position: relative;
   .tag-wrap {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    width: 100%;
+    left: 0;
+    display: flex;
+    padding: 0 .5rem;
+    flex-wrap: wrap;
     .project-tag,
     input[type="text"] {
       display: inline-block;
@@ -140,7 +140,12 @@
     input[type="text"] {
       border: none;
       outline: none;
+      flex-grow: 1;
+      width: auto;
     }
+  }
+  &.form-control {
+    height: auto;
   }
 }
 

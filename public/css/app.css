@@ -10876,10 +10876,10 @@ a.text-dark:focus {
 .project-tag {
   display: inline-block;
   background-color: #3490dc;
-  padding: 0 10px;
+  padding: 0 0.625rem;
   color: #FFFFFF;
-  border-radius: 20px;
-  margin: 0 5px 0 0;
+  border-radius: 1.25rem;
+  margin: 0.3125rem;
   /*&.possible-tag {
       opacity: .5;
   }*/
@@ -10894,16 +10894,12 @@ a.text-dark:focus {
   opacity: 0.5;
 }
 
-.tag-area {
-  height: 50px;
-  position: relative;
-}
-
 .tag-area .tag-wrap {
-  position: absolute;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  width: 100%;
+  left: 0;
+  display: flex;
+  padding: 0 0.5rem;
+  flex-wrap: wrap;
 }
 
 .tag-area .tag-wrap .project-tag,
@@ -10914,6 +10910,12 @@ a.text-dark:focus {
 .tag-area .tag-wrap input[type=text] {
   border: none;
   outline: none;
+  flex-grow: 1;
+  width: auto;
+}
+
+.tag-area.form-control {
+  height: auto;
 }
 
 .btn-control {
