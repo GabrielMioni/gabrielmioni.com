@@ -1,6 +1,9 @@
 <template>
     <div class="project-holder">
         <div class="col-sm-12 project card p-3 mb-3" v-bind:class="{ 'is-updated' : projectIsUpdated() }">
+            <div class="details-control">
+                <expand-toggle v-model="expanded"></expand-toggle>
+            </div>
             <div class="form-row justify-content-start mr-0">
                 <div class="col-sm-1">
                     <sortable-handle>
@@ -10,15 +13,16 @@
                     </sortable-handle>
                 </div>
             </div>
-            <div class="form-row">
+            <div class="form-row project-input">
                 <div
                     @click="clickFile"
                     :ref="'dropFile'"
-                    class="col-sm-6 image-holder">
+                    :tabindex="0"
+                    class="image-holder">
                     <div v-if="checkIfImageIsPresent() === true" class="project-image form-control" v-bind:style="{ backgroundImage: 'url(' + setUrl() + ')' }">
                         <button
                             @click.stop="deleteImage"
-                            type="button" tabindex="-1" class="btn-control delete-image btn btn-dark"><i class="fas fa-trash-alt"></i>
+                            type="button" tabindex="-1" class="btn-control delete-image btn btn-danger"><i class="fas fa-trash-alt"></i>
                         </button>
                     </div>
                     <div v-else class="project-image form-control">
@@ -33,40 +37,27 @@
                            :name="'file-' + index"
                            ref="file" style="display: none">
                 </div>
-                <div class="col-sm-6 text-holder">
-                    <div class="admin-edit row">
-                        <div class="col-sm-11">
-                            <form-text-input
-                                :inputTitle="'title'"
-                                v-model="project.title"
-                                :setInputName="setInputName"
-                            ></form-text-input>
-                            <form-text-input
-                                :inputTitle="'description'"
-                                v-model="project.description"
-                                :setInputName="setInputName"
-                                :isTextArea="true"
-                            ></form-text-input>
-                        </div>
-                        <div class="col-sm-1 add-remove-holder">
-                            <div class="add-remove-controls">
-                                <button
-                                    @click="projectAdd"
-                                    type="button" tabindex="-1" class="btn-control btn btn-primary mb-3"><i class="fas fa-plus"></i></button>
-                                <button
-                                    @click="projectRemove"
-                                    type="button" tabindex="-1" class="btn-control btn btn-dark"><i class="fas fa-times"></i></button>
-                            </div>
-                        </div>
-                    </div>
+                <div class="admin-edit">
+                    <form-text-input
+                        :inputTitle="'title'"
+                        v-model="project.title"
+                        :setInputName="setInputName"
+                    ></form-text-input>
+                    <form-text-input
+                        :inputTitle="'description'"
+                        v-model="project.description"
+                        :setInputName="setInputName"
+                        :isTextArea="true"
+                    ></form-text-input>
                 </div>
-            </div>
-            <div class="form-row">
-                <div class="col-sm-12">
-                    <div class="details-control">
-                        <span v-if="expanded === true">Hide Details</span>
-                        <span v-else-if="expanded === false">Show Details</span>
-                        <expand-toggle v-model="expanded"></expand-toggle>
+                <div class="add-remove-holder">
+                    <div class="add-remove-controls">
+                        <button
+                            @click="projectAdd"
+                            type="button" tabindex="-1" class="btn-control btn btn-primary mb-3"><i class="fas fa-plus"></i></button>
+                        <button
+                            @click="projectRemove"
+                            type="button" tabindex="-1" class="btn-control btn btn-danger"><i class="fas fa-times"></i></button>
                     </div>
                 </div>
             </div>
@@ -75,6 +66,7 @@
                     <tags-input
                         v-model="project.tags" :id="project.id"
                         :allTags="allTags"
+                        :expanded="expanded"
                         v-on:tagUpdate="tagUpdate"
                         v-on:tagRemove="tagRemove"
                     ></tags-input>

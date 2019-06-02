@@ -10702,10 +10702,13 @@ a.text-dark:focus {
 }
 
 .expand-toggle {
-  height: 25px;
-  width: 25px;
   margin: 0;
   padding: 0;
+  cursor: pointer;
+}
+
+.expand-toggle span {
+  margin: 0 0.5rem 0 0;
 }
 
 .project-handle.sortable-list-handle {
@@ -10757,6 +10760,19 @@ a.text-dark:focus {
   box-shadow: 0 0 0 2px #3490dc;
 }
 
+.project-input {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  grid-column-gap: 0.625rem;
+  margin: 0 0 1rem 0;
+}
+
+.project-input .admin-edit {
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-row-gap: 1rem;
+}
+
 .project .admin-edit textarea {
   height: 115px;
 }
@@ -10788,12 +10804,18 @@ a.text-dark:focus {
   transition: max-height 0.3s ease-out;
 }
 
+.links .inline-input {
+  margin: 0 0 1rem 0;
+}
+
 .links.open {
   max-height: 500px;
 }
 
 .details-control {
-  float: right;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
 }
 
 .details-control span {
@@ -10802,6 +10824,7 @@ a.text-dark:focus {
 
 .image-holder {
   cursor: pointer;
+  position: relative;
 }
 
 .image-holder .delete-image {
@@ -10822,11 +10845,26 @@ a.text-dark:focus {
 }
 
 .project-image {
-  height: 230px;
+  height: 100%;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
   margin: 0 0 1rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.project-image .drop-arrow {
+  text-align: center;
+}
+
+.project-image .drop-arrow i {
+  -webkit-animation: bounce 2s linear infinite;
+          animation: bounce 2s linear infinite;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
+  font-size: 3rem;
 }
 
 @media (min-width: 576px) {
@@ -10838,10 +10876,10 @@ a.text-dark:focus {
 .project-tag {
   display: inline-block;
   background-color: #3490dc;
-  padding: 0 10px;
+  padding: 0 0.625rem;
   color: #FFFFFF;
-  border-radius: 20px;
-  margin: 0 5px 0 0;
+  border-radius: 1.25rem;
+  margin: 0.3125rem;
   /*&.possible-tag {
       opacity: .5;
   }*/
@@ -10856,16 +10894,11 @@ a.text-dark:focus {
   opacity: 0.5;
 }
 
-.tag-area {
-  height: 50px;
-  position: relative;
-}
-
 .tag-area .tag-wrap {
-  position: absolute;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  width: 100%;
+  left: 0;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .tag-area .tag-wrap .project-tag,
@@ -10876,6 +10909,12 @@ a.text-dark:focus {
 .tag-area .tag-wrap input[type=text] {
   border: none;
   outline: none;
+  flex-grow: 1;
+  width: auto;
+}
+
+.tag-area.form-control {
+  height: auto;
 }
 
 .btn-control {
@@ -10889,31 +10928,16 @@ a.text-dark:focus {
 
 .add-remove-holder {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.add-remove-holder .add-remove-controls {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-}
-
-.drop-arrow {
-  position: absolute;
-  text-align: center;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-}
-
-.drop-arrow i {
-  -webkit-animation: bounce 2s linear infinite;
-          animation: bounce 2s linear infinite;
-  -webkit-animation-play-state: paused;
-          animation-play-state: paused;
-  font-size: 3rem;
+.add-remove-holder .add-remove-controls .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .loading {

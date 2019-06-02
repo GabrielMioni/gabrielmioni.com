@@ -1,3 +1,16 @@
+.project-input {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  grid-column-gap: rem(10px);
+  margin: 0 0 1rem 0;
+
+  .admin-edit {
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-row-gap: 1rem;
+  }
+}
+
 .project {
   .admin-edit textarea {
     height: 115px;
@@ -5,7 +18,7 @@
   &.is-updated {
     box-shadow: 0 0 0 2px $blue;
   }
-  @media(min-width: map_get($grid-breakpoints,'sm')) {
+  @media(min-width: map_get($grid-breakpoints, 'sm')) {
     &.reverse {
       .image-holder {
         order: 2;
@@ -27,7 +40,11 @@
   max-height: 0;
   height: auto;
   overflow: hidden;
-  transition:max-height 0.3s ease-out;
+  transition: max-height 0.3s ease-out;
+
+  .inline-input {
+    margin: 0 0 1rem 0;
+  }
 
   &.open {
     max-height: 500px;
@@ -35,149 +52,160 @@
 }
 
 .details-control {
-    float: right;
-    span {
-        font-style: italic;
-    }
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  span {
+    font-style: italic;
+  }
 }
 
 .image-holder {
-    cursor: pointer;
+  cursor: pointer;
+  position: relative;
 
+  .delete-image {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    opacity: 0;
+    transition: opacity .5s;
+  }
+  &:hover {
+    .drop-arrow {
+      i {
+        animation-play-state: running;
+      }
+    }
     .delete-image {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        opacity: 0;
-        transition: opacity .5s;
+      opacity: 1;
     }
-    &:hover {
-        .drop-arrow {
-            i {
-                animation-play-state: running;
-            }
-        }
-        .delete-image {
-            opacity: 1;
-        }
-    }
+  }
 }
 
 .project-image {
-  height: 230px;
+  height: 100%;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
   margin: 0 0 1rem 0;
-  @media(min-width: map_get($grid-breakpoints,'sm')) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .drop-arrow {
+    text-align: center;
+    i {
+      animation: bounce 2s linear infinite;
+      animation-play-state: paused;
+      font-size: 3rem;
+    }
+  }
+
+  @media(min-width: map_get($grid-breakpoints, 'sm')) {
     margin: 0;
   }
 }
 
 .project-tag {
-    display: inline-block;
-    background-color: $blue;
-    padding: 0 10px;
-    color: $white;
-    border-radius: 20px;
-    margin: 0 5px 0 0;
-    /*&.possible-tag {
-        opacity: .5;
-    }*/
-    i {
-        cursor: pointer;
-        padding: 0 0 0 10px;
-    }
-    &.possible-tag {
-        opacity: .5;
-    }
+  display: inline-block;
+  background-color: $blue;
+  padding: 0 rem(10px);
+  color: $white;
+  border-radius: rem(20px);
+  margin: rem(5px);
+  /*&.possible-tag {
+      opacity: .5;
+  }*/
+  i {
+    cursor: pointer;
+    padding: 0 0 0 10px;
+  }
+  &.possible-tag {
+    opacity: .5;
+  }
 }
 
 .tag-area {
-    height: 50px;
-    position: relative;
-    .tag-wrap {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        .project-tag,
-        input[type="text"] {
-            display: inline-block;
-        }
-        input[type="text"] {
-            border: none;
-            outline: none;
-        }
+  .tag-wrap {
+    width: 100%;
+    left: 0;
+    display: flex;
+    flex-wrap: wrap;
+    .project-tag,
+    input[type="text"] {
+      display: inline-block;
     }
+    input[type="text"] {
+      border: none;
+      outline: none;
+      flex-grow: 1;
+      width: auto;
+    }
+  }
+  &.form-control {
+    height: auto;
+  }
 }
 
 .btn-control {
-    border-radius: 50%;
-    font-size: 10px;
-    padding: 0;
-    margin: 0;
-    height: 25px;
-    width: 25px;
+  border-radius: 50%;
+  font-size: 10px;
+  padding: 0;
+  margin: 0;
+  height: 25px;
+  width: 25px;
 }
 
 .add-remove-holder {
-    position: relative;
-    .add-remove-controls {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .add-remove-controls {
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-}
-
-.drop-arrow {
-    position: absolute;
-    text-align: center;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    i {
-        animation: bounce 2s linear infinite;
-        animation-play-state: paused;
-        font-size: 3rem;
-    }
+  }
 }
 
 .loading {
-    display: inline-block;
-    color: $blue;
-    font-size: 1.5rem;
-    vertical-align: bottom;
-    margin-right: 10px;
+  display: inline-block;
+  color: $blue;
+  font-size: 1.5rem;
+  vertical-align: bottom;
+  margin-right: 10px;
 }
 
 .draggable--over {
-    position: relative;
-    &::after {
-        content: '';
-        border-radius: 0.25rem;
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        width: 100%;
-        background-color: $draggable-bg;
-        border: 1px dashed $draggable-border;
-    }
+  position: relative;
+  &::after {
+    content: '';
+    border-radius: 0.25rem;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: $draggable-bg;
+    border: 1px dashed $draggable-border;
+  }
 }
 
 @keyframes bounce {
-    10%, 90% {
-        transform: translatey(5px);
-    }
-    20%, 80% {
-        transform: translatey(-5px);
-    }
-    30%, 50%, 70% {
-        transform: translatey(5px);
-    }
-    40%, 60% {
-        transform: translatey(0px);
-    }
+  10%, 90% {
+    transform: translatey(5px);
+  }
+  20%, 80% {
+    transform: translatey(-5px);
+  }
+  30%, 50%, 70% {
+    transform: translatey(5px);
+  }
+  40%, 60% {
+    transform: translatey(0px);
+  }
 }

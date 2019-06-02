@@ -16,6 +16,7 @@
                        v-model="search"
                        :ref="'tags-' + id"
                        :name="'tags-' + id"
+                       :tabindex="inputTabIndex()"
                        @keydown.enter="addTag"
                 >
             </div>
@@ -31,6 +32,8 @@
 </template>
 
 <script>
+    import { setTabIndex } from '../set-tab-index';
+
     export default {
         model: {
             addTag: '',
@@ -38,7 +41,7 @@
             event: "addTag",
         },
         name: "tags-input",
-        props: ['tags', 'id', 'allTags'],
+        props: ['tags', 'id', 'allTags', 'expanded'],
         data() {
             return {
                 tagInput : '',
@@ -70,6 +73,9 @@
             },
             removeTag(tag) {
                 this.$emit('tagRemove', {'tag': tag});
+            },
+            inputTabIndex() {
+                return setTabIndex(this.expanded);
             }
         },
     }
