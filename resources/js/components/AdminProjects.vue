@@ -4,7 +4,10 @@
             v-model="projects"
             v-on:move="moveHandler">
             <div class="project-list" slot-scope="{ items: projects }" tabindex="-1">
-                <sortable-item v-for="(project, index) in projects" :key="project.id">
+                <sortable-item
+                    v-for="(project, index) in projects"
+                    :key="project.id"
+                    :tabindex="-1">
                     <project-input
                             v-model="project[index]"
                             v-on:tagUpdate="tagUpdate"

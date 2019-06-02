@@ -14,11 +14,12 @@
                 <div
                     @click="clickFile"
                     :ref="'dropFile'"
+                    :tabindex="0"
                     class="image-holder">
                     <div v-if="checkIfImageIsPresent() === true" class="project-image form-control" v-bind:style="{ backgroundImage: 'url(' + setUrl() + ')' }">
                         <button
                             @click.stop="deleteImage"
-                            type="button" tabindex="-1" class="btn-control delete-image btn btn-dark"><i class="fas fa-trash-alt"></i>
+                            type="button" tabindex="-1" class="btn-control delete-image btn btn-danger"><i class="fas fa-trash-alt"></i>
                         </button>
                     </div>
                     <div v-else class="project-image form-control">
@@ -53,7 +54,7 @@
                             type="button" tabindex="-1" class="btn-control btn btn-primary mb-3"><i class="fas fa-plus"></i></button>
                         <button
                             @click="projectRemove"
-                            type="button" tabindex="-1" class="btn-control btn btn-dark"><i class="fas fa-times"></i></button>
+                            type="button" tabindex="-1" class="btn-control btn btn-danger"><i class="fas fa-times"></i></button>
                     </div>
                 </div>
             </div>
