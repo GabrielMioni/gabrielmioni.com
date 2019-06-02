@@ -10702,10 +10702,12 @@ a.text-dark:focus {
 }
 
 .expand-toggle {
-  height: 25px;
-  width: 25px;
   margin: 0;
   padding: 0;
+}
+
+.expand-toggle span {
+  margin: 0 0.5rem 0 0;
 }
 
 .project-handle.sortable-list-handle {
@@ -10805,7 +10807,9 @@ a.text-dark:focus {
 }
 
 .details-control {
-  float: right;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
 }
 
 .details-control span {

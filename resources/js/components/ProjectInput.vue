@@ -1,6 +1,9 @@
 <template>
     <div class="project-holder">
         <div class="col-sm-12 project card p-3 mb-3" v-bind:class="{ 'is-updated' : projectIsUpdated() }">
+            <div class="details-control">
+                <expand-toggle v-model="expanded"></expand-toggle>
+            </div>
             <div class="form-row justify-content-start mr-0">
                 <div class="col-sm-1">
                     <sortable-handle>
@@ -55,15 +58,6 @@
                         <button
                             @click="projectRemove"
                             type="button" tabindex="-1" class="btn-control btn btn-danger"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col-sm-12">
-                    <div class="details-control">
-                        <span v-if="expanded === true">Hide Details</span>
-                        <span v-else-if="expanded === false">Show Details</span>
-                        <expand-toggle v-model="expanded"></expand-toggle>
                     </div>
                 </div>
             </div>

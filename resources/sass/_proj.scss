@@ -47,7 +47,9 @@
 }
 
 .details-control {
-    float: right;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
     span {
         font-style: italic;
     }
