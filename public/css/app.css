@@ -10814,6 +10814,7 @@ a.text-dark:focus {
 
 .image-holder {
   cursor: pointer;
+  position: relative;
 }
 
 .image-holder .delete-image {
