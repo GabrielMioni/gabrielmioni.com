@@ -17,7 +17,7 @@
   &.is-updated {
     box-shadow: 0 0 0 2px $blue;
   }
-  @media(min-width: map_get($grid-breakpoints,'sm')) {
+  @media(min-width: map_get($grid-breakpoints, 'sm')) {
     &.reverse {
       .image-holder {
         order: 2;
@@ -39,7 +39,7 @@
   max-height: 0;
   height: auto;
   overflow: hidden;
-  transition:max-height 0.3s ease-out;
+  transition: max-height 0.3s ease-out;
 
   &.open {
     max-height: 500px;
@@ -50,32 +50,32 @@
   position: absolute;
   right: 1rem;
   top: 1rem;
-    span {
-        font-style: italic;
-    }
+  span {
+    font-style: italic;
+  }
 }
 
 .image-holder {
-    cursor: pointer;
-    position: relative;
+  cursor: pointer;
+  position: relative;
 
+  .delete-image {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    opacity: 0;
+    transition: opacity .5s;
+  }
+  &:hover {
+    .drop-arrow {
+      i {
+        animation-play-state: running;
+      }
+    }
     .delete-image {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        opacity: 0;
-        transition: opacity .5s;
+      opacity: 1;
     }
-    &:hover {
-        .drop-arrow {
-            i {
-                animation-play-state: running;
-            }
-        }
-        .delete-image {
-            opacity: 1;
-        }
-    }
+  }
 }
 
 .project-image {
@@ -97,55 +97,55 @@
     }
   }
 
-  @media(min-width: map_get($grid-breakpoints,'sm')) {
+  @media(min-width: map_get($grid-breakpoints, 'sm')) {
     margin: 0;
   }
 }
 
 .project-tag {
-    display: inline-block;
-    background-color: $blue;
-    padding: 0 10px;
-    color: $white;
-    border-radius: 20px;
-    margin: 0 5px 0 0;
-    /*&.possible-tag {
-        opacity: .5;
-    }*/
-    i {
-        cursor: pointer;
-        padding: 0 0 0 10px;
-    }
-    &.possible-tag {
-        opacity: .5;
-    }
+  display: inline-block;
+  background-color: $blue;
+  padding: 0 10px;
+  color: $white;
+  border-radius: 20px;
+  margin: 0 5px 0 0;
+  /*&.possible-tag {
+      opacity: .5;
+  }*/
+  i {
+    cursor: pointer;
+    padding: 0 0 0 10px;
+  }
+  &.possible-tag {
+    opacity: .5;
+  }
 }
 
 .tag-area {
-    height: 50px;
-    position: relative;
-    .tag-wrap {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        .project-tag,
-        input[type="text"] {
-            display: inline-block;
-        }
-        input[type="text"] {
-            border: none;
-            outline: none;
-        }
+  height: 50px;
+  position: relative;
+  .tag-wrap {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    .project-tag,
+    input[type="text"] {
+      display: inline-block;
     }
+    input[type="text"] {
+      border: none;
+      outline: none;
+    }
+  }
 }
 
 .btn-control {
-    border-radius: 50%;
-    font-size: 10px;
-    padding: 0;
-    margin: 0;
-    height: 25px;
-    width: 25px;
+  border-radius: 50%;
+  font-size: 10px;
+  padding: 0;
+  margin: 0;
+  height: 25px;
+  width: 25px;
 }
 
 .add-remove-holder {
@@ -164,39 +164,39 @@
 }
 
 .loading {
-    display: inline-block;
-    color: $blue;
-    font-size: 1.5rem;
-    vertical-align: bottom;
-    margin-right: 10px;
+  display: inline-block;
+  color: $blue;
+  font-size: 1.5rem;
+  vertical-align: bottom;
+  margin-right: 10px;
 }
 
 .draggable--over {
-    position: relative;
-    &::after {
-        content: '';
-        border-radius: 0.25rem;
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        width: 100%;
-        background-color: $draggable-bg;
-        border: 1px dashed $draggable-border;
-    }
+  position: relative;
+  &::after {
+    content: '';
+    border-radius: 0.25rem;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: $draggable-bg;
+    border: 1px dashed $draggable-border;
+  }
 }
 
 @keyframes bounce {
-    10%, 90% {
-        transform: translatey(5px);
-    }
-    20%, 80% {
-        transform: translatey(-5px);
-    }
-    30%, 50%, 70% {
-        transform: translatey(5px);
-    }
-    40%, 60% {
-        transform: translatey(0px);
-    }
+  10%, 90% {
+    transform: translatey(5px);
+  }
+  20%, 80% {
+    transform: translatey(-5px);
+  }
+  30%, 50%, 70% {
+    transform: translatey(5px);
+  }
+  40%, 60% {
+    transform: translatey(0px);
+  }
 }
