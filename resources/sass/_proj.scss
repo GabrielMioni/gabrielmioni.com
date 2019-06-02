@@ -76,12 +76,24 @@
 }
 
 .project-image {
-  //height: 230px;
   height: 100%;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
   margin: 0 0 1rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .drop-arrow {
+    text-align: center;
+    i {
+      animation: bounce 2s linear infinite;
+      animation-play-state: paused;
+      font-size: 3rem;
+    }
+  }
+
   @media(min-width: map_get($grid-breakpoints,'sm')) {
     margin: 0;
   }
@@ -141,23 +153,11 @@
   justify-content: center;
   .add-remove-controls {
     .btn {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
-}
-
-.drop-arrow {
-    position: absolute;
-    text-align: center;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    i {
-        animation: bounce 2s linear infinite;
-        animation-play-state: paused;
-        font-size: 3rem;
-    }
 }
 
 .loading {

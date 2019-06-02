@@ -10839,6 +10839,21 @@ a.text-dark:focus {
   background-position: center;
   background-repeat: no-repeat;
   margin: 0 0 1rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.project-image .drop-arrow {
+  text-align: center;
+}
+
+.project-image .drop-arrow i {
+  -webkit-animation: bounce 2s linear infinite;
+          animation: bounce 2s linear infinite;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
+  font-size: 3rem;
 }
 
 @media (min-width: 576px) {
@@ -10908,24 +10923,9 @@ a.text-dark:focus {
 }
 
 .add-remove-holder .add-remove-controls .btn {
-  display: block;
-}
-
-.drop-arrow {
-  position: absolute;
-  text-align: center;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-}
-
-.drop-arrow i {
-  -webkit-animation: bounce 2s linear infinite;
-          animation: bounce 2s linear infinite;
-  -webkit-animation-play-state: paused;
-          animation-play-state: paused;
-  font-size: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .loading {
