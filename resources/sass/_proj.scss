@@ -1,7 +1,8 @@
 .project-input {
   display: grid;
   grid-template-columns: 1fr 1fr auto;
-  grid-column-gap: 10px;
+  grid-column-gap: rem(10px);
+  margin: 0 0 1rem 0;
 
   .admin-edit {
     display: grid;
@@ -40,6 +41,10 @@
   height: auto;
   overflow: hidden;
   transition: max-height 0.3s ease-out;
+
+  .inline-input {
+    margin: 0 0 1rem 0;
+  }
 
   &.open {
     max-height: 500px;

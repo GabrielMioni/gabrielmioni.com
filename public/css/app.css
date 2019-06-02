@@ -10763,7 +10763,8 @@ a.text-dark:focus {
 .project-input {
   display: grid;
   grid-template-columns: 1fr 1fr auto;
-  grid-column-gap: 10px;
+  grid-column-gap: 0.625rem;
+  margin: 0 0 1rem 0;
 }
 
 .project-input .admin-edit {
@@ -10801,6 +10802,10 @@ a.text-dark:focus {
   height: auto;
   overflow: hidden;
   transition: max-height 0.3s ease-out;
+}
+
+.links .inline-input {
+  margin: 0 0 1rem 0;
 }
 
 .links.open {
