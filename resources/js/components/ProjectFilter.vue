@@ -1,5 +1,7 @@
 <template>
-    <div class="project-filter mb-5" v-bind:class="{'expanded' : expanded}">
+    <div
+        v-if="allTags.length > 0"
+        class="project-filter mb-5" v-bind:class="{'expanded' : expanded}">
         <div class="project-filter-inner">
             <div class="filter-control"
                  @click="toggleExpanded">
