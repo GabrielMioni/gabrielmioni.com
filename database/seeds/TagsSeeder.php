@@ -12,11 +12,11 @@ class TagsSeeder extends Seeder
     public function run()
     {
         $tags = [
-            'php',
-            'javascript',
-            'laravel',
-            'react',
-            'vue',
+            'Php',
+            'JavaScript',
+            'Laravel',
+            'React',
+            'Vue',
         ];
 
         $data = [];
