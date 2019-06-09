@@ -14,9 +14,9 @@
             background-image: url({{ bgImage($hero, 'hero') }});
         }
         @endif
-        @if (isset($hero) && trim($hero) === '')
+        @if (!isset($hero))
             #app .hero {
-            background-image: url({{ '/background/nature-forest-trees-fog.jpeg' }});
+            background-image: url('/background/nature-forest-trees-fog.jpeg');
         }
         @endif
     </style>
